@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="FastScriptReload.Editor.csproj" />
+  <Project Path="DOTween.Modules.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="FastScriptReload.Runtime.csproj" />
+</Solution>
