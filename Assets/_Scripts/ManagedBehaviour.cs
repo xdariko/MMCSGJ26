@@ -6,9 +6,18 @@ public static class G
 {
     public static Main main;
     public static UI ui;
+    public static GameObject player;
 
     public static bool IsPaused;
     public static bool IsMenuOpen;
+
+    public static int Currency;
+
+    public static void AddCurrency(int amount)
+    {
+        Currency += amount;
+        Debug.Log("Currency: " + G.Currency);
+    }
 }
 
 

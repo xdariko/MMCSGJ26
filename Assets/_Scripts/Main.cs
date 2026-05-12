@@ -12,7 +12,7 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
-
+        G.player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
