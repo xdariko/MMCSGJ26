@@ -1,0 +1,116 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+namespace GridSkillTree
+{
+    public static class SkillTreeValidator
+    {
+        public static SkillTreeValidationResult Validate(SkillTreeData treeData)
+        {
+            SkillTreeValidationResult result = new();
+
+            if (treeData == null)
+            {
+                result.AddError("Tree Data is null.");
+                return result;
+            }
+
+            ValidateNodes(treeData, result);
+            ValidateConnections(treeData, result);
+
+            return result;
+        }
+
+        private static void ValidateNodes(SkillTreeData treeData, SkillTreeValidationResult result)
+        {
+            HashSet<string> ids = new();
+            Dictionary<Vector2Int, string> occupiedCells = new();
+
+            foreach (SkillNodeData node in treeData.nodes)
+            {
+                if (node == null)
+                {
+                    result.AddError("Tree contains a null node.");
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(node.id))
+                {
+                    result.AddError($"Node at {node.gridPosition} has an empty id.");
+                    continue;
+                }
+
+                if (!ids.Add(node.id))
+                    result.AddError($"Duplicate node id: {node.id}");
+
+                if (occupiedCells.TryGetValue(node.gridPosition, out string existingNodeId))
+                {
+                    result.AddError(
+                        $"Cell {node.gridPosition} is occupied by both '{existingNodeId}' and '{node.id}'."
+                    );
+                }
+                else
+                {
+                    occupiedCells.Add(node.gridPosition, node.id);
+                }
+
+                if (node.maxLevel < 1)
+                    result.AddError($"Node '{node.id}' has maxLevel < 1.");
+
+                if (node.baseCost < 0)
+                    result.AddError($"Node '{node.id}' has baseCost < 0.");
+
+                if (node.previousNodeIds == null)
+                    result.AddWarning($"Node '{node.id}' has null previousNodeIds list.");
+            }
+        }
+
+        private static void ValidateConnections(SkillTreeData treeData, SkillTreeValidationResult result)
+        {
+            HashSet<string> existingIds = new();
+
+            foreach (SkillNodeData node in treeData.nodes)
+            {
+                if (node != null && !string.IsNullOrWhiteSpace(node.id))
+                    existingIds.Add(node.id);
+            }
+
+            foreach (SkillNodeData node in treeData.nodes)
+            {
+                if (node == null || string.IsNullOrWhiteSpace(node.id))
+                    continue;
+
+                if (node.previousNodeIds == null)
+                    continue;
+
+                HashSet<string> localPreviousIds = new();
+
+                foreach (string previousNodeId in node.previousNodeIds)
+                {
+                    if (string.IsNullOrWhiteSpace(previousNodeId))
+                    {
+                        result.AddError($"Node '{node.id}' has an empty previous node id.");
+                        continue;
+                    }
+
+                    if (previousNodeId == node.id)
+                    {
+                        result.AddError($"Node '{node.id}' references itself.");
+                        continue;
+                    }
+
+                    if (!existingIds.Contains(previousNodeId))
+                    {
+                        result.AddError($"Node '{node.id}' references missing node '{previousNodeId}'.");
+                        continue;
+                    }
+
+                    if (!localPreviousIds.Add(previousNodeId))
+                    {
+                        result.AddWarning($"Node '{node.id}' has duplicate previous node reference '{previousNodeId}'.");
+                    }
+                }
+            }
+        }
+    }
+}

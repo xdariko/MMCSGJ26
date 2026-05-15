@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4391d70e4e04214b9be9284fff31682, type: 3}
+  m_Name: DemoSkillTree
+  m_EditorClassIdentifier: Assembly-CSharp::GridSkillTree.SkillTreeData
+  treeId: main_tree
+  nodes:
+  - id: damage_01
+    title: Sharp Bullets
+    description: Bullets deal more damage.
+    gridPosition: {x: 0, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds: []
+    maxLevel: 3
+    baseCost: 1
+    costFormula: 1
+    effectType: 2
+    baseValue: 5
+    growthFormula: 1
+  - id: firerate_01
+    title: Fast Trigger
+    description: Shoot faster.
+    gridPosition: {x: 1, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - damage_01
+    maxLevel: 3
+    baseCost: 2
+    costFormula: 1
+    effectType: 3
+    baseValue: 5
+    growthFormula: 1
+  - id: movespeed_01
+    title: Light Boots
+    description: Move faster.
+    gridPosition: {x: 0, y: 1}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - damage_01
+    maxLevel: 2
+    baseCost: 2
+    costFormula: 1
+    effectType: 4
+    baseValue: 4
+    growthFormula: 1

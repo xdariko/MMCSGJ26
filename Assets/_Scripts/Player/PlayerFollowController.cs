@@ -8,6 +8,7 @@ public class PlayerFollowController : MonoBehaviour
     [SerializeField] private float moveSpeed = 12f;
     [SerializeField] private float acceleration = 8f;
     [SerializeField] private float stopDistance = 0.15f;
+    [SerializeField] private Vector2 cursorOffset = new(0f, -1f);
 
     [Header("Visual")]
     [SerializeField] private Transform visual;
@@ -33,6 +34,7 @@ public class PlayerFollowController : MonoBehaviour
 
     private void Start()
     {
+        PlayerStats.BaseMoveSpeed = moveSpeed;
         StartFloatingAnimation();
     }
 
@@ -55,7 +57,7 @@ public class PlayerFollowController : MonoBehaviour
         mouseWorld.z = 0f;
 
         Vector2 currentPosition = rb.position;
-        Vector2 targetPosition = mouseWorld;
+        Vector2 targetPosition = (Vector2)mouseWorld + cursorOffset;
 
         Vector2 direction =
             targetPosition - currentPosition;
@@ -75,7 +77,7 @@ public class PlayerFollowController : MonoBehaviour
         direction.Normalize();
 
         Vector2 targetVelocity =
-            direction * moveSpeed;
+            direction * PlayerStats.MoveSpeed;
 
         currentVelocity = Vector2.Lerp(
             currentVelocity,

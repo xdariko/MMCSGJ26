@@ -1,11 +1,18 @@
+using System;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 10f;
 
+    [Header("Hit FX")]
+    [SerializeField] private AudioClip[] hitSounds;
+    [SerializeField] private float hitSoundVolume = 0.8f;
+
     private float currentHealth;
     private EnemyDrop drop;
+
+    public event Action<float> OnDamaged;
 
     private void Awake()
     {
@@ -16,6 +23,11 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        currentHealth = Mathf.Max(currentHealth, 0f);
+
+        ShowDamagePopup(damage);
+        PlayHitSound();
+        OnDamaged?.Invoke(currentHealth / maxHealth);
 
         if (currentHealth <= 0f)
         {
@@ -23,12 +35,36 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    private void ShowDamagePopup(float damage)
+    {
+        if (G.damagePopupPrefab == null) return;
+
+        Vector3 pos = transform.position + new Vector3(
+            UnityEngine.Random.Range(-0.3f, 0.3f),
+            0.5f,
+            0f
+        );
+
+        GameObject go = UnityEngine.Object.Instantiate(G.damagePopupPrefab, pos, Quaternion.identity);
+        DamagePopup popup = go.GetComponent<DamagePopup>();
+        if (popup != null)
+            popup.Setup(damage, false);
+    }
+
+    private void PlayHitSound()
+    {
+        if (hitSounds == null || hitSounds.Length == 0) return;
+
+        SoundManagerSO.PlaySoundFXClip(hitSounds, transform.position, hitSoundVolume);
+    }
+
     private void Die()
     {
         if (drop != null)
             drop.DropLoot();
 
-        FindFirstObjectByType<WaveDirector>().NotifyDeath(gameObject);
+        if (G.waveDirector != null)
+            G.waveDirector.NotifyDeath(gameObject);
 
         Destroy(gameObject);
     }

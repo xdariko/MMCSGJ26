@@ -10,12 +10,16 @@ public class LinearMovement : EnemyMovementBase
     protected override void Awake()
     {
         base.Awake();
+    }
 
-        SpawnArea area =
-            FindFirstObjectByType<SpawnArea>();
+    private void Start()
+    {
+        Vector2 center = G.spawnArea != null
+            ? (Vector2)G.spawnArea.Center
+            : Vector2.zero;
 
         Vector2 toCenter =
-            ((Vector2)area.Center - (Vector2)transform.position).normalized;
+            (center - (Vector2)transform.position).normalized;
 
         float randomAngle =
             Random.Range(-angleOffset, angleOffset);

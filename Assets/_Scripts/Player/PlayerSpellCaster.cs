@@ -8,80 +8,88 @@ public class PlayerSpellCaster : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
 
     [Header("Damage")]
-    [SerializeField] private float damage = 1f;
+    [SerializeField] private float baseDamage = 1f;
     [SerializeField] private float attackCooldown = 0.5f;
 
-    [Header("Beam")]
+    [Header("Beams")]
     [SerializeField] private SpellBeam beamPrefab;
+    [SerializeField] private int baseBeamCount = 1;
 
-    private EnemyHealth currentTarget;
-    private SpellBeam currentBeam;
+    private readonly List<EnemyHealth> currentTargets = new();
+    private readonly List<SpellBeam> currentBeams = new();
 
     private float cooldownTimer;
 
+    private void Start()
+    {
+        PlayerStats.BaseDamage = baseDamage;
+        PlayerStats.BaseBeamCount = baseBeamCount;
+    }
+
     private void Update()
     {
-        FindTarget();
+        FindTargets();
         HandleAttack();
     }
 
-    private void FindTarget()
+    private void FindTargets()
     {
+        int maxTargets = PlayerStats.BeamCount;
+
         Collider2D[] hits =
             Physics2D.OverlapCircleAll(
                 transform.position,
                 detectionRadius,
                 enemyLayer);
 
-        if (hits.Length == 0)
-        {
-            currentTarget = null;
-
-            if (currentBeam != null)
-                Destroy(currentBeam.gameObject);
-
-            return;
-        }
-
-        float closestDistance = Mathf.Infinity;
-        EnemyHealth closestEnemy = null;
+        List<EnemyHealth> candidates = new();
 
         foreach (Collider2D hit in hits)
         {
-            EnemyHealth enemy =
-                hit.GetComponent<EnemyHealth>();
+            EnemyHealth enemy = hit.GetComponent<EnemyHealth>();
+            if (enemy != null)
+                candidates.Add(enemy);
+        }
 
-            if (enemy == null)
-                continue;
+        candidates.Sort((a, b) =>
+        {
+            float distA = Vector2.SqrMagnitude(transform.position - a.transform.position);
+            float distB = Vector2.SqrMagnitude(transform.position - b.transform.position);
+            return distA.CompareTo(distB);
+        });
 
-            float distance =
-                Vector2.Distance(
-                    transform.position,
-                    enemy.transform.position);
+        if (candidates.Count > maxTargets)
+            candidates.RemoveRange(maxTargets, candidates.Count - maxTargets);
 
-            if (distance < closestDistance)
+        for (int i = currentTargets.Count - 1; i >= 0; i--)
+        {
+            if (currentTargets[i] == null || !candidates.Contains(currentTargets[i]))
             {
-                closestDistance = distance;
-                closestEnemy = enemy;
+                if (i < currentBeams.Count && currentBeams[i] != null)
+                    Destroy(currentBeams[i].gameObject);
+
+                currentTargets.RemoveAt(i);
+                if (i < currentBeams.Count)
+                    currentBeams.RemoveAt(i);
             }
         }
 
-        currentTarget = closestEnemy;
-
-        if (currentTarget != null && currentBeam == null)
+        foreach (EnemyHealth enemy in candidates)
         {
-            currentBeam = Instantiate(
-                beamPrefab);
+            if (currentTargets.Contains(enemy))
+                continue;
 
-            currentBeam.Initialize(
-                transform,
-                currentTarget.transform);
+            currentTargets.Add(enemy);
+
+            SpellBeam beam = Instantiate(beamPrefab);
+            beam.Initialize(transform, enemy.transform);
+            currentBeams.Add(beam);
         }
     }
 
     private void HandleAttack()
     {
-        if (currentTarget == null)
+        if (currentTargets.Count == 0)
             return;
 
         cooldownTimer -= Time.deltaTime;
@@ -91,7 +99,13 @@ public class PlayerSpellCaster : MonoBehaviour
 
         cooldownTimer = attackCooldown;
 
-        currentTarget.TakeDamage(damage);
+        float dmg = PlayerStats.Damage;
+
+        foreach (EnemyHealth target in currentTargets)
+        {
+            if (target != null)
+                target.TakeDamage(dmg);
+        }
     }
 
     private void OnDrawGizmosSelected()

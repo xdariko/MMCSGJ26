@@ -7,6 +7,8 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject finalPanel;
+    [SerializeField] private GameObject skillTreePanel;
+
 
     [Header("Pause Panel Buttons")]
     [SerializeField] private Button continueButton;
@@ -15,6 +17,9 @@ public class UI : MonoBehaviour
     [Header("Final Panel Buttons")]
     [SerializeField] private Button restartButton;
     [SerializeField] private Button finalExitButton;
+
+    [Header("Skill Tree Panel Buttons")]
+    [SerializeField] private Button newRunButton;
 
 
     private void Awake()
@@ -26,6 +31,9 @@ public class UI : MonoBehaviour
 
         if (finalPanel != null)
             finalPanel.SetActive(false);
+
+        if (skillTreePanel != null)
+            skillTreePanel.SetActive(false);
     }
 
     private void Start()
@@ -41,6 +49,9 @@ public class UI : MonoBehaviour
 
         if (finalExitButton != null)
             finalExitButton.onClick.AddListener(OnExitClicked);
+
+        if (newRunButton != null)
+            newRunButton.onClick.AddListener(OnNewRunClicked);
     }
 
     private void OnContinueClicked()
@@ -62,6 +73,9 @@ public class UI : MonoBehaviour
 
         if (finalExitButton != null)
             finalExitButton.onClick.RemoveListener(OnExitClicked);
+
+        if (newRunButton != null)
+            newRunButton.onClick.RemoveListener(OnNewRunClicked);
     }
 
     private void OnExitClicked()
@@ -94,5 +108,23 @@ public class UI : MonoBehaviour
     public bool IsFinalPanelOpen()
     {
         return finalPanel != null && finalPanel.activeInHierarchy;
+    }
+
+    public void ShowSkillTreePanel()
+    {
+        if (skillTreePanel != null)
+            skillTreePanel.SetActive(true);
+    }
+
+    public void HideSkillTreePanel()
+    {
+        if (skillTreePanel != null)
+            skillTreePanel.SetActive(false);
+    }
+
+    private void OnNewRunClicked()
+    {
+        if (G.main != null)
+            G.main.StartNewRun();
     }
 }

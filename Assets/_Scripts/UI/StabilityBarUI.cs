@@ -3,17 +3,32 @@ using UnityEngine.UI;
 
 public class StabilityBarUI : MonoBehaviour
 {
-    private PlayerStabilitySystem player;
     [SerializeField] private Slider slider;
+
+    private PlayerStabilitySystem stability;
 
     private void Start()
     {
-        player = G.player.GetComponent<PlayerStabilitySystem>();
-        slider.maxValue = player.Max;
+        stability = G.stability;
+
+        if (stability == null) return;
+
+        slider.maxValue = stability.Max;
+        slider.value = stability.Current;
+
+        stability.OnStabilityChanged += HandleStabilityChanged;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        slider.value = player.Current;
+        if (stability != null)
+            stability.OnStabilityChanged -= HandleStabilityChanged;
+    }
+
+    private void HandleStabilityChanged(float current, float max)
+    {
+        if (slider == null) return;
+        slider.maxValue = max;
+        slider.value = current;
     }
 }
