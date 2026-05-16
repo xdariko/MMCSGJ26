@@ -7,6 +7,9 @@ public class Main : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject damagePopupPrefab;
 
+    [Header("Levels")]
+    [SerializeField] private LevelDatabase levelDatabase;
+
     private float impTimer;
 
     private void Awake()
@@ -14,11 +17,47 @@ public class Main : MonoBehaviour
         G.main = this;
         G.IsPlayerDead = false;
         G.damagePopupPrefab = damagePopupPrefab;
+        G.levelDatabase = levelDatabase;
     }
 
     private void Start()
     {
         G.player = GameObject.FindGameObjectWithTag("Player");
+        LoadSelectedLevel();
+    }
+
+    private void LoadSelectedLevel()
+    {
+        if (levelDatabase == null || G.waveDirector == null) return;
+
+        int idx = LevelProgress.SelectedLevel;
+        if (idx < 0 || idx >= levelDatabase.levels.Length) return;
+
+        G.waveDirector.OnWaveComplete += OnLevelComplete;
+        G.waveDirector.LoadWave(levelDatabase.levels[idx].wave);
+    }
+
+    private void OnLevelComplete()
+    {
+        if (G.waveDirector != null)
+            G.waveDirector.OnWaveComplete -= OnLevelComplete;
+
+        LevelProgress.CompleteCurrentLevel();
+        ClearEnemies();
+
+        bool wasLastLevel = levelDatabase != null
+            && LevelProgress.SelectedLevel >= levelDatabase.levels.Length - 1;
+
+        if (wasLastLevel)
+        {
+            if (G.ui != null)
+                G.ui.SetFinalPanel(true);
+        }
+        else
+        {
+            LevelProgress.SelectedLevel = LevelProgress.UnlockedLevel;
+            ShowSkillTree();
+        }
     }
 
     private void Update()
@@ -54,6 +93,9 @@ public class Main : MonoBehaviour
     {
         if (G.IsPlayerDead) return;
         G.IsPlayerDead = true;
+
+        if (G.waveDirector != null)
+            G.waveDirector.OnWaveComplete -= OnLevelComplete;
 
         StopSpawners();
         ClearEnemies();

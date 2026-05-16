@@ -17,7 +17,12 @@ public abstract class EnemyShooterBase : MonoBehaviour
     protected virtual void Awake()
     {
         brain = GetComponent<EnemyBrain>();
-        player = G.player.transform;
+    }
+
+    protected virtual void Start()
+    {
+        if (G.player != null)
+            player = G.player.transform;
     }
 
     protected virtual void Update()

@@ -13,4 +13,7 @@ public class EnemyWaveEntry
 
     [Range(0f, 1f)]
     public float spawnWeight = 1f;
+
+    [Header("Reward")]
+    public int xp = 1;
 }

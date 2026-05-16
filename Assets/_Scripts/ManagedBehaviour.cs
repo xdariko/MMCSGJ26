@@ -16,6 +16,7 @@ public static class G
     public static bool IsPlayerDead;
 
     public static GameObject damagePopupPrefab;
+    public static LevelDatabase levelDatabase;
 
     public static int Currency;
 
@@ -23,6 +24,18 @@ public static class G
     {
         Currency += amount;
         Debug.Log("Currency: " + G.Currency);
+    }
+}
+
+public static class LevelProgress
+{
+    public static int UnlockedLevel;
+    public static int SelectedLevel;
+
+    public static void CompleteCurrentLevel()
+    {
+        if (SelectedLevel >= UnlockedLevel)
+            UnlockedLevel = SelectedLevel + 1;
     }
 }
 

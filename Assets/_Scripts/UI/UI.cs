@@ -18,8 +18,6 @@ public class UI : MonoBehaviour
     [SerializeField] private Button restartButton;
     [SerializeField] private Button finalExitButton;
 
-    [Header("Skill Tree Panel Buttons")]
-    [SerializeField] private Button newRunButton;
 
 
     private void Awake()
@@ -50,8 +48,6 @@ public class UI : MonoBehaviour
         if (finalExitButton != null)
             finalExitButton.onClick.AddListener(OnExitClicked);
 
-        if (newRunButton != null)
-            newRunButton.onClick.AddListener(OnNewRunClicked);
     }
 
     private void OnContinueClicked()
@@ -74,8 +70,6 @@ public class UI : MonoBehaviour
         if (finalExitButton != null)
             finalExitButton.onClick.RemoveListener(OnExitClicked);
 
-        if (newRunButton != null)
-            newRunButton.onClick.RemoveListener(OnNewRunClicked);
     }
 
     private void OnExitClicked()
@@ -122,9 +116,4 @@ public class UI : MonoBehaviour
             skillTreePanel.SetActive(false);
     }
 
-    private void OnNewRunClicked()
-    {
-        if (G.main != null)
-            G.main.StartNewRun();
-    }
 }

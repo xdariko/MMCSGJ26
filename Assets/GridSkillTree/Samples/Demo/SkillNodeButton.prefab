@@ -587,6 +587,7 @@ GameObject:
   - component: {fileID: 2223553203166750906}
   - component: {fileID: 3813494832241099315}
   - component: {fileID: 8078567855229118437}
+  - component: {fileID: 7614367070613340728}
   m_Layer: 5
   m_Name: SkillNodeButton
   m_TagString: Untagged
@@ -720,3 +721,20 @@ MonoBehaviour:
   purchasedMark: {fileID: 1721259256207486803}
   levelText: {fileID: 4373271346201430546}
   costText: {fileID: 4682734712482579210}
+--- !u!114 &7614367070613340728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8655678164418890662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bdf2dc6c7fc1946a002824d74b419f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverShake
+  rotateAngle: 8
+  duration: 0.12
+  hitSounds:
+  - {fileID: 8300000, guid: 42f20da87df2e1f40a2316808ad0e6cd, type: 3}
+  hitSoundVolume: 1

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e93183318d106c48836636a7730cd7f, type: 3}
+  m_Name: Wave Config 2
+  m_EditorClassIdentifier: Assembly-CSharp::WaveConfig
+  spawnInterval: {x: 0.5, y: 2}
+  enemies:
+  - prefab: {fileID: 4118023629835845846, guid: 49696326fbda9fe4189bd02860f98ede, type: 3}
+    spawnType: 1
+    maxAlive: 10
+    spawnWeight: 0.25
+    xp: 1
+  bossPrefab: {fileID: 6095627960859033951, guid: 08a5886393b9bdb4d874e4820c6f1e68, type: 3}
+  xpToSpawnBoss: 20

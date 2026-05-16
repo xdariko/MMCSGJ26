@@ -5,12 +5,21 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 10f;
 
+    [Header("XP")]
+    [SerializeField] private int xpReward;
+    [SerializeField] private bool isBoss;
+
     [Header("Hit FX")]
     [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private float hitSoundVolume = 0.8f;
 
     private float currentHealth;
     private EnemyDrop drop;
+
+    public bool IsBoss => isBoss;
+
+    public void SetXP(int xp) => xpReward = xp;
+    public void SetBoss(bool boss) => isBoss = boss;
 
     public event Action<float> OnDamaged;
 
@@ -65,6 +74,11 @@ public class EnemyHealth : MonoBehaviour
 
         if (G.waveDirector != null)
             G.waveDirector.NotifyDeath(gameObject);
+
+        if (isBoss)
+            BossProgress.NotifyBossKilled();
+        else
+            BossProgress.AddXP(xpReward);
 
         Destroy(gameObject);
     }

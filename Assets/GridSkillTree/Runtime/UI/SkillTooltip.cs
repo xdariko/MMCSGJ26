@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 namespace GridSkillTree
@@ -6,16 +7,32 @@ namespace GridSkillTree
     public class SkillTooltip : MonoBehaviour
     {
         [SerializeField] private GameObject root;
+
+        [Header("Texts")]
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text descriptionText;
         [SerializeField] private TMP_Text levelText;
         [SerializeField] private TMP_Text costText;
         [SerializeField] private TMP_Text statusText;
+
+        [Header("Position")]
         [SerializeField] private float verticalOffset = 10f;
+
+        [Header("Animation")]
+        [SerializeField] private float popupScale = 1.08f;
+        [SerializeField] private float appearDuration = 0.12f;
+        [SerializeField] private float shakeStrength = 8f;
+        [SerializeField] private int shakeVibrato = 12;
+        [SerializeField] private float shakeDuration = 0.18f;
+
+        private RectTransform tooltipRect;
+        private Tween currentTween;
 
         private void Awake()
         {
-            Hide();
+            tooltipRect = root.GetComponent<RectTransform>();
+
+            HideImmediate();
         }
 
         public void Show(SkillNodeData node, SkillTreeRuntime runtime, RectTransform target)
@@ -27,37 +44,44 @@ namespace GridSkillTree
             int cost = runtime.GetCost(node);
             SkillNodeVisualState state = runtime.GetVisualState(node);
 
-            if (root != null)
-                root.SetActive(true);
+            root.SetActive(true);
 
-            if (titleText != null)
-                titleText.text = node.title;
+            titleText.text = node.title;
+            descriptionText.text = node.description;
 
-            if (descriptionText != null)
-                descriptionText.text = node.description;
+            levelText.text = $"Level: {level}/{node.maxLevel}";
 
-            if (levelText != null)
-                levelText.text = $"Level: {level}/{node.maxLevel}";
+            costText.text = level >= node.maxLevel
+                ? "Cost: MAX"
+                : $"Cost: {cost}";
 
-            if (costText != null)
-                costText.text = level >= node.maxLevel ? "Cost: MAX" : $"Cost: {cost}";
-
-            if (statusText != null)
-                statusText.text = $"Status: {state}";
+            statusText.text = $"Status: {state}";
 
             MoveAboveTarget(target);
+
+            PlayAppearAnimation();
         }
 
         public void Hide()
         {
-            if (root != null)
-                root.SetActive(false);
+            currentTween?.Kill();
+
+            root.SetActive(false);
+        }
+
+        private void HideImmediate()
+        {
+            root.SetActive(false);
+
+            if (tooltipRect != null)
+            {
+                tooltipRect.localScale = Vector3.one;
+                tooltipRect.localRotation = Quaternion.identity;
+            }
         }
 
         private void MoveAboveTarget(RectTransform target)
         {
-            RectTransform tooltipRect = root.GetComponent<RectTransform>();
-
             if (tooltipRect == null)
                 return;
 
@@ -69,9 +93,50 @@ namespace GridSkillTree
             float tooltipHeight = tooltipRect.rect.height;
 
             float x = targetAnchoredPosition.x;
-            float y = targetAnchoredPosition.y + targetHeight / 2f + tooltipHeight / 2f + verticalOffset;
+
+            float y =
+                targetAnchoredPosition.y +
+                targetHeight / 2f +
+                tooltipHeight / 2f +
+                verticalOffset;
 
             tooltipRect.anchoredPosition = new Vector2(x, y);
+        }
+
+        private void PlayAppearAnimation()
+        {
+            currentTween?.Kill();
+
+            tooltipRect.localScale = Vector3.zero;
+            tooltipRect.localRotation = Quaternion.identity;
+
+            Sequence seq = DOTween.Sequence();
+
+            seq.Append(
+                tooltipRect.DOScale(
+                    popupScale,
+                    appearDuration
+                ).SetEase(Ease.OutBack)
+            );
+
+            seq.Append(
+                tooltipRect.DOScale(
+                    1f,
+                    0.08f
+                )
+            );
+
+            seq.Join(
+                tooltipRect.DOShakeRotation(
+                    shakeDuration,
+                    new Vector3(0, 0, shakeStrength),
+                    shakeVibrato,
+                    90,
+                    false
+                )
+            );
+
+            currentTween = seq;
         }
     }
 }
