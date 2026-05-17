@@ -16,14 +16,26 @@ public class SoundManagerSO : ScriptableObject
             return instance;
         }
     }
+
     public AudioSource SoundObject;
 
     private static float _volumeChangeMultiplier = 0.15f;
     private static float _pitchChangeMultiplier = 0.1f;
+
     public static void PlaySoundFXClip(AudioClip clip, Vector3 soundPos, float volume)
     {
-        float randVolume = Random.Range(volume - _volumeChangeMultiplier, volume + _volumeChangeMultiplier);
-        float randPitch = Random.Range(1 - _pitchChangeMultiplier, 1 + _pitchChangeMultiplier);
+        if (clip == null || Instance == null || Instance.SoundObject == null)
+            return;
+
+        float randVolume = Random.Range(
+            volume - _volumeChangeMultiplier,
+            volume + _volumeChangeMultiplier
+        );
+
+        float randPitch = Random.Range(
+            1 - _pitchChangeMultiplier,
+            1 + _pitchChangeMultiplier
+        );
 
         AudioSource a = Instantiate(Instance.SoundObject, soundPos, Quaternion.identity);
 
@@ -35,13 +47,39 @@ public class SoundManagerSO : ScriptableObject
 
     public static void PlaySoundFXClip(AudioClip[] clips, Vector3 soundPos, float volume)
     {
-        int randClip = Random.Range(0, clips.Length);
-        float randVolume = Random.Range(volume - _volumeChangeMultiplier, volume + _volumeChangeMultiplier);
-        float randPitch = Random.Range(1 - _pitchChangeMultiplier, 1 + _pitchChangeMultiplier);
+        if (clips == null || clips.Length == 0 || Instance == null || Instance.SoundObject == null)
+            return;
+
+        AudioClip validClip = null;
+
+        int safety = 0;
+        while (safety < 10)
+        {
+            int rand = Random.Range(0, clips.Length);
+            if (clips[rand] != null)
+            {
+                validClip = clips[rand];
+                break;
+            }
+            safety++;
+        }
+
+        if (validClip == null)
+            return;
+
+        float randVolume = Random.Range(
+            volume - _volumeChangeMultiplier,
+            volume + _volumeChangeMultiplier
+        );
+
+        float randPitch = Random.Range(
+            1 - _pitchChangeMultiplier,
+            1 + _pitchChangeMultiplier
+        );
 
         AudioSource a = Instantiate(Instance.SoundObject, soundPos, Quaternion.identity);
 
-        a.clip = clips[randClip];
+        a.clip = validClip;
         a.volume = randVolume;
         a.pitch = randPitch;
         a.Play();

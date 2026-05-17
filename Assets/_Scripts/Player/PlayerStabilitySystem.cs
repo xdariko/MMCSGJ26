@@ -29,6 +29,7 @@ public class PlayerStabilitySystem : MonoBehaviour
 
     private void Start()
     {
+        PlayerStats.BaseStabilityDecay = decayPerSecond;
         OnStabilityChanged?.Invoke(currentStability, maxStability);
     }
 
@@ -43,7 +44,7 @@ public class PlayerStabilitySystem : MonoBehaviour
     private void ApplyDecay()
     {
         float prev = currentStability;
-        currentStability -= decayPerSecond * Time.deltaTime;
+        currentStability -= PlayerStats.StabilityDecay * Time.deltaTime;
         currentStability = Mathf.Clamp(currentStability, 0f, maxStability);
 
         if (!Mathf.Approximately(prev, currentStability))

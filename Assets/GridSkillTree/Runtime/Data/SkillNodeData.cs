@@ -35,6 +35,9 @@ namespace GridSkillTree
         public float baseValue = 1f;
         public GrowthFormulaType growthFormula = GrowthFormulaType.Constant;
 
+        [Tooltip("Only used when effectType = UnlockCurrency.")]
+        public CurrencyType unlockCurrencyType = CurrencyType.None;
+
         public int GetCost(int currentLevel)
         {
             return costFormula switch

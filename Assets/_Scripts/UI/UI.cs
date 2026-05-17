@@ -8,6 +8,7 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject finalPanel;
     [SerializeField] private GameObject skillTreePanel;
+    [SerializeField] private DeathPanelUI deathPanel;
 
 
     [Header("Pause Panel Buttons")]
@@ -108,6 +109,12 @@ public class UI : MonoBehaviour
     {
         if (skillTreePanel != null)
             skillTreePanel.SetActive(true);
+    }
+
+    public void ShowDeathPanel()
+    {
+        if (deathPanel != null)
+            deathPanel.Show();
     }
 
     public void HideSkillTreePanel()

@@ -8,6 +8,9 @@ public class OrbData
 
     public float value = 10f;
 
+    [Tooltip("Only used when effectType = Currency")]
+    public CurrencyType currencyType = CurrencyType.Basic;
+
     [Header("Movement")]
     public float attractSpeed = 8f;
 

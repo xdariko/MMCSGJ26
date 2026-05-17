@@ -6,7 +6,11 @@ namespace GridSkillTree
         MoveSpeedPercent,
         DamageFlat,
         BeamCount,
-        PickupRadius
+        PickupRadius,
+        CritChance,
+        CritMultiplier,
+        StabilityDecayReduction,
+        UnlockCurrency
     }
 
     public enum CostFormulaType

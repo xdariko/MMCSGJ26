@@ -72,7 +72,7 @@ public class OrbPickup : MonoBehaviour
                 break;
 
             case OrbEffectType.Currency:
-                G.AddCurrency((int)data.value);
+                CurrencyManager.Add(data.currencyType, (int)data.value);
                 break;
 
             case OrbEffectType.Instability:

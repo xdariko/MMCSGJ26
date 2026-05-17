@@ -23,6 +23,7 @@ public class Main : MonoBehaviour
     private void Start()
     {
         G.player = GameObject.FindGameObjectWithTag("Player");
+        CurrencyManager.ResetRunCollected();
         LoadSelectedLevel();
     }
 
@@ -100,10 +101,8 @@ public class Main : MonoBehaviour
         StopSpawners();
         ClearEnemies();
 
-        // Example: transitionAnimator.SetTrigger("DeathToSkillTree");
-        // After animation completes, call ShowSkillTree(). For now we call it directly.
-
-        ShowSkillTree();
+        if (G.ui != null)
+            G.ui.ShowDeathPanel();
     }
 
     private void ShowSkillTree()

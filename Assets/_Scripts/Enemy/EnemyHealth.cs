@@ -29,12 +29,12 @@ public class EnemyHealth : MonoBehaviour
         drop = GetComponent<EnemyDrop>();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool isCrit = false)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Max(currentHealth, 0f);
 
-        ShowDamagePopup(damage);
+        ShowDamagePopup(damage, isCrit);
         PlayHitSound();
         OnDamaged?.Invoke(currentHealth / maxHealth);
 
@@ -44,7 +44,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    private void ShowDamagePopup(float damage)
+    private void ShowDamagePopup(float damage, bool isCrit)
     {
         if (G.damagePopupPrefab == null) return;
 
@@ -57,7 +57,7 @@ public class EnemyHealth : MonoBehaviour
         GameObject go = UnityEngine.Object.Instantiate(G.damagePopupPrefab, pos, Quaternion.identity);
         DamagePopup popup = go.GetComponent<DamagePopup>();
         if (popup != null)
-            popup.Setup(damage, false);
+            popup.Setup(damage, isCrit);
     }
 
     private void PlayHitSound()

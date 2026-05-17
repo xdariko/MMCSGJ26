@@ -99,12 +99,16 @@ public class PlayerSpellCaster : MonoBehaviour
 
         cooldownTimer = attackCooldown;
 
-        float dmg = PlayerStats.Damage;
+        float baseDmg = PlayerStats.Damage;
 
         foreach (EnemyHealth target in currentTargets)
         {
-            if (target != null)
-                target.TakeDamage(dmg);
+            if (target == null) continue;
+
+            bool isCrit = Random.value < PlayerStats.CritChance;
+            float dmg = isCrit ? baseDmg * PlayerStats.CritMultiplier : baseDmg;
+
+            target.TakeDamage(dmg, isCrit);
         }
     }
 

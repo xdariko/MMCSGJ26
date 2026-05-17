@@ -18,13 +18,6 @@ public static class G
     public static GameObject damagePopupPrefab;
     public static LevelDatabase levelDatabase;
 
-    public static int Currency;
-
-    public static void AddCurrency(int amount)
-    {
-        Currency += amount;
-        Debug.Log("Currency: " + G.Currency);
-    }
 }
 
 public static class LevelProgress
@@ -45,16 +38,25 @@ public static class PlayerStats
     public static float BaseDamage;
     public static int BaseBeamCount;
     public static float BasePickupRadius;
+    public static float BaseStabilityDecay;
+    public static float BaseCritChance;
+    public static float BaseCritMultiplier = 2f;
 
     public static float BonusMoveSpeedPercent;
     public static float BonusDamageFlat;
     public static int BonusBeamCount;
     public static float BonusPickupRadius;
+    public static float BonusStabilityDecayReduction;
+    public static float BonusCritChance;
+    public static float BonusCritMultiplier;
 
     public static float MoveSpeed => BaseMoveSpeed * (1f + BonusMoveSpeedPercent);
     public static float Damage => BaseDamage + BonusDamageFlat;
     public static int BeamCount => BaseBeamCount + BonusBeamCount;
     public static float PickupRadius => BasePickupRadius + BonusPickupRadius;
+    public static float StabilityDecay => Mathf.Max(0f, BaseStabilityDecay - BonusStabilityDecayReduction);
+    public static float CritChance => Mathf.Clamp01(BaseCritChance + BonusCritChance);
+    public static float CritMultiplier => BaseCritMultiplier + BonusCritMultiplier;
 
     public static void ResetBonuses()
     {
@@ -62,6 +64,9 @@ public static class PlayerStats
         BonusDamageFlat = 0f;
         BonusBeamCount = 0;
         BonusPickupRadius = 0f;
+        BonusStabilityDecayReduction = 0f;
+        BonusCritChance = 0f;
+        BonusCritMultiplier = 0f;
     }
 }
 

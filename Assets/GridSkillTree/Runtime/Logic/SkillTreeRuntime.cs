@@ -7,7 +7,7 @@ namespace GridSkillTree
     {
         [SerializeField] private SkillTreeData treeData;
         [SerializeField] private int startingSkillPoints = 10;
-
+        public event Action<SkillNodeData> OnNodeUpgraded;
         public SkillTreeData TreeData => treeData;
         public SkillTreeProgress Progress { get; private set; }
 
@@ -78,6 +78,8 @@ namespace GridSkillTree
             ApplyEffect(node, currentLevel + 1);
 
             OnTreeChanged?.Invoke();
+            OnNodeUpgraded?.Invoke(node);
+
             return true;
         }
 
@@ -116,6 +118,18 @@ namespace GridSkillTree
                     break;
                 case SkillEffectType.PickupRadius:
                     PlayerStats.BonusPickupRadius += delta;
+                    break;
+                case SkillEffectType.CritChance:
+                    PlayerStats.BonusCritChance += delta;
+                    break;
+                case SkillEffectType.CritMultiplier:
+                    PlayerStats.BonusCritMultiplier += delta;
+                    break;
+                case SkillEffectType.StabilityDecayReduction:
+                    PlayerStats.BonusStabilityDecayReduction += delta;
+                    break;
+                case SkillEffectType.UnlockCurrency:
+                    CurrencyManager.Unlock(node.unlockCurrencyType);
                     break;
             }
         }
