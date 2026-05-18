@@ -37,7 +37,9 @@ public class PlayerContactDamage : MonoBehaviour
         float elapsed = 0f;
         bool visible = true;
 
-        while (elapsed < shieldDuration)
+        float duration = PlayerStats.GetInvincibilityDuration(shieldDuration);
+
+        while (elapsed < duration)
         {
             visible = !visible;
             if (spriteRenderer != null)

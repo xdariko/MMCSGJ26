@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -5,16 +6,19 @@ using UnityEngine.SceneManagement;
 public class Main : MonoBehaviour
 {
     [Header("Prefabs")]
+    [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject damagePopupPrefab;
 
     [Header("Levels")]
     [SerializeField] private LevelDatabase levelDatabase;
 
     private float impTimer;
+    private float passiveCurrencyTimer;
 
     private void Awake()
     {
         G.main = this;
+        G.ResetRuntimeFlags();
         G.IsPlayerDead = false;
         G.damagePopupPrefab = damagePopupPrefab;
         G.levelDatabase = levelDatabase;
@@ -22,19 +26,23 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
-        G.player = GameObject.FindGameObjectWithTag("Player");
+        EnsurePlayerSpawnedAtScreenCenter();
         CurrencyManager.ResetRunCollected();
         LoadSelectedLevel();
     }
 
     private void LoadSelectedLevel()
     {
-        if (levelDatabase == null || G.waveDirector == null) return;
+        if (levelDatabase == null || G.waveDirector == null)
+            return;
 
         int idx = LevelProgress.SelectedLevel;
-        if (idx < 0 || idx >= levelDatabase.levels.Length) return;
+        if (idx < 0 || idx >= levelDatabase.levels.Length)
+            return;
 
+        G.waveDirector.OnWaveComplete -= OnLevelComplete;
         G.waveDirector.OnWaveComplete += OnLevelComplete;
+        G.waveDirector.enabled = true;
         G.waveDirector.LoadWave(levelDatabase.levels[idx].wave);
     }
 
@@ -65,9 +73,31 @@ public class Main : MonoBehaviour
     {
         if (G.IsPlayerDead) return;
 
+        ProcessPassiveCurrencyRewards();
+
         if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             TogglePause();
+        }
+    }
+
+    private void ProcessPassiveCurrencyRewards()
+    {
+        if (G.IsPaused || !PlayerStats.HasPassiveCurrencyRewards())
+            return;
+
+        passiveCurrencyTimer += Time.deltaTime;
+
+        float interval = Mathf.Max(0.1f, PlayerStats.PassiveCurrencyIntervalSeconds);
+        if (passiveCurrencyTimer < interval)
+            return;
+
+        int tickCount = Mathf.FloorToInt(passiveCurrencyTimer / interval);
+        passiveCurrencyTimer -= tickCount * interval;
+
+        foreach (var reward in PlayerStats.GetPassiveCurrencyRewards())
+        {
+            CurrencyManager.Add(reward.Key, reward.Value * tickCount);
         }
     }
 
@@ -100,6 +130,7 @@ public class Main : MonoBehaviour
 
         StopSpawners();
         ClearEnemies();
+        DestroyPlayer();
 
         if (G.ui != null)
             G.ui.ShowDeathPanel();
@@ -116,11 +147,84 @@ public class Main : MonoBehaviour
         if (G.ui != null)
             G.ui.HideSkillTreePanel();
 
-        // Example: transitionAnimator.SetTrigger("SkillTreeToGame");
-        // After animation completes, reload scene. For now we reload directly.
+        Time.timeScale = 1f;
+        G.ResetRuntimeFlags();
+        passiveCurrencyTimer = 0f;
+
+        ClearEnemies();
+        CurrencyManager.ResetRunCollected();
+        EnsurePlayerSpawnedAtScreenCenter();
+        LoadSelectedLevel();
+    }
+
+    public void RestartCurrentRun()
+    {
+        if (G.ui != null)
+            G.ui.HideSkillTreePanel();
 
         Time.timeScale = 1f;
+        G.IsPaused = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ResetGameToInitialState()
+    {
+        GameResetUtility.ResetAllProgressAndReload();
+    }
+
+    private void EnsurePlayerSpawnedAtScreenCenter()
+    {
+        GameObject existingPlayer = GameObject.FindGameObjectWithTag("Player");
+
+        if (existingPlayer != null)
+        {
+            G.player = existingPlayer;
+            existingPlayer.transform.position = GetScreenCenterWorldPosition();
+            return;
+        }
+
+        if (playerPrefab == null)
+        {
+            Debug.LogError("Main: Player Prefab is not assigned.");
+            return;
+        }
+
+        G.player = Instantiate(
+            playerPrefab,
+            GetScreenCenterWorldPosition(),
+            Quaternion.identity);
+    }
+
+    private Vector3 GetScreenCenterWorldPosition()
+    {
+        Camera cam = Camera.main;
+        if (cam == null)
+            return Vector3.zero;
+
+        float distanceToWorldPlane = Mathf.Abs(cam.transform.position.z);
+        Vector3 screenCenter = new Vector3(
+            Screen.width * 0.5f,
+            Screen.height * 0.5f,
+            distanceToWorldPlane);
+
+        Vector3 worldPosition = cam.ScreenToWorldPoint(screenCenter);
+        worldPosition.z = 0f;
+
+        return worldPosition;
+    }
+
+    private void DestroyPlayer()
+    {
+        GameObject player = G.player;
+
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+            Destroy(player);
+
+        G.player = null;
+        G.stability = null;
     }
 
     private void StopSpawners()

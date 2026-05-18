@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6637253130702286495}
   - component: {fileID: 2332652038355534857}
   - component: {fileID: 360305988568955451}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7522375923646052074}
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154e31d9c4d69474083bdbe494fe09c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFollowController
-  moveSpeed: 5
+  moveSpeed: 7
   acceleration: 8
   stopDistance: 0.15
   cursorOffset: {x: 0, y: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a348109a2b540c409563d6dfbf1d499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpellCaster
-  detectionRadius: 1
+  detectionRadius: 3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -109,6 +109,8 @@ MonoBehaviour:
   attackCooldown: 0.5
   beamPrefab: {fileID: 4953916010348952069, guid: d295dec6a46ee304286ccf8095325617, type: 3}
   baseBeamCount: 1
+  hitEffectPrefab: {fileID: 2244398166334010153, guid: 59a770e19a5b7c748847f94a2c93fc3f, type: 3}
+  hitEffectLifetime: 1
 --- !u!114 &6156052401624529302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7522375923646052074}
   - component: {fileID: 7345232134877630564}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +308,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4334783836991956000, guid: a962a693fdf58dd47834026f020d62b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

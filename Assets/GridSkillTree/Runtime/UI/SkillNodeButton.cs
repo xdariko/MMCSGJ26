@@ -50,13 +50,32 @@ namespace GridSkillTree
                 iconImage.sprite = node.icon;
 
             int level = runtime.GetLevel(node.id);
-            int cost = runtime.GetCost(node);
 
             if (levelText != null)
                 levelText.text = $"{level}/{node.maxLevel}";
 
             if (costText != null)
-                costText.text = level >= node.maxLevel ? "MAX" : cost.ToString();
+            {
+                if (level >= node.maxLevel)
+                {
+                    costText.text = "MAX";
+                }
+                else
+                {
+                    var costs = runtime.GetCosts(node);
+                    if (costs.Count == 0)
+                        costText.text = "";
+                    else if (costs.Count == 1)
+                        costText.text = costs[0].amount.ToString();
+                    else
+                    {
+                        string[] parts = new string[costs.Count];
+                        for (int i = 0; i < costs.Count; i++)
+                            parts[i] = costs[i].amount.ToString();
+                        costText.text = string.Join(" + ", parts);
+                    }
+                }
+            }
 
             SkillNodeVisualState state = runtime.GetVisualState(node);
             ApplyState(state);

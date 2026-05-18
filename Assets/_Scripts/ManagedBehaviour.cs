@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class G
 {
@@ -18,12 +20,36 @@ public static class G
     public static GameObject damagePopupPrefab;
     public static LevelDatabase levelDatabase;
 
+    public static void ResetRuntimeFlags()
+    {
+        IsPaused = false;
+        IsMenuOpen = false;
+        IsPlayerDead = false;
+    }
+
+    public static void ClearSceneReferences()
+    {
+        main = null;
+        ui = null;
+        player = null;
+        stability = null;
+        waveDirector = null;
+        spawnArea = null;
+        damagePopupPrefab = null;
+        levelDatabase = null;
+    }
 }
 
 public static class LevelProgress
 {
     public static int UnlockedLevel;
     public static int SelectedLevel;
+
+    public static void Reset()
+    {
+        UnlockedLevel = 0;
+        SelectedLevel = 0;
+    }
 
     public static void CompleteCurrentLevel()
     {
@@ -50,6 +76,12 @@ public static class PlayerStats
     public static float BonusCritChance;
     public static float BonusCritMultiplier;
 
+    private static readonly Dictionary<CurrencyType, float> CurrencyDropBonusPercent = new();
+    private static readonly Dictionary<CurrencyType, int> PassiveCurrencyAmounts = new();
+
+    public static float PassiveCurrencyIntervalSeconds = 3f;
+    public static float BonusInvincibilityDuration;
+
     public static float MoveSpeed => BaseMoveSpeed * (1f + BonusMoveSpeedPercent);
     public static float Damage => BaseDamage + BonusDamageFlat;
     public static int BeamCount => BaseBeamCount + BonusBeamCount;
@@ -57,6 +89,66 @@ public static class PlayerStats
     public static float StabilityDecay => Mathf.Max(0f, BaseStabilityDecay - BonusStabilityDecayReduction);
     public static float CritChance => Mathf.Clamp01(BaseCritChance + BonusCritChance);
     public static float CritMultiplier => BaseCritMultiplier + BonusCritMultiplier;
+
+    public static void AddCurrencyDropBonus(CurrencyType currencyType, float bonusPercent)
+    {
+        if (currencyType == CurrencyType.None)
+            return;
+
+        if (!CurrencyDropBonusPercent.ContainsKey(currencyType))
+            CurrencyDropBonusPercent[currencyType] = 0f;
+
+        CurrencyDropBonusPercent[currencyType] += bonusPercent;
+    }
+
+    public static float GetCurrencyDropMultiplier(CurrencyType currencyType)
+    {
+        if (currencyType == CurrencyType.None)
+            return 1f;
+
+        CurrencyDropBonusPercent.TryGetValue(currencyType, out float bonusPercent);
+        return Mathf.Max(0f, 1f + bonusPercent);
+    }
+
+    public static int ApplyCurrencyDropMultiplier(CurrencyType currencyType, int baseAmount)
+    {
+        if (baseAmount <= 0)
+            return 0;
+
+        return Mathf.Max(1, Mathf.RoundToInt(baseAmount * GetCurrencyDropMultiplier(currencyType)));
+    }
+
+
+
+    public static void AddPassiveCurrencyReward(CurrencyType currencyType, int amount, float intervalSeconds)
+    {
+        if (currencyType == CurrencyType.None || amount <= 0)
+            return;
+
+        if (!PassiveCurrencyAmounts.ContainsKey(currencyType))
+            PassiveCurrencyAmounts[currencyType] = 0;
+
+        PassiveCurrencyAmounts[currencyType] += amount;
+
+        if (intervalSeconds > 0f)
+            PassiveCurrencyIntervalSeconds = Mathf.Max(0.1f, intervalSeconds);
+    }
+
+    public static bool HasPassiveCurrencyRewards()
+    {
+        return PassiveCurrencyAmounts.Count > 0;
+    }
+
+    public static IReadOnlyDictionary<CurrencyType, int> GetPassiveCurrencyRewards()
+    {
+        return PassiveCurrencyAmounts;
+    }
+
+    public static float GetInvincibilityDuration(float baseDuration)
+    {
+        return Mathf.Max(0f, baseDuration + BonusInvincibilityDuration);
+    }
+
 
     public static void ResetBonuses()
     {
@@ -67,6 +159,84 @@ public static class PlayerStats
         BonusStabilityDecayReduction = 0f;
         BonusCritChance = 0f;
         BonusCritMultiplier = 0f;
+        BonusInvincibilityDuration = 0f;
+        PassiveCurrencyIntervalSeconds = 3f;
+        CurrencyDropBonusPercent.Clear();
+        PassiveCurrencyAmounts.Clear();
+    }
+}
+
+
+public static class GameResetUtility
+{
+    public static void ResetAllProgressAndReload()
+    {
+        ResetAllRuntimeState();
+
+        // Full wipe is intentional here: this is the hard restart button,
+        // so saved currencies, unlocked levels, skill tree progress and other
+        // PlayerPrefs-based progress all return to the initial state.
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public static void ResetAllRuntimeState()
+    {
+        G.ResetRuntimeFlags();
+        LevelProgress.Reset();
+        PlayerStats.ResetBonuses();
+        TryResetCurrencyManager();
+    }
+
+    private static void TryResetCurrencyManager()
+    {
+        Type currencyManagerType = FindType("CurrencyManager");
+        if (currencyManagerType == null)
+            return;
+
+        string[] resetMethodNames =
+        {
+            "ResetAll",
+            "Reset",
+            "Clear",
+            "ClearAll",
+            "ResetCurrencies",
+            "ResetRunCollected"
+        };
+
+        foreach (string methodName in resetMethodNames)
+        {
+            MethodInfo method = currencyManagerType.GetMethod(
+                methodName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static,
+                null,
+                Type.EmptyTypes,
+                null);
+
+            if (method == null)
+                continue;
+
+            method.Invoke(null, null);
+        }
+    }
+
+    private static Type FindType(string typeName)
+    {
+        Type directType = Type.GetType(typeName);
+        if (directType != null)
+            return directType;
+
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            Type foundType = assembly.GetType(typeName);
+            if (foundType != null)
+                return foundType;
+        }
+
+        return null;
     }
 }
 
@@ -88,3 +258,5 @@ public class ManagedBehaviour : MonoBehaviour
     protected virtual void PausableUpdate() { }
     protected virtual void PausableFixedUpdate() { }
 }
+
+

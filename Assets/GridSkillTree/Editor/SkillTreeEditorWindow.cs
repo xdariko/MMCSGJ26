@@ -422,10 +422,37 @@ namespace GridSkillTree.Editor
             int maxLevel = EditorGUILayout.IntField("Max Level", node.maxLevel);
 
             GUILayout.Space(8f);
-            GUILayout.Label("Cost", EditorStyles.boldLabel);
+            GUILayout.Label("Cost (Currencies)", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox("Add one or more currency costs. Empty list means the node is free.", MessageType.None);
 
-            int baseCost = EditorGUILayout.IntField("Base Cost", node.baseCost);
-            CostFormulaType costFormula = (CostFormulaType)EditorGUILayout.EnumPopup("Cost Formula", node.costFormula);
+            if (node.costs == null)
+                node.costs = new List<SkillCost>();
+
+            for (int i = 0; i < node.costs.Count; i++)
+            {
+                SkillCost c = node.costs[i];
+                if (c == null) { node.costs.RemoveAt(i); i--; continue; }
+
+                EditorGUILayout.BeginHorizontal();
+                c.currency = (CurrencyType)EditorGUILayout.EnumPopup(c.currency, GUILayout.Width(100f));
+                c.baseAmount = Mathf.Max(0, EditorGUILayout.IntField(c.baseAmount, GUILayout.Width(60f)));
+                c.formula = (CostFormulaType)EditorGUILayout.EnumPopup(c.formula);
+                if (GUILayout.Button("X", GUILayout.Width(24f)))
+                {
+                    Undo.RecordObject(treeData, "Remove Skill Cost");
+                    node.costs.RemoveAt(i);
+                    MarkDirty();
+                    i--;
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+
+            if (GUILayout.Button("+ Add Currency Cost"))
+            {
+                Undo.RecordObject(treeData, "Add Skill Cost");
+                node.costs.Add(new SkillCost());
+                MarkDirty();
+            }
 
             GUILayout.Space(8f);
             GUILayout.Label("Effect", EditorStyles.boldLabel);
@@ -433,6 +460,31 @@ namespace GridSkillTree.Editor
             SkillEffectType effectType = (SkillEffectType)EditorGUILayout.EnumPopup("Effect Type", node.effectType);
             float baseValue = EditorGUILayout.FloatField("Base Value", node.baseValue);
             GrowthFormulaType growthFormula = (GrowthFormulaType)EditorGUILayout.EnumPopup("Growth Formula", node.growthFormula);
+
+            CurrencyType unlockCurrencyType = node.unlockCurrencyType;
+            if (effectType == SkillEffectType.UnlockCurrency)
+                unlockCurrencyType = (CurrencyType)EditorGUILayout.EnumPopup("Unlock Currency", node.unlockCurrencyType);
+
+            CurrencyType currencyDropType = node.currencyDropType;
+            if (effectType == SkillEffectType.CurrencyDropPercent)
+            {
+                currencyDropType = (CurrencyType)EditorGUILayout.EnumPopup("Drop Currency", node.currencyDropType);
+                EditorGUILayout.HelpBox("Base Value/Growth are treated as percent: 25 = +25% currency from every enemy drop of this currency.", MessageType.None);
+            }
+
+            CurrencyType passiveCurrencyType = node.passiveCurrencyType;
+            float passiveCurrencyIntervalSeconds = node.passiveCurrencyIntervalSeconds;
+            if (effectType == SkillEffectType.PassiveCurrency)
+            {
+                passiveCurrencyType = (CurrencyType)EditorGUILayout.EnumPopup("Passive Currency", node.passiveCurrencyType);
+                passiveCurrencyIntervalSeconds = EditorGUILayout.FloatField("Interval Seconds", node.passiveCurrencyIntervalSeconds);
+                EditorGUILayout.HelpBox("Base Value/Growth are treated as amount: 1 = +1 selected currency every interval while player is alive.", MessageType.None);
+            }
+
+            if (effectType == SkillEffectType.InvincibilityDuration)
+            {
+                EditorGUILayout.HelpBox("Base Value/Growth are treated as seconds added to damage invincibility duration.", MessageType.None);
+            }
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -444,11 +496,13 @@ namespace GridSkillTree.Editor
                 node.gridPosition = gridPosition;
                 node.icon = icon;
                 node.maxLevel = Mathf.Max(1, maxLevel);
-                node.baseCost = Mathf.Max(0, baseCost);
-                node.costFormula = costFormula;
                 node.effectType = effectType;
                 node.baseValue = baseValue;
                 node.growthFormula = growthFormula;
+                node.unlockCurrencyType = unlockCurrencyType;
+                node.currencyDropType = currencyDropType;
+                node.passiveCurrencyType = passiveCurrencyType;
+                node.passiveCurrencyIntervalSeconds = Mathf.Max(0.1f, passiveCurrencyIntervalSeconds);
 
                 MarkDirty();
                 RebuildLookup();
@@ -588,11 +642,12 @@ namespace GridSkillTree.Editor
                 description = "Skill description.",
                 gridPosition = cell,
                 maxLevel = 1,
-                baseCost = 1,
-                costFormula = CostFormulaType.Constant,
+                costs = new List<SkillCost> { new SkillCost() },
                 effectType = SkillEffectType.None,
                 baseValue = 1f,
                 growthFormula = GrowthFormulaType.Constant,
+                passiveCurrencyType = CurrencyType.Basic,
+                passiveCurrencyIntervalSeconds = 3f,
                 previousNodeIds = new List<string>()
             };
 
@@ -621,11 +676,14 @@ namespace GridSkillTree.Editor
                 icon = source.icon,
                 previousNodeIds = new List<string>(source.previousNodeIds),
                 maxLevel = source.maxLevel,
-                baseCost = source.baseCost,
-                costFormula = source.costFormula,
+                costs = CloneCosts(source.costs),
                 effectType = source.effectType,
                 baseValue = source.baseValue,
-                growthFormula = source.growthFormula
+                growthFormula = source.growthFormula,
+                unlockCurrencyType = source.unlockCurrencyType,
+                currencyDropType = source.currencyDropType,
+                passiveCurrencyType = source.passiveCurrencyType,
+                passiveCurrencyIntervalSeconds = source.passiveCurrencyIntervalSeconds
             };
 
             treeData.nodes.Add(copy);
@@ -634,6 +692,23 @@ namespace GridSkillTree.Editor
             MarkDirty();
             RebuildLookup();
             Repaint();
+        }
+
+        private static List<SkillCost> CloneCosts(List<SkillCost> src)
+        {
+            List<SkillCost> result = new();
+            if (src == null) return result;
+            foreach (SkillCost c in src)
+            {
+                if (c == null) continue;
+                result.Add(new SkillCost
+                {
+                    currency = c.currency,
+                    baseAmount = c.baseAmount,
+                    formula = c.formula
+                });
+            }
+            return result;
         }
 
         private void DeleteNode(SkillNodeData node)

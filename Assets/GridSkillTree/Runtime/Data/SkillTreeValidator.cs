@@ -57,8 +57,39 @@ namespace GridSkillTree
                 if (node.maxLevel < 1)
                     result.AddError($"Node '{node.id}' has maxLevel < 1.");
 
-                if (node.baseCost < 0)
-                    result.AddError($"Node '{node.id}' has baseCost < 0.");
+                if (node.costs == null)
+                {
+                    result.AddWarning($"Node '{node.id}' has null costs list.");
+                }
+                else
+                {
+                    foreach (SkillCost cost in node.costs)
+                    {
+                        if (cost == null)
+                        {
+                            result.AddWarning($"Node '{node.id}' has null cost entry.");
+                            continue;
+                        }
+
+                        if (cost.currency == CurrencyType.None)
+                            result.AddWarning($"Node '{node.id}' has cost with CurrencyType.None.");
+
+                        if (cost.baseAmount < 0)
+                            result.AddError($"Node '{node.id}' has cost baseAmount < 0.");
+                    }
+                }
+
+                if (node.effectType == SkillEffectType.CurrencyDropPercent && node.currencyDropType == CurrencyType.None)
+                    result.AddWarning($"Node '{node.id}' has CurrencyDropPercent effect with CurrencyType.None.");
+
+                if (node.effectType == SkillEffectType.PassiveCurrency)
+                {
+                    if (node.passiveCurrencyType == CurrencyType.None)
+                        result.AddWarning($"Node '{node.id}' has PassiveCurrency effect with CurrencyType.None.");
+
+                    if (node.passiveCurrencyIntervalSeconds <= 0f)
+                        result.AddError($"Node '{node.id}' has PassiveCurrency interval <= 0.");
+                }
 
                 if (node.previousNodeIds == null)
                     result.AddWarning($"Node '{node.id}' has null previousNodeIds list.");

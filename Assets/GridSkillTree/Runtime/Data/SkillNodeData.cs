@@ -27,8 +27,7 @@ namespace GridSkillTree
         public int maxLevel = 1;
 
         [Header("Cost")]
-        public int baseCost = 1;
-        public CostFormulaType costFormula = CostFormulaType.Constant;
+        public List<SkillCost> costs = new();
 
         [Header("Effect")]
         public SkillEffectType effectType = SkillEffectType.None;
@@ -38,16 +37,14 @@ namespace GridSkillTree
         [Tooltip("Only used when effectType = UnlockCurrency.")]
         public CurrencyType unlockCurrencyType = CurrencyType.None;
 
-        public int GetCost(int currentLevel)
-        {
-            return costFormula switch
-            {
-                CostFormulaType.Constant => baseCost,
-                CostFormulaType.Linear => baseCost * (currentLevel + 1),
-                CostFormulaType.Exponential => Mathf.RoundToInt(baseCost * Mathf.Pow(1.5f, currentLevel)),
-                _ => baseCost
-            };
-        }
+        [Tooltip("Only used when effectType = CurrencyDropPercent. This bonus is applied globally to every orb of this currency, no matter which enemy dropped it.")]
+        public CurrencyType currencyDropType = CurrencyType.Basic;
+
+        [Tooltip("Only used when effectType = PassiveCurrency. Currency that is granted while the player is alive.")]
+        public CurrencyType passiveCurrencyType = CurrencyType.Basic;
+
+        [Tooltip("Only used when effectType = PassiveCurrency. Time in seconds between passive currency payouts.")]
+        public float passiveCurrencyIntervalSeconds = 3f;
 
         public float GetValue(int level)
         {

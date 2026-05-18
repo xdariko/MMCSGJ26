@@ -72,7 +72,9 @@ public class OrbPickup : MonoBehaviour
                 break;
 
             case OrbEffectType.Currency:
-                CurrencyManager.Add(data.currencyType, (int)data.value);
+                int baseAmount = Mathf.RoundToInt(data.value);
+                int finalAmount = PlayerStats.ApplyCurrencyDropMultiplier(data.currencyType, baseAmount);
+                CurrencyManager.Add(data.currencyType, finalAmount);
                 break;
 
             case OrbEffectType.Instability:
@@ -81,3 +83,4 @@ public class OrbPickup : MonoBehaviour
         }
     }
 }
+

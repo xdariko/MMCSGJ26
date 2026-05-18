@@ -15,6 +15,10 @@ public class PlayerSpellCaster : MonoBehaviour
     [SerializeField] private SpellBeam beamPrefab;
     [SerializeField] private int baseBeamCount = 1;
 
+    [Header("Hit FX")]
+    [SerializeField] private GameObject hitEffectPrefab;
+    [SerializeField] private float hitEffectLifetime = 1.5f;
+
     private readonly List<EnemyHealth> currentTargets = new();
     private readonly List<SpellBeam> currentBeams = new();
 
@@ -109,6 +113,7 @@ public class PlayerSpellCaster : MonoBehaviour
             float dmg = isCrit ? baseDmg * PlayerStats.CritMultiplier : baseDmg;
 
             target.TakeDamage(dmg, isCrit);
+            SpawnHitEffect(target.transform.position);
         }
     }
 
@@ -119,5 +124,16 @@ public class PlayerSpellCaster : MonoBehaviour
         Gizmos.DrawWireSphere(
             transform.position,
             detectionRadius);
+    }
+
+    private void SpawnHitEffect(Vector3 position)
+    {
+        if (hitEffectPrefab == null)
+            return;
+
+        GameObject fx = Instantiate(hitEffectPrefab, position, Quaternion.identity);
+
+        if (hitEffectLifetime > 0f)
+            Destroy(fx, hitEffectLifetime);
     }
 }

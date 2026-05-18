@@ -10,7 +10,10 @@ namespace GridSkillTree
         CritChance,
         CritMultiplier,
         StabilityDecayReduction,
-        UnlockCurrency
+        UnlockCurrency,
+        CurrencyDropPercent,
+        PassiveCurrency,
+        InvincibilityDuration
     }
 
     public enum CostFormulaType

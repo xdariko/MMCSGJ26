@@ -1,6 +1,8 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GridSkillTree
 {
@@ -14,6 +16,14 @@ namespace GridSkillTree
         [SerializeField] private TMP_Text levelText;
         [SerializeField] private TMP_Text costText;
         [SerializeField] private TMP_Text statusText;
+
+        [Header("Cost Display")]
+        [Tooltip("Container where currency cost entries are spawned (Horizontal/VerticalLayoutGroup recommended).")]
+        [SerializeField] private Transform costEntriesParent;
+        [Tooltip("Prefab with Image (icon) + TMP_Text (amount).")]
+        [SerializeField] private GameObject costEntryPrefab;
+        [Tooltip("All known currencies — used to resolve icons.")]
+        [SerializeField] private CurrencyData[] currencyDatabase;
 
         [Header("Position")]
         [SerializeField] private float verticalOffset = 10f;
@@ -41,7 +51,6 @@ namespace GridSkillTree
                 return;
 
             int level = runtime.GetLevel(node.id);
-            int cost = runtime.GetCost(node);
             SkillNodeVisualState state = runtime.GetVisualState(node);
 
             root.SetActive(true);
@@ -51,9 +60,10 @@ namespace GridSkillTree
 
             levelText.text = $"Level: {level}/{node.maxLevel}";
 
-            costText.text = level >= node.maxLevel
-                ? "Cost: MAX"
-                : $"Cost: {cost}";
+            BuildCostEntries(node, runtime, level >= node.maxLevel);
+
+            if (costText != null)
+                costText.text = level >= node.maxLevel ? "MAX" : "Cost:";
 
             statusText.text = $"Status: {state}";
 
@@ -66,7 +76,52 @@ namespace GridSkillTree
         {
             currentTween?.Kill();
 
+            ClearCostEntries();
             root.SetActive(false);
+        }
+
+        private readonly List<GameObject> spawnedCostEntries = new();
+
+        private void BuildCostEntries(SkillNodeData node, SkillTreeRuntime runtime, bool maxed)
+        {
+            ClearCostEntries();
+
+            if (maxed || costEntriesParent == null || costEntryPrefab == null) return;
+
+            foreach (var (currency, amount) in runtime.GetCosts(node))
+            {
+                GameObject go = Instantiate(costEntryPrefab, costEntriesParent);
+                go.SetActive(true);
+                spawnedCostEntries.Add(go);
+
+                CurrencyData data = FindCurrency(currency);
+
+                Image icon = go.GetComponentInChildren<Image>();
+                if (icon != null && data != null)
+                {
+                    icon.sprite = data.icon;
+                    icon.color = data.color;
+                }
+
+                TMP_Text label = go.GetComponentInChildren<TMP_Text>();
+                if (label != null)
+                    label.text = amount.ToString();
+            }
+        }
+
+        private void ClearCostEntries()
+        {
+            foreach (GameObject go in spawnedCostEntries)
+                if (go != null) Destroy(go);
+            spawnedCostEntries.Clear();
+        }
+
+        private CurrencyData FindCurrency(CurrencyType type)
+        {
+            if (currencyDatabase == null) return null;
+            foreach (CurrencyData cd in currencyDatabase)
+                if (cd != null && cd.type == type) return cd;
+            return null;
         }
 
         private void HideImmediate()

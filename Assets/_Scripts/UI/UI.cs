@@ -13,6 +13,7 @@ public class UI : MonoBehaviour
 
     [Header("Pause Panel Buttons")]
     [SerializeField] private Button continueButton;
+    [SerializeField] private Button fullRestartButton;
     [SerializeField] private Button exitButton;
 
     [Header("Final Panel Buttons")]
@@ -40,6 +41,9 @@ public class UI : MonoBehaviour
         if (continueButton != null)
             continueButton.onClick.AddListener(OnContinueClicked);
 
+        if (fullRestartButton != null)
+            fullRestartButton.onClick.AddListener(OnFullRestartClicked);
+
         if (exitButton != null)
             exitButton.onClick.AddListener(OnExitClicked);
 
@@ -62,6 +66,9 @@ public class UI : MonoBehaviour
         if (continueButton != null)
             continueButton.onClick.RemoveListener(OnContinueClicked);
 
+        if (fullRestartButton != null)
+            fullRestartButton.onClick.RemoveListener(OnFullRestartClicked);
+
         if (exitButton != null)
             exitButton.onClick.RemoveListener(OnExitClicked);
 
@@ -80,9 +87,21 @@ public class UI : MonoBehaviour
 
     private void OnRestartClicked()
     {
-        Time.timeScale = 1f;
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (G.main != null)
+            G.main.RestartCurrentRun();
+        else
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    private void OnFullRestartClicked()
+    {
+        if (G.main != null)
+            G.main.ResetGameToInitialState();
+        else
+            GameResetUtility.ResetAllProgressAndReload();
     }
 
     internal void SetPausePanel(bool active)

@@ -22,12 +22,21 @@ namespace GridSkillTree
 
             if (runtime != null)
                 runtime.OnTreeChanged += Refresh;
+
+            CurrencyManager.OnCurrencyChanged += HandleCurrencyChanged;
         }
 
         private void OnDestroy()
         {
             if (runtime != null)
                 runtime.OnTreeChanged -= Refresh;
+
+            CurrencyManager.OnCurrencyChanged -= HandleCurrencyChanged;
+        }
+
+        private void HandleCurrencyChanged(CurrencyType type, int total)
+        {
+            Refresh();
         }
 
         public void Build()

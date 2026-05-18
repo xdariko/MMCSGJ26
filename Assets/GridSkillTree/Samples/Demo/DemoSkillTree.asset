@@ -21,11 +21,17 @@ MonoBehaviour:
     icon: {fileID: 0}
     previousNodeIds: []
     maxLevel: 3
-    baseCost: 1
-    costFormula: 1
-    effectType: 2
-    baseValue: 5
+    costs:
+    - currency: 1
+      baseAmount: 1
+      formula: 0
+    effectType: 3
+    baseValue: 1
     growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
   - id: firerate_01
     title: Fast Trigger
     description: Shoot faster.
@@ -34,21 +40,48 @@ MonoBehaviour:
     previousNodeIds:
     - damage_01
     maxLevel: 3
-    baseCost: 2
-    costFormula: 1
+    costs: []
     effectType: 3
     baseValue: 5
     growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
   - id: movespeed_01
     title: Light Boots
     description: Move faster.
     gridPosition: {x: 0, y: 1}
-    icon: {fileID: 0}
+    icon: {fileID: 9083969447635318612, guid: f9a84c368e1ecbd468d04970c411adf3, type: 3}
     previousNodeIds:
     - damage_01
     maxLevel: 2
-    baseCost: 2
-    costFormula: 1
-    effectType: 4
+    costs:
+    - currency: 1
+      baseAmount: 1
+      formula: 0
+    effectType: 1
     baseValue: 4
     growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: skill
+    title: New Skill
+    description: Skill description.
+    gridPosition: {x: 1, y: 1}
+    icon: {fileID: 0}
+    previousNodeIds: []
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 1
+      formula: 0
+    effectType: 0
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
