@@ -8,8 +8,7 @@ public class WaveDirector : MonoBehaviour
     [SerializeField] private SpawnArea area;
 
     private float spawnTimer;
-
-    private Dictionary<GameObject, int> alive = new();
+    private readonly Dictionary<GameObject, int> alive = new();
 
     public event Action OnWaveComplete;
 
@@ -41,23 +40,35 @@ public class WaveDirector : MonoBehaviour
         alive.Clear();
         enabled = true;
 
-        BossProgress.Reset(newWave.xpToSpawnBoss);
+        if (wave != null)
+            BossProgress.Reset(wave.xpToSpawnBoss);
+
         InitWave();
     }
 
     private void InitWave()
     {
-        if (wave == null) return;
+        if (wave == null)
+            return;
 
-        foreach (var e in wave.enemies)
-            alive[e.prefab] = 0;
+        alive.Clear();
+
+        if (wave.enemies != null)
+        {
+            foreach (EnemyWaveEntry e in wave.enemies)
+            {
+                if (e != null && e.prefab != null)
+                    alive[e.prefab] = 0;
+            }
+        }
 
         spawnTimer = GetNextTime();
     }
 
     private void Update()
     {
-        if (wave == null) return;
+        if (wave == null)
+            return;
 
         spawnTimer -= Time.deltaTime;
 
@@ -70,14 +81,43 @@ public class WaveDirector : MonoBehaviour
 
     private void SpawnBoss()
     {
-        if (wave == null || wave.bossPrefab == null || area == null) return;
+        if (wave == null || wave.bossPrefab == null)
+            return;
 
-        Vector2 pos = area.GetRandomPointOutside();
+        Vector2 pos = area != null
+            ? area.GetRandomPointOutside()
+            : GetRandomPointOutsideCamera();
+
         GameObject boss = Instantiate(wave.bossPrefab, pos, Quaternion.identity);
 
         EnemyHealth bossHealth = boss.GetComponent<EnemyHealth>();
         if (bossHealth != null)
+        {
             bossHealth.SetBoss(true);
+            bossHealth.SetWavePrefab(wave.bossPrefab);
+        }
+    }
+
+    private Vector2 GetRandomPointOutsideCamera()
+    {
+        Camera cam = Camera.main;
+        if (cam == null)
+            return Vector2.zero;
+
+        float verticalSize = cam.orthographicSize;
+        float horizontalSize = verticalSize * cam.aspect;
+        Vector2 center = cam.transform.position;
+
+        const float offset = 1.5f;
+        int side = UnityEngine.Random.Range(0, 4);
+
+        return side switch
+        {
+            0 => new Vector2(center.x - horizontalSize - offset, UnityEngine.Random.Range(center.y - verticalSize, center.y + verticalSize)),
+            1 => new Vector2(center.x + horizontalSize + offset, UnityEngine.Random.Range(center.y - verticalSize, center.y + verticalSize)),
+            2 => new Vector2(UnityEngine.Random.Range(center.x - horizontalSize, center.x + horizontalSize), center.y + verticalSize + offset),
+            _ => new Vector2(UnityEngine.Random.Range(center.x - horizontalSize, center.x + horizontalSize), center.y - verticalSize - offset),
+        };
     }
 
     private void HandleBossDefeated()
@@ -88,6 +128,9 @@ public class WaveDirector : MonoBehaviour
 
     private float GetNextTime()
     {
+        if (wave == null)
+            return 1f;
+
         return UnityEngine.Random.Range(
             wave.spawnInterval.x,
             wave.spawnInterval.y
@@ -98,8 +141,11 @@ public class WaveDirector : MonoBehaviour
     {
         EnemyWaveEntry entry = GetWeightedEnemy();
 
-        if (entry == null)
+        if (entry == null || entry.prefab == null)
             return;
+
+        if (!alive.ContainsKey(entry.prefab))
+            alive[entry.prefab] = 0;
 
         if (alive[entry.prefab] >= entry.maxAlive)
             return;
@@ -109,17 +155,28 @@ public class WaveDirector : MonoBehaviour
 
     private EnemyWaveEntry GetWeightedEnemy()
     {
+        if (wave == null || wave.enemies == null || wave.enemies.Length == 0)
+            return null;
+
         float total = 0f;
 
-        foreach (var e in wave.enemies)
-            total += e.spawnWeight;
+        foreach (EnemyWaveEntry e in wave.enemies)
+        {
+            if (e != null && e.prefab != null)
+                total += e.spawnWeight;
+        }
+
+        if (total <= 0f)
+            return null;
 
         float r = UnityEngine.Random.value * total;
-
         float sum = 0f;
 
-        foreach (var e in wave.enemies)
+        foreach (EnemyWaveEntry e in wave.enemies)
         {
+            if (e == null || e.prefab == null)
+                continue;
+
             sum += e.spawnWeight;
             if (r <= sum)
                 return e;
@@ -135,21 +192,27 @@ public class WaveDirector : MonoBehaviour
                 ? area.GetRandomPointInside()
                 : area.GetRandomPointOutside();
 
-        GameObject enemy =
-            Instantiate(e.prefab, pos, Quaternion.identity);
+        GameObject enemy = Instantiate(e.prefab, pos, Quaternion.identity);
 
         EnemyHealth hp = enemy.GetComponent<EnemyHealth>();
         if (hp != null)
+        {
             hp.SetXP(e.xp);
+            hp.SetBoss(false);
+            hp.SetWavePrefab(e.prefab);
+        }
 
         alive[e.prefab]++;
     }
 
     public void NotifyDeath(GameObject prefab)
     {
+        if (prefab == null)
+            return;
+
         if (!alive.ContainsKey(prefab))
             return;
 
-        alive[prefab]--;
+        alive[prefab] = Mathf.Max(0, alive[prefab] - 1);
     }
 }

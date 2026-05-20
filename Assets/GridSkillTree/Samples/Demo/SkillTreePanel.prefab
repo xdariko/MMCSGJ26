@@ -250,8 +250,8 @@ MonoBehaviour:
   costEntryPrefab: {fileID: 3894794121155923142, guid: 1ee9ad93fe1ba054984f9f5327e05ae5, type: 3}
   currencyDatabase:
   - {fileID: 11400000, guid: 5e8c6002c51724149a784dc9f66b3a20, type: 2}
-  verticalOffset: 10
-  popupScale: 1.08
+  verticalOffset: 30
+  popupScale: 1.04
   appearDuration: 0.12
   shakeStrength: 8
   shakeVibrato: 12

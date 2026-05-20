@@ -13,7 +13,12 @@ namespace GridSkillTree
         UnlockCurrency,
         CurrencyDropPercent,
         PassiveCurrency,
-        InvincibilityDuration
+        InvincibilityDuration,
+        UnlockBombs,
+        BombExplosionRadius,
+        BombDamage,
+        BombSpawnIntervalReduction,
+        UnlockSprint
     }
 
     public enum CostFormulaType

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,7 +11,6 @@ public class Main : MonoBehaviour
     [Header("Levels")]
     [SerializeField] private LevelDatabase levelDatabase;
 
-    private float impTimer;
     private float passiveCurrencyTimer;
 
     private void Awake()
@@ -52,33 +50,45 @@ public class Main : MonoBehaviour
             G.waveDirector.OnWaveComplete -= OnLevelComplete;
 
         LevelProgress.CompleteCurrentLevel();
-        ClearEnemies();
 
         bool wasLastLevel = levelDatabase != null
             && LevelProgress.SelectedLevel >= levelDatabase.levels.Length - 1;
+
+        EndCurrentRunCleanup();
 
         if (wasLastLevel)
         {
             if (G.ui != null)
                 G.ui.SetFinalPanel(true);
+
+            return;
         }
+
+        LevelProgress.SelectedLevel = LevelProgress.UnlockedLevel;
+
+        if (G.ui != null)
+            G.ui.ShowVictoryPanel();
         else
-        {
-            LevelProgress.SelectedLevel = LevelProgress.UnlockedLevel;
             ShowSkillTree();
-        }
     }
 
     private void Update()
     {
-        if (G.IsPlayerDead) return;
+        HandlePauseInput();
+
+        if (G.IsPlayerDead)
+            return;
 
         ProcessPassiveCurrencyRewards();
+    }
 
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
+    private void HandlePauseInput()
+    {
+        if (Keyboard.current == null)
+            return;
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
             TogglePause();
-        }
     }
 
     private void ProcessPassiveCurrencyRewards()
@@ -122,18 +132,31 @@ public class Main : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        if (G.IsPlayerDead) return;
+        if (G.IsPlayerDead)
+            return;
+
+        EndCurrentRunCleanup();
+
+        if (G.ui != null)
+            G.ui.ShowDeathPanel();
+    }
+
+    private void EndCurrentRunCleanup()
+    {
         G.IsPlayerDead = true;
+        G.IsPaused = false;
+        Time.timeScale = 1f;
 
         if (G.waveDirector != null)
             G.waveDirector.OnWaveComplete -= OnLevelComplete;
 
         StopSpawners();
-        ClearEnemies();
-        DestroyPlayer();
 
-        if (G.ui != null)
-            G.ui.ShowDeathPanel();
+        ClearEnemies();
+        ClearObjectsWithTag("Projectile");
+        ClearObjectsWithTag("Orb");
+
+        DestroyPlayer();
     }
 
     private void ShowSkillTree()
@@ -144,31 +167,58 @@ public class Main : MonoBehaviour
 
     public void StartNewRun()
     {
+        // New run after skill tree / death panel / victory panel.
+        // Keeps long-term progress and skill tree purchases,
+        // but cleans the scene and resets per-run state.
         if (G.ui != null)
+        {
             G.ui.HideSkillTreePanel();
+            G.ui.HideRunResultPanel();
+        }
 
         Time.timeScale = 1f;
         G.ResetRuntimeFlags();
         passiveCurrencyTimer = 0f;
 
         ClearEnemies();
+        ClearObjectsWithTag("Projectile");
+        ClearObjectsWithTag("Orb");
+        DestroyPlayer();
+
+        PlayerStats.ResetBaseStats();
         CurrencyManager.ResetRunCollected();
+
         EnsurePlayerSpawnedAtScreenCenter();
         LoadSelectedLevel();
     }
 
+    // This is the REAL New Game button logic.
+    // It wipes all progress: currencies, level progress, skill tree PlayerPrefs,
+    // runtime bonuses and base stat cache, then reloads the scene cleanly.
     public void RestartCurrentRun()
     {
-        if (G.ui != null)
-            G.ui.HideSkillTreePanel();
-
-        Time.timeScale = 1f;
-        G.IsPaused = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        ResetGameToInitialState();
     }
 
     public void ResetGameToInitialState()
     {
+        // REAL New Game: wipe absolutely everything and reload.
+        Time.timeScale = 1f;
+        G.ResetRuntimeFlags();
+
+        if (G.ui != null)
+        {
+            G.ui.HideSkillTreePanel();
+            G.ui.HideRunResultPanel();
+        }
+
+        StopSpawners();
+        ClearEnemies();
+        ClearObjectsWithTag("Projectile");
+        ClearObjectsWithTag("Orb");
+        DestroyPlayer();
+
+        passiveCurrencyTimer = 0f;
         GameResetUtility.ResetAllProgressAndReload();
     }
 
@@ -235,8 +285,17 @@ public class Main : MonoBehaviour
 
     private void ClearEnemies()
     {
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (var e in enemies)
-            Destroy(e);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+            Destroy(enemy);
+    }
+
+    private void ClearObjectsWithTag(string tag)
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+
+        foreach (GameObject obj in objects)
+            Destroy(obj);
     }
 }

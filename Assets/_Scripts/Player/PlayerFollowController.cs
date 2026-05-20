@@ -19,6 +19,9 @@ public class PlayerFollowController : MonoBehaviour
     [SerializeField] private float floatAmplitude = 0.12f;
     [SerializeField] private float floatDuration = 1.2f;
 
+    [Header("Sprint")]
+    [SerializeField] private bool sprintWithLeftMouse = true;
+
     [SerializeField] private float screenPadding = 1f;
 
     private Rigidbody2D rb;
@@ -77,7 +80,7 @@ public class PlayerFollowController : MonoBehaviour
         direction.Normalize();
 
         Vector2 targetVelocity =
-            direction * PlayerStats.MoveSpeed;
+            direction * GetCurrentMoveSpeed();
 
         currentVelocity = Vector2.Lerp(
             currentVelocity,
@@ -93,6 +96,22 @@ public class PlayerFollowController : MonoBehaviour
         rb.MovePosition(nextPosition);
 
         HandleVisual(direction);
+    }
+
+    private float GetCurrentMoveSpeed()
+    {
+        if (!PlayerStats.SprintUnlocked)
+            return PlayerStats.MoveSpeed;
+
+        if (!sprintWithLeftMouse)
+            return PlayerStats.MoveSpeed;
+
+        if (Mouse.current == null)
+            return PlayerStats.MoveSpeed;
+
+        return Mouse.current.leftButton.isPressed
+            ? PlayerStats.SprintMoveSpeed
+            : PlayerStats.MoveSpeed;
     }
 
     private void HandleVisual(Vector2 direction)

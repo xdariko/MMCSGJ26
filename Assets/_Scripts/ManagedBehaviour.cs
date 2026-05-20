@@ -82,7 +82,16 @@ public static class PlayerStats
     public static float PassiveCurrencyIntervalSeconds = 3f;
     public static float BonusInvincibilityDuration;
 
+    public static bool BombsUnlocked;
+    public static float BombSpawnInterval = 3f;
+    public static float BombExplosionRadius = 2f;
+    public static float BombDamage = 5f;
+
+    public static bool SprintUnlocked;
+    public static float SprintMoveSpeedMultiplier = 3f;
+
     public static float MoveSpeed => BaseMoveSpeed * (1f + BonusMoveSpeedPercent);
+    public static float SprintMoveSpeed => MoveSpeed * SprintMoveSpeedMultiplier;
     public static float Damage => BaseDamage + BonusDamageFlat;
     public static int BeamCount => BaseBeamCount + BonusBeamCount;
     public static float PickupRadius => BasePickupRadius + BonusPickupRadius;
@@ -118,8 +127,6 @@ public static class PlayerStats
         return Mathf.Max(1, Mathf.RoundToInt(baseAmount * GetCurrencyDropMultiplier(currencyType)));
     }
 
-
-
     public static void AddPassiveCurrencyReward(CurrencyType currencyType, int amount, float intervalSeconds)
     {
         if (currencyType == CurrencyType.None || amount <= 0)
@@ -149,6 +156,55 @@ public static class PlayerStats
         return Mathf.Max(0f, baseDuration + BonusInvincibilityDuration);
     }
 
+    public static void UnlockBombs()
+    {
+        BombsUnlocked = true;
+    }
+
+    public static void AddBombExplosionRadius(float amount)
+    {
+        BombExplosionRadius = Mathf.Max(0.1f, BombExplosionRadius + amount);
+    }
+
+    public static void AddBombDamage(float amount)
+    {
+        BombDamage = Mathf.Max(0f, BombDamage + amount);
+    }
+
+    public static void AddBombSpawnIntervalReduction(float amount)
+    {
+        BombSpawnInterval = Mathf.Max(0.25f, BombSpawnInterval - amount);
+    }
+
+    public static void ResetBombStats()
+    {
+        BombsUnlocked = false;
+        BombSpawnInterval = 3f;
+        BombExplosionRadius = 2f;
+        BombDamage = 5f;
+    }
+
+    public static void UnlockSprint()
+    {
+        SprintUnlocked = true;
+    }
+
+    public static void ResetSprintStats()
+    {
+        SprintUnlocked = false;
+        SprintMoveSpeedMultiplier = 2f;
+    }
+
+    public static void ResetBaseStats()
+    {
+        BaseMoveSpeed = 0f;
+        BaseDamage = 0f;
+        BaseBeamCount = 0;
+        BasePickupRadius = 0f;
+        BaseStabilityDecay = 0f;
+        BaseCritChance = 0f;
+        BaseCritMultiplier = 2f;
+    }
 
     public static void ResetBonuses()
     {
@@ -163,6 +219,8 @@ public static class PlayerStats
         PassiveCurrencyIntervalSeconds = 3f;
         CurrencyDropBonusPercent.Clear();
         PassiveCurrencyAmounts.Clear();
+        ResetBombStats();
+        ResetSprintStats();
     }
 }
 
@@ -173,9 +231,6 @@ public static class GameResetUtility
     {
         ResetAllRuntimeState();
 
-        // Full wipe is intentional here: this is the hard restart button,
-        // so saved currencies, unlocked levels, skill tree progress and other
-        // PlayerPrefs-based progress all return to the initial state.
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
 
@@ -187,8 +242,13 @@ public static class GameResetUtility
     {
         G.ResetRuntimeFlags();
         LevelProgress.Reset();
+
         PlayerStats.ResetBonuses();
-        TryResetCurrencyManager();
+        PlayerStats.ResetBaseStats();
+
+        // Do not rely only on reflection here. This project has CurrencyManager,
+        // so call the real reset directly to clear both total wallet and run-collected values.
+        CurrencyManager.ResetAll();
     }
 
     private static void TryResetCurrencyManager()
@@ -258,5 +318,3 @@ public class ManagedBehaviour : MonoBehaviour
     protected virtual void PausableUpdate() { }
     protected virtual void PausableFixedUpdate() { }
 }
-
-

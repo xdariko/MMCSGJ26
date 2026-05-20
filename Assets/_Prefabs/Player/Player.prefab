@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6637253130702286495}
   - component: {fileID: 2332652038355534857}
   - component: {fileID: 360305988568955451}
+  - component: {fileID: 4244249015476217351}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -229,6 +230,20 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &4244249015476217351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3857076454455106422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45fce89a25364cc4f9974476d23ad8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBombSpawner
+  bombPrefab: {fileID: 4320051507452821668, guid: f1cb85efe58856b4f9685d52e5193970, type: 3}
+  spawnRadius: 3
 --- !u!1 &4510366977369974081
 GameObject:
   m_ObjectHideFlags: 0

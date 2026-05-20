@@ -14,10 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveConfig
   spawnInterval: {x: 0.5, y: 2}
   enemies:
-  - prefab: {fileID: 4118023629835845846, guid: 49696326fbda9fe4189bd02860f98ede, type: 3}
+  - prefab: {fileID: 902383136821581742, guid: 97bf1c4839ad1df4a9d158b82fd24967, type: 3}
+    spawnType: 1
+    maxAlive: 20
+    spawnWeight: 1
+    xp: 1
+  - prefab: {fileID: 902383136821581742, guid: 6a28cc4eaf235bb44b802dfc9f696a3f, type: 3}
     spawnType: 1
     maxAlive: 10
-    spawnWeight: 0.25
+    spawnWeight: 1
     xp: 1
-  bossPrefab: {fileID: 6095627960859033951, guid: 08a5886393b9bdb4d874e4820c6f1e68, type: 3}
-  xpToSpawnBoss: 20
+  - prefab: {fileID: 902383136821581742, guid: e9b02ce635a5366419870654a4663dd1, type: 3}
+    spawnType: 1
+    maxAlive: 3
+    spawnWeight: 0.25
+    xp: 2
+  - prefab: {fileID: 902383136821581742, guid: c4a7c2632f0834941b26a9277b2739f1, type: 3}
+    spawnType: 1
+    maxAlive: 3
+    spawnWeight: 0.25
+    xp: 3
+  bossPrefab: {fileID: 902383136821581742, guid: 4e2d42386e610f94dafc8276f2b9c63f, type: 3}
+  xpToSpawnBoss: 30

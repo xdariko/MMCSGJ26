@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Basic Currency Data
   m_EditorClassIdentifier: Assembly-CSharp::CurrencyData
   type: 1
-  displayName: "\u0432\u0430\u043B\u044E\u0442\u0430 1"
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  color: {r: 1, g: 0.9160187, b: 0, a: 1}
+  displayName: 1
+  icon: {fileID: 21300000, guid: a8e86a2664adf9548840325ca99c6d6a, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}

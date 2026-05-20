@@ -47,3 +47,5 @@ public static class BossProgress
         OnBossDefeated?.Invoke();
     }
 }
+
+

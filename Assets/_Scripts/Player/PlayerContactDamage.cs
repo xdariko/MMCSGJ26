@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerContactDamage : MonoBehaviour
@@ -16,6 +17,8 @@ public class PlayerContactDamage : MonoBehaviour
     private PlayerStabilitySystem stability;
     private bool isShielded;
 
+    private readonly HashSet<Collider2D> touchingEnemies = new();
+
     private void Awake()
     {
         stability = GetComponent<PlayerStabilitySystem>();
@@ -23,8 +26,38 @@ public class PlayerContactDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isShielded) return;
-        if (other.CompareTag("Enemy") == false) return;
+        if (!IsEnemyCollider(other))
+            return;
+
+        touchingEnemies.Add(other);
+        TryTakeContactDamage();
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!IsEnemyCollider(other))
+            return;
+
+        touchingEnemies.Remove(other);
+    }
+
+    private bool IsEnemyCollider(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+            return true;
+
+        return other.GetComponentInParent<EnemyHealth>() != null;
+    }
+
+    private void TryTakeContactDamage()
+    {
+        if (isShielded)
+            return;
+
+        CleanupDestroyedEnemies();
+
+        if (touchingEnemies.Count == 0)
+            return;
 
         stability.RemoveStability(contactDamage);
         StartCoroutine(ShieldRoutine());
@@ -42,6 +75,7 @@ public class PlayerContactDamage : MonoBehaviour
         while (elapsed < duration)
         {
             visible = !visible;
+
             if (spriteRenderer != null)
                 spriteRenderer.enabled = visible;
 
@@ -53,5 +87,13 @@ public class PlayerContactDamage : MonoBehaviour
             spriteRenderer.enabled = true;
 
         isShielded = false;
+
+        CleanupDestroyedEnemies();
+        TryTakeContactDamage();
+    }
+
+    private void CleanupDestroyedEnemies()
+    {
+        touchingEnemies.RemoveWhere(enemy => enemy == null);
     }
 }

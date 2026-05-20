@@ -51,7 +51,20 @@ public class PlayerSpellCaster : MonoBehaviour
         foreach (Collider2D hit in hits)
         {
             EnemyHealth enemy = hit.GetComponent<EnemyHealth>();
-            if (enemy != null)
+
+            if (enemy == null)
+                enemy = hit.GetComponentInParent<EnemyHealth>();
+
+            if (enemy == null)
+                continue;
+
+            if (enemy.IsDead)
+                continue;
+
+            if (enemy.IsInvulnerable)
+                continue;
+
+            if (!candidates.Contains(enemy))
                 candidates.Add(enemy);
         }
 
@@ -67,12 +80,16 @@ public class PlayerSpellCaster : MonoBehaviour
 
         for (int i = currentTargets.Count - 1; i >= 0; i--)
         {
-            if (currentTargets[i] == null || !candidates.Contains(currentTargets[i]))
+            if (currentTargets[i] == null ||
+                currentTargets[i].IsDead ||
+                currentTargets[i].IsInvulnerable ||
+                !candidates.Contains(currentTargets[i]))
             {
                 if (i < currentBeams.Count && currentBeams[i] != null)
                     Destroy(currentBeams[i].gameObject);
 
                 currentTargets.RemoveAt(i);
+
                 if (i < currentBeams.Count)
                     currentBeams.RemoveAt(i);
             }
@@ -107,7 +124,14 @@ public class PlayerSpellCaster : MonoBehaviour
 
         foreach (EnemyHealth target in currentTargets)
         {
-            if (target == null) continue;
+            if (target == null)
+                continue;
+
+            if (target.IsDead)
+                continue;
+
+            if (target.IsInvulnerable)
+                continue;
 
             bool isCrit = Random.value < PlayerStats.CritChance;
             float dmg = isCrit ? baseDmg * PlayerStats.CritMultiplier : baseDmg;

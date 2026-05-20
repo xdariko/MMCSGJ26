@@ -66,4 +66,21 @@ public static class CurrencyManager
     {
         runCollected.Clear();
     }
+
+    public static void ResetAll()
+    {
+        totalBalance.Clear();
+        runCollected.Clear();
+
+        unlocked.Clear();
+        unlocked.Add(CurrencyType.Basic);
+
+        foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
+        {
+            if (type == CurrencyType.None)
+                continue;
+
+            OnCurrencyChanged?.Invoke(type, 0);
+        }
+    }
 }

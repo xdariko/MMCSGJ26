@@ -31,6 +31,7 @@ public class OrbProjectile : MonoBehaviour
         flyTime = lifetime - spawnDuration;
 
         transform.localScale = Vector3.zero;
+
         transform.DOScale(Vector3.one, spawnDuration)
             .SetEase(Ease.OutBack)
             .OnComplete(() => launched = true);
@@ -38,11 +39,13 @@ public class OrbProjectile : MonoBehaviour
 
     private void Update()
     {
-        if (!launched || dying) return;
+        if (!launched || dying)
+            return;
 
         age += Time.deltaTime;
 
-        float slowdownStart = flyTime * (1f - slowdownPortion);
+        float slowdownStart =
+            flyTime * (1f - slowdownPortion);
 
         if (age >= flyTime)
         {
@@ -52,12 +55,16 @@ public class OrbProjectile : MonoBehaviour
             transform.DOScale(Vector3.zero, lingerTime)
                 .SetEase(Ease.InQuad)
                 .OnComplete(() => Destroy(gameObject));
+
             return;
         }
 
         if (age > slowdownStart)
         {
-            float t = (age - slowdownStart) / (flyTime - slowdownStart);
+            float t =
+                (age - slowdownStart) /
+                (flyTime - slowdownStart);
+
             currentSpeed = Mathf.Lerp(speed, 0f, t);
         }
 
@@ -73,22 +80,50 @@ public class OrbProjectile : MonoBehaviour
         if (stability == null)
             return;
 
-        ApplyEffect(stability);
+        ApplyEffects(stability);
 
         Destroy(gameObject);
     }
 
+    private void ApplyEffects(PlayerStabilitySystem stability)
+    {
+        if (data == null || data.effects == null)
+            return;
+
+        foreach (OrbEffect effect in data.effects)
+        {
+            if (effect == null)
+                continue;
+
+            ApplyEffect(effect, stability);
+        }
+    }
+
     private void ApplyEffect(
+        OrbEffect effect,
         PlayerStabilitySystem stability)
     {
-        switch (data.effectType)
+        switch (effect.effectType)
         {
             case OrbEffectType.Stability:
-                stability.AddStability(data.value);
+                stability.AddStability(effect.value);
+                break;
+
+            case OrbEffectType.Currency:
+                int baseAmount = Mathf.RoundToInt(effect.value);
+                int finalAmount =
+                    PlayerStats.ApplyCurrencyDropMultiplier(
+                        effect.currencyType,
+                        baseAmount);
+
+                CurrencyManager.Add(
+                    effect.currencyType,
+                    finalAmount);
+
                 break;
 
             case OrbEffectType.Instability:
-                stability.RemoveStability(data.value);
+                stability.RemoveStability(effect.value);
                 break;
         }
     }

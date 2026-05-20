@@ -250,6 +250,21 @@ namespace GridSkillTree
                 case SkillEffectType.InvincibilityDuration:
                     PlayerStats.BonusInvincibilityDuration += delta;
                     break;
+                case SkillEffectType.UnlockBombs:
+                    PlayerStats.UnlockBombs();
+                    break;
+                case SkillEffectType.BombExplosionRadius:
+                    PlayerStats.AddBombExplosionRadius(delta);
+                    break;
+                case SkillEffectType.BombDamage:
+                    PlayerStats.AddBombDamage(delta);
+                    break;
+                case SkillEffectType.BombSpawnIntervalReduction:
+                    PlayerStats.AddBombSpawnIntervalReduction(delta);
+                    break;
+                case SkillEffectType.UnlockSprint:
+                    PlayerStats.UnlockSprint();
+                    break;
             }
         }
     }

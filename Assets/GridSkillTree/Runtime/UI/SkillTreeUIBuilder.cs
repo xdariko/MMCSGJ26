@@ -146,7 +146,7 @@ namespace GridSkillTree
         private Vector2 GridToUIPosition(Vector2Int gridPosition)
         {
             float x = gridPosition.x * (config.cellSize.x + config.spacing.x);
-            float y = -gridPosition.y * (config.cellSize.y + config.spacing.y);
+            float y = gridPosition.y * (config.cellSize.y + config.spacing.y);
 
             return new Vector2(x, y);
         }

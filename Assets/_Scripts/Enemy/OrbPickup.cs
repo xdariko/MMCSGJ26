@@ -33,10 +33,9 @@ public class OrbPickup : MonoBehaviour
             target.position,
             data.attractSpeed * Time.deltaTime);
 
-        float distance =
-            Vector2.Distance(
-                transform.position,
-                target.position);
+        float distance = Vector2.Distance(
+            transform.position,
+            target.position);
 
         if (distance <= collectDistance)
         {
@@ -44,9 +43,7 @@ public class OrbPickup : MonoBehaviour
                 target.GetComponent<PlayerStabilitySystem>();
 
             if (stability != null)
-            {
                 Collect(stability);
-            }
         }
     }
 
@@ -62,25 +59,42 @@ public class OrbPickup : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void ApplyEffects(
+    private void ApplyEffects(PlayerStabilitySystem stability)
+    {
+        if (data == null || data.effects == null)
+            return;
+
+        foreach (OrbEffect effect in data.effects)
+        {
+            if (effect == null)
+                continue;
+
+            ApplyEffect(effect, stability);
+        }
+    }
+
+    private void ApplyEffect(
+        OrbEffect effect,
         PlayerStabilitySystem stability)
     {
-        switch (data.effectType)
+        switch (effect.effectType)
         {
             case OrbEffectType.Stability:
-                stability.AddStability(data.value);
+                stability.AddStability(effect.value);
                 break;
 
             case OrbEffectType.Currency:
-                int baseAmount = Mathf.RoundToInt(data.value);
-                int finalAmount = PlayerStats.ApplyCurrencyDropMultiplier(data.currencyType, baseAmount);
-                CurrencyManager.Add(data.currencyType, finalAmount);
+                int baseAmount = Mathf.RoundToInt(effect.value);
+                int finalAmount = PlayerStats.ApplyCurrencyDropMultiplier(
+                    effect.currencyType,
+                    baseAmount);
+
+                CurrencyManager.Add(effect.currencyType, finalAmount);
                 break;
 
             case OrbEffectType.Instability:
-                stability.RemoveStability(data.value);
+                stability.RemoveStability(effect.value);
                 break;
         }
     }
 }
-

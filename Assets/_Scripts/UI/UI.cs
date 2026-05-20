@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class UI : MonoBehaviour
 {
@@ -10,17 +9,17 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject skillTreePanel;
     [SerializeField] private DeathPanelUI deathPanel;
 
-
     [Header("Pause Panel Buttons")]
     [SerializeField] private Button continueButton;
-    [SerializeField] private Button fullRestartButton;
+
+    [FormerlySerializedAs("fullRestartButton")]
+    [SerializeField] private Button newGameButton;
+
     [SerializeField] private Button exitButton;
 
     [Header("Final Panel Buttons")]
     [SerializeField] private Button restartButton;
     [SerializeField] private Button finalExitButton;
-
-
 
     private void Awake()
     {
@@ -41,8 +40,8 @@ public class UI : MonoBehaviour
         if (continueButton != null)
             continueButton.onClick.AddListener(OnContinueClicked);
 
-        if (fullRestartButton != null)
-            fullRestartButton.onClick.AddListener(OnFullRestartClicked);
+        if (newGameButton != null)
+            newGameButton.onClick.AddListener(OnNewGameClicked);
 
         if (exitButton != null)
             exitButton.onClick.AddListener(OnExitClicked);
@@ -52,13 +51,6 @@ public class UI : MonoBehaviour
 
         if (finalExitButton != null)
             finalExitButton.onClick.AddListener(OnExitClicked);
-
-    }
-
-    private void OnContinueClicked()
-    {
-        if (G.main != null)
-            G.main.ResumeGame();
     }
 
     private void OnDestroy()
@@ -66,8 +58,8 @@ public class UI : MonoBehaviour
         if (continueButton != null)
             continueButton.onClick.RemoveListener(OnContinueClicked);
 
-        if (fullRestartButton != null)
-            fullRestartButton.onClick.RemoveListener(OnFullRestartClicked);
+        if (newGameButton != null)
+            newGameButton.onClick.RemoveListener(OnNewGameClicked);
 
         if (exitButton != null)
             exitButton.onClick.RemoveListener(OnExitClicked);
@@ -77,31 +69,31 @@ public class UI : MonoBehaviour
 
         if (finalExitButton != null)
             finalExitButton.onClick.RemoveListener(OnExitClicked);
-
     }
 
-    private void OnExitClicked()
+    private void OnContinueClicked()
     {
-        Application.Quit();
+        if (G.main != null)
+            G.main.ResumeGame();
     }
 
     private void OnRestartClicked()
     {
-        if (G.main != null)
-            G.main.RestartCurrentRun();
-        else
-        {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
+        // Final panel restart is also a clean New Game.
+        OnNewGameClicked();
     }
 
-    private void OnFullRestartClicked()
+    private void OnNewGameClicked()
     {
         if (G.main != null)
             G.main.ResetGameToInitialState();
         else
             GameResetUtility.ResetAllProgressAndReload();
+    }
+
+    private void OnExitClicked()
+    {
+        Application.Quit();
     }
 
     internal void SetPausePanel(bool active)
@@ -130,16 +122,27 @@ public class UI : MonoBehaviour
             skillTreePanel.SetActive(true);
     }
 
-    public void ShowDeathPanel()
-    {
-        if (deathPanel != null)
-            deathPanel.Show();
-    }
-
     public void HideSkillTreePanel()
     {
         if (skillTreePanel != null)
             skillTreePanel.SetActive(false);
     }
 
+    public void ShowDeathPanel()
+    {
+        if (deathPanel != null)
+            deathPanel.ShowDeath();
+    }
+
+    public void ShowVictoryPanel()
+    {
+        if (deathPanel != null)
+            deathPanel.ShowVictory();
+    }
+
+    public void HideRunResultPanel()
+    {
+        if (deathPanel != null)
+            deathPanel.Hide();
+    }
 }

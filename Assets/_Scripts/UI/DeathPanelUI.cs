@@ -10,6 +10,9 @@ public class DeathPanelUI : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameObject panel;
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private string deathTitle = "Поражение";
+    [SerializeField] private string victoryTitle = "Победа";
     [SerializeField] private Transform entriesParent;
     [SerializeField] private GameObject entryPrefab;
     [SerializeField] private GameObject emptyLabel;
@@ -35,9 +38,28 @@ public class DeathPanelUI : MonoBehaviour
             continueButton.onClick.RemoveListener(OnContinueClicked);
     }
 
+    public void ShowDeath()
+    {
+        Show(deathTitle);
+    }
+
+    public void ShowVictory()
+    {
+        Show(victoryTitle);
+    }
+
     public void Show()
     {
-        if (panel == null) return;
+        Show(deathTitle);
+    }
+
+    private void Show(string title)
+    {
+        if (panel == null)
+            return;
+
+        if (titleText != null)
+            titleText.text = title;
 
         panel.SetActive(true);
         Populate();
@@ -45,7 +67,8 @@ public class DeathPanelUI : MonoBehaviour
 
     public void Hide()
     {
-        if (panel == null) return;
+        if (panel == null)
+            return;
 
         panel.SetActive(false);
         ClearEntries();
@@ -59,10 +82,12 @@ public class DeathPanelUI : MonoBehaviour
 
         foreach (CurrencyData data in currencyDatabase)
         {
-            if (data == null) continue;
+            if (data == null)
+                continue;
 
             int collected = CurrencyManager.GetRunCollected(data.type);
-            if (collected <= 0) continue;
+            if (collected <= 0)
+                continue;
 
             anyCollected = true;
             SpawnEntry(data, collected);
@@ -74,7 +99,8 @@ public class DeathPanelUI : MonoBehaviour
 
     private void SpawnEntry(CurrencyData data, int amount)
     {
-        if (entryPrefab == null || entriesParent == null) return;
+        if (entryPrefab == null || entriesParent == null)
+            return;
 
         GameObject go = Instantiate(entryPrefab, entriesParent);
         go.SetActive(true);
@@ -95,7 +121,10 @@ public class DeathPanelUI : MonoBehaviour
     private void ClearEntries()
     {
         foreach (GameObject go in spawnedEntries)
-            if (go != null) Destroy(go);
+        {
+            if (go != null)
+                Destroy(go);
+        }
 
         spawnedEntries.Clear();
     }
@@ -108,3 +137,4 @@ public class DeathPanelUI : MonoBehaviour
             G.ui.ShowSkillTreePanel();
     }
 }
+

@@ -5,7 +5,15 @@ public class EnemyHealthVisual : MonoBehaviour
 {
     [Header("Mask")]
     [SerializeField] private Transform maskTransform;
-    [SerializeField] private Vector3 maskHideOffset = new(-1.5f, -1.5f, 0f);
+
+    [Header("Mask Positions")]
+    [SerializeField] private bool useManualPositions = true;
+
+    [Tooltip("Позиция маски при полном HP")]
+    [SerializeField] private Vector3 visibleLocalPosition;
+
+    [Tooltip("Позиция маски при 0 HP")]
+    [SerializeField] private Vector3 hiddenLocalPosition;
 
     [Header("Sprites")]
     [SerializeField] private SpriteRenderer bgRenderer;
@@ -18,7 +26,6 @@ public class EnemyHealthVisual : MonoBehaviour
 
     private EnemyHealth health;
     private Tween shakeTween;
-    private Vector3 maskStartPos;
 
     private static int orderCounter;
 
@@ -26,10 +33,18 @@ public class EnemyHealthVisual : MonoBehaviour
     {
         health = GetComponent<EnemyHealth>();
 
-        if (maskTransform != null)
-            maskStartPos = maskTransform.localPosition;
+        if (maskTransform != null && !useManualPositions)
+        {
+            visibleLocalPosition = maskTransform.localPosition;
+            hiddenLocalPosition = maskTransform.localPosition + new Vector3(-0.6f, -0.2f, 0f);
+        }
 
         IsolateMask();
+    }
+
+    private void Start()
+    {
+        UpdateMask(1f);
     }
 
     private void IsolateMask()
@@ -46,6 +61,7 @@ public class EnemyHealthVisual : MonoBehaviour
         if (maskTransform != null)
         {
             SpriteMask mask = maskTransform.GetComponent<SpriteMask>();
+
             if (mask != null)
             {
                 mask.isCustomRangeActive = true;
@@ -75,19 +91,28 @@ public class EnemyHealthVisual : MonoBehaviour
 
     private void UpdateMask(float ratio)
     {
-        if (maskTransform == null) return;
+        if (maskTransform == null)
+            return;
 
-        float t = 1f - Mathf.Clamp01(ratio);
-        maskTransform.localPosition = maskStartPos + maskHideOffset * t;
+        ratio = Mathf.Clamp01(ratio);
+
+        maskTransform.localPosition =
+            Vector3.Lerp(hiddenLocalPosition, visibleLocalPosition, ratio);
     }
 
     private void PlayShake()
     {
-        if (shakeTarget == null) return;
+        if (shakeTarget == null)
+            return;
 
         shakeTween?.Kill(true);
+
         shakeTween = shakeTarget
-            .DOShakePosition(shakeDuration, shakeStrength, vibrato: 20, fadeOut: true)
+            .DOShakePosition(
+                shakeDuration,
+                shakeStrength,
+                vibrato: 20,
+                fadeOut: true)
             .SetUpdate(true);
     }
 
@@ -95,4 +120,26 @@ public class EnemyHealthVisual : MonoBehaviour
     {
         shakeTween?.Kill();
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Use Current Position As Visible")]
+    private void UseCurrentAsVisible()
+    {
+        if (maskTransform != null)
+        {
+            visibleLocalPosition = maskTransform.localPosition;
+            useManualPositions = true;
+        }
+    }
+
+    [ContextMenu("Use Current Position As Hidden")]
+    private void UseCurrentAsHidden()
+    {
+        if (maskTransform != null)
+        {
+            hiddenLocalPosition = maskTransform.localPosition;
+            useManualPositions = true;
+        }
+    }
+#endif
 }

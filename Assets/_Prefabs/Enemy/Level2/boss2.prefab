@@ -27,8 +27,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 206813763729699764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,8 +81,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 4851455166573753226, guid: 9ec61dbcb68cc5e4c92356ae6f20648e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.25490198}
+  m_Sprite: {fileID: 21300000, guid: 9ec61dbcb68cc5e4c92356ae6f20648e, type: 3}
+  m_Color: {r: 0.3509434, g: 0.3509434, b: 0.3509434, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -103,13 +103,14 @@ GameObject:
   - component: {fileID: 1387533816184785896}
   - component: {fileID: 3090512295855857636}
   - component: {fileID: 222602781936902724}
-  - component: {fileID: 1254369556776070032}
   - component: {fileID: 95871430546822024}
   - component: {fileID: 142099318655730342}
   - component: {fileID: 8429150487513549063}
   - component: {fileID: 8846223850857315515}
+  - component: {fileID: 5499845656599614217}
+  - component: {fileID: 1086651878225718931}
   m_Layer: 6
-  m_Name: Enemy
+  m_Name: boss2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +126,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.363, y: 0.879, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8720202017473920456}
@@ -167,8 +168,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 1.1
+  m_Offset: {x: 0.17708683, y: -0.27999997}
+  m_Radius: 2.2921262
 --- !u!114 &3090512295855857636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d13babfa3e153b46973d87b0efb2400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 10
+  maxHealth: 20
   xpReward: 0
   isBoss: 0
   hitSounds: []
@@ -199,20 +200,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   waitTime: 0
---- !u!114 &1254369556776070032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902383136821581742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c690a3ce08764ba4086b4ca1777aa03c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LinearMovement
-  speed: 3
-  angleOffset: 25
 --- !u!114 &95871430546822024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +275,46 @@ SortingGroup:
   m_SortingOrder: 0
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
+--- !u!114 &5499845656599614217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902383136821581742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3854f993db5a72445b071cb9d8c1a572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossOppositeWaveShooter
+  projectilePrefab: {fileID: 2263549109149115506, guid: 54f3afa08b42db2499238c0825c345bb, type: 3}
+  cooldown: 1
+  attackDuration: 5
+  waitAfterAttack: 4
+  delayBetweenPairs: 0.3
+  angleStep: 20
+  clockwise: 1
+  aimFirstPairAtPlayer: 1
+  startAngle: 0
+  projectileSpawnOffset: 1.8
+--- !u!114 &1086651878225718931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902383136821581742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b5d5cae4fae2148a9ada069d70760d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossCenterEntry
+  centerPoint: {fileID: 0}
+  moveSpeed: 3
+  stopDistance: 0.08
+  scriptsToEnableAfterArrival: []
+  autoControlShooters: 1
+  disableEnemyMovementScripts: 1
 --- !u!1 &3032339113947578432
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,8 +341,8 @@ Transform:
   m_GameObject: {fileID: 3032339113947578432}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -4.7702, y: 1.7494, z: 0}
-  m_LocalScale: {x: 1.6449875, y: 0.82147205, z: 0.86}
+  m_LocalPosition: {x: -5.1464, y: 1.1746, z: 0}
+  m_LocalScale: {x: 1.7181633, y: 1.1282945, z: 0.86}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 206813763729699764}
@@ -406,8 +433,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 206813763729699764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -460,7 +487,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 1
-  m_Sprite: {fileID: 4851455166573753226, guid: 9ec61dbcb68cc5e4c92356ae6f20648e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ec61dbcb68cc5e4c92356ae6f20648e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

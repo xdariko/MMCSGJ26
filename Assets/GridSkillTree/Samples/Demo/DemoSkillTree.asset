@@ -25,7 +25,7 @@ MonoBehaviour:
     - currency: 1
       baseAmount: 1
       formula: 0
-    effectType: 3
+    effectType: 16
     baseValue: 1
     growthFormula: 1
     unlockCurrencyType: 0
