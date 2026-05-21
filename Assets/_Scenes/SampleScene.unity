@@ -4425,11 +4425,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_Pivot.x
-      value: 1.0969268
+      value: 0.66968507
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.43000445
+      value: 0.50034255
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4457,15 +4457,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.9135625
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.9135625
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.9135625
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4497,11 +4497,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1790.7804
+      value: 498.00006
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -209.98663
+      value: -4.0000696
       objectReference: {fileID: 0}
     - target: {fileID: 6571044679390243382, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4566,7 +4566,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
 --- !u!114 &1421431843 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8667895116864296056, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7483252859547642225, guid: 591c6f62ab4c9694f91c27f18ec47a8d, type: 3}
   m_PrefabInstance: {fileID: 1421431842}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -5407,6 +5407,8 @@ MonoBehaviour:
   container: {fileID: 1374565870}
   currencyData:
   - {fileID: 11400000, guid: 5e8c6002c51724149a784dc9f66b3a20, type: 2}
+  - {fileID: 11400000, guid: c9f15db5355815d4a9c61ff844196db7, type: 2}
+  - {fileID: 11400000, guid: c353bb1f9c672d34388762f2f25c6a7b, type: 2}
 --- !u!1 &1645164851
 GameObject:
   m_ObjectHideFlags: 0
@@ -6223,7 +6225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee76223b0876af4b95064d7361c1c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridSkillTree.SkillTreeRuntime
-  treeData: {fileID: 11400000, guid: 0fca0e1d292da0447855682cfff353c7, type: 2}
+  treeData: {fileID: 11400000, guid: c392ad6e71add6c43b7ce0160c83dfbb, type: 2}
   startingSkillPoints: 1
   loadSavedProgress: 1
   saveProgressOnBuy: 1

@@ -1,0 +1,972 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4391d70e4e04214b9be9284fff31682, type: 3}
+  m_Name: BigCleanProgressionSkillTree
+  m_EditorClassIdentifier: Assembly-CSharp::GridSkillTree.SkillTreeData
+  treeId: main_tree_big_clean
+  nodes:
+  - id: root_awakened
+    title: "Пробуждение"
+    description: "Маг приходит в себя у края внутреннего разлома.<br>Путь начинается снова.<br><br><size=90%><color=#B7A7FF>Стартовая нода:</color> <color=#FFD27D>бесплатно</color></size>"
+    gridPosition: {x: 0, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds: []
+    maxLevel: 1
+    costs: []
+    effectType: 0
+    baseValue: 0
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_1
+    title: "Острый луч I"
+    description: "Увеличивает урон основной атаки.<br>Внутренняя сила собирается плотнее и режет существ глубже.<br><br><size=90%><color=#B7A7FF>Урон:</color> <color=#FFD27D>+1 за уровень, до +2</color></size>"
+    gridPosition: {x: 0, y: 1}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 15
+      formula: 2
+    effectType: 2
+    baseValue: 1
+    growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_chance_1
+    title: "Точный всплеск I"
+    description: "Повышает шанс критического удара.<br>Иногда сила мага вырывается особенно чистым и резким импульсом.<br><br><size=90%><color=#B7A7FF>Шанс крита:</color> <color=#FFD27D>+5%</color></size>"
+    gridPosition: {x: -1, y: 2}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_damage_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 45
+      formula: 0
+    effectType: 5
+    baseValue: 5
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_mult_1
+    title: "Глубокий разрез I"
+    description: "Увеличивает силу критического удара.<br>Удачный удар пробивает не тело, а саму ткань проклятия.<br><br><size=90%><color=#B7A7FF>Критический урон:</color> <color=#FFD27D>+10%</color></size>"
+    gridPosition: {x: 1, y: 2}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_damage_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 55
+      formula: 0
+    effectType: 6
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_2
+    title: "Острый луч II"
+    description: "Увеличивает урон основной атаки.<br>Внутренняя сила собирается плотнее и режет существ глубже.<br><br><size=90%><color=#B7A7FF>Урон:</color> <color=#FFD27D>+1</color></size>"
+    gridPosition: {x: 0, y: 3}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_crit_chance_1
+    - atk_crit_mult_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 80
+      formula: 0
+    - currency: 2
+      baseAmount: 8
+      formula: 0
+    effectType: 2
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_beam_1
+    title: "Расщепление луча I"
+    description: "Добавляет дополнительные лучи атаки.<br>Магия больше не идет одним потоком — она распадается на несколько направлений.<br><br><size=90%><color=#B7A7FF>Дополнительные лучи:</color> <color=#FFD27D>+1</color></size>"
+    gridPosition: {x: 0, y: 4}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_damage_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 130
+      formula: 0
+    - currency: 2
+      baseAmount: 15
+      formula: 0
+    effectType: 3
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_chance_2
+    title: "Точный всплеск II"
+    description: "Повышает шанс критического удара.<br>Иногда сила мага вырывается особенно чистым и резким импульсом.<br><br><size=90%><color=#B7A7FF>Шанс крита:</color> <color=#FFD27D>+5% за уровень, до +10%</color></size>"
+    gridPosition: {x: -1, y: 5}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_beam_1
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 18
+      formula: 2
+    effectType: 5
+    baseValue: 5
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_mult_2
+    title: "Глубокий разрез II"
+    description: "Увеличивает силу критического удара.<br>Удачный удар пробивает не тело, а саму ткань проклятия.<br><br><size=90%><color=#B7A7FF>Критический урон:</color> <color=#FFD27D>+10% за уровень, до +20%</color></size>"
+    gridPosition: {x: 1, y: 5}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_beam_1
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 20
+      formula: 2
+    effectType: 6
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_3
+    title: "Острый луч III"
+    description: "Увеличивает урон основной атаки.<br>Внутренняя сила собирается плотнее и режет существ глубже.<br><br><size=90%><color=#B7A7FF>Урон:</color> <color=#FFD27D>+1 за уровень, до +2</color></size>"
+    gridPosition: {x: 0, y: 6}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_crit_chance_2
+    - atk_crit_mult_2
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 30
+      formula: 2
+    - currency: 3
+      baseAmount: 2
+      formula: 1
+    effectType: 2
+    baseValue: 1
+    growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_beam_2
+    title: "Расщепление луча II"
+    description: "Добавляет дополнительные лучи атаки.<br>Магия больше не идет одним потоком — она распадается на несколько направлений.<br><br><size=90%><color=#B7A7FF>Дополнительные лучи:</color> <color=#FFD27D>+1</color></size>"
+    gridPosition: {x: 0, y: 7}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_damage_3
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 70
+      formula: 0
+    - currency: 3
+      baseAmount: 8
+      formula: 0
+    effectType: 3
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_final_focus
+    title: "Острый луч IV"
+    description: "Увеличивает урон основной атаки.<br>Внутренняя сила собирается плотнее и режет существ глубже.<br><br><size=90%><color=#B7A7FF>Урон:</color> <color=#FFD27D>+2</color></size>"
+    gridPosition: {x: 0, y: 8}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_beam_2
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 110
+      formula: 0
+    - currency: 3
+      baseAmount: 15
+      formula: 0
+    effectType: 2
+    baseValue: 2
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_1
+    title: "Легкий шаг I"
+    description: "Увеличивает скорость передвижения.<br>Маг легче скользит между потоками враждебной магии.<br><br><size=90%><color=#B7A7FF>Скорость:</color> <color=#FFD27D>+5% за уровень, до +10%</color></size>"
+    gridPosition: {x: 1, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 12
+      formula: 2
+    effectType: 1
+    baseValue: 5
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_1
+    title: "Притяжение осколков I"
+    description: "Увеличивает радиус сбора ресурсов.<br>Частицы силы сами тянутся к магу, узнавая источник разлома.<br><br><size=90%><color=#B7A7FF>Радиус сбора:</color> <color=#FFD27D>+0.35 за уровень, до +0.70</color></size>"
+    gridPosition: {x: 2, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_speed_1
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 25
+      formula: 2
+    effectType: 4
+    baseValue: 0.35
+    growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_inv_1
+    title: "Миг неуязвимости I"
+    description: "Увеличивает время неуязвимости после получения урона.<br>На короткий миг тело мага становится не плотью, а чистой магией.<br><br><size=90%><color=#B7A7FF>Неуязвимость после удара:</color> <color=#FFD27D>+0.15 сек.</color></size>"
+    gridPosition: {x: 3, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_pickup_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 60
+      formula: 0
+    effectType: 11
+    baseValue: 0.15
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_2
+    title: "Легкий шаг II"
+    description: "Увеличивает скорость передвижения.<br>Маг легче скользит между потоками враждебной магии.<br><br><size=90%><color=#B7A7FF>Скорость:</color> <color=#FFD27D>+5%</color></size>"
+    gridPosition: {x: 4, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_inv_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 90
+      formula: 0
+    - currency: 2
+      baseAmount: 8
+      formula: 0
+    effectType: 1
+    baseValue: 5
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_2
+    title: "Притяжение осколков II"
+    description: "Увеличивает радиус сбора ресурсов.<br>Частицы силы сами тянутся к магу, узнавая источник разлома.<br><br><size=90%><color=#B7A7FF>Радиус сбора:</color> <color=#FFD27D>+0.45</color></size>"
+    gridPosition: {x: 5, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_speed_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 100
+      formula: 0
+    - currency: 2
+      baseAmount: 12
+      formula: 0
+    effectType: 4
+    baseValue: 0.45
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_inv_2
+    title: "Миг неуязвимости II"
+    description: "Увеличивает время неуязвимости после получения урона.<br>На короткий миг тело мага становится не плотью, а чистой магией.<br><br><size=90%><color=#B7A7FF>Неуязвимость после удара:</color> <color=#FFD27D>+0.10 сек.</color></size>"
+    gridPosition: {x: 6, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_pickup_2
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 25
+      formula: 0
+    - currency: 3
+      baseAmount: 2
+      formula: 0
+    effectType: 11
+    baseValue: 0.1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_sprint_unlock
+    title: "Рывок сквозь тьму"
+    description: "Открывает спринт на ЛКМ.<br>Маг на мгновение проваливается в разлом и выходит чуть дальше.<br><br><size=90%><color=#A7F3D0>Открывает:</color> <color=#FFD27D>спринт на ЛКМ</color></size>"
+    gridPosition: {x: 7, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_inv_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 220
+      formula: 0
+    - currency: 2
+      baseAmount: 45
+      formula: 0
+    - currency: 3
+      baseAmount: 8
+      formula: 0
+    effectType: 16
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_3
+    title: "Легкий шаг III"
+    description: "Увеличивает скорость передвижения.<br>Маг легче скользит между потоками враждебной магии.<br><br><size=90%><color=#B7A7FF>Скорость:</color> <color=#FFD27D>+5% за уровень, до +10%</color></size>"
+    gridPosition: {x: 8, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_sprint_unlock
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 55
+      formula: 2
+    - currency: 3
+      baseAmount: 8
+      formula: 1
+    effectType: 1
+    baseValue: 5
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_3
+    title: "Притяжение осколков III"
+    description: "Увеличивает радиус сбора ресурсов.<br>Частицы силы сами тянутся к магу, узнавая источник разлома.<br><br><size=90%><color=#B7A7FF>Радиус сбора:</color> <color=#FFD27D>+0.50</color></size>"
+    gridPosition: {x: 9, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_speed_3
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 90
+      formula: 0
+    - currency: 3
+      baseAmount: 15
+      formula: 0
+    effectType: 4
+    baseValue: 0.5
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_stability_1
+    title: "Крепкая воля I"
+    description: "Стабильность снижается медленнее.<br>Маг дольше удерживает внутренний разлом от распада.<br><br><size=90%><color=#B7A7FF>Потеря стабильности:</color> <color=#FFD27D>-8% за уровень, до -16%</color></size>"
+    gridPosition: {x: 0, y: -1}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 18
+      formula: 2
+    effectType: 7
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_inv_side
+    title: "Миг неуязвимости I"
+    description: "Увеличивает время неуязвимости после получения урона.<br>На короткий миг тело мага становится не плотью, а чистой магией.<br><br><size=90%><color=#B7A7FF>Неуязвимость после удара:</color> <color=#FFD27D>+0.10 сек.</color></size>"
+    gridPosition: {x: -1, y: -2}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - ctl_stability_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 55
+      formula: 0
+    effectType: 11
+    baseValue: 0.1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_stability_2
+    title: "Крепкая воля II"
+    description: "Стабильность снижается медленнее.<br>Маг дольше удерживает внутренний разлом от распада.<br><br><size=90%><color=#B7A7FF>Потеря стабильности:</color> <color=#FFD27D>-8%</color></size>"
+    gridPosition: {x: 0, y: -2}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - ctl_stability_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 70
+      formula: 0
+    - currency: 2
+      baseAmount: 8
+      formula: 0
+    effectType: 7
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_unlock
+    title: "Печать взрыва"
+    description: "Открывает бомбы.<br>Маг учится сбрасывать избыток силы наружу, запечатывая его во взрывной знак.<br><br><size=90%><color=#A7F3D0>Открывает:</color> <color=#FFD27D>бомбы</color></size>"
+    gridPosition: {x: 0, y: -3}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - ctl_stability_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 120
+      formula: 0
+    - currency: 2
+      baseAmount: 25
+      formula: 0
+    effectType: 12
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_radius_1
+    title: "Широкая печать I"
+    description: "Увеличивает радиус взрыва бомб.<br>Взрывная печать расползается дальше, задевая больше врагов.<br><br><size=90%><color=#B7A7FF>Радиус взрыва:</color> <color=#FFD27D>+0.35 за уровень, до +0.70</color></size>"
+    gridPosition: {x: -1, y: -4}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - bomb_unlock
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 20
+      formula: 2
+    effectType: 13
+    baseValue: 0.35
+    growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_damage_1
+    title: "Тяжелый взрыв I"
+    description: "Увеличивает урон бомб.<br>Избыточная сила сжимается плотнее перед разрушительным выбросом.<br><br><size=90%><color=#B7A7FF>Урон бомбы:</color> <color=#FFD27D>+3 за уровень, до +6</color></size>"
+    gridPosition: {x: 1, y: -4}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - bomb_unlock
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 25
+      formula: 2
+    effectType: 14
+    baseValue: 3
+    growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_interval_1
+    title: "Быстрая печать I"
+    description: "Бомбы появляются чаще.<br>Маг быстрее сбрасывает лишнюю энергию, не давая ей разорвать себя.<br><br><size=90%><color=#B7A7FF>Интервал бомб:</color> <color=#FFD27D>-0.35 сек.</color></size>"
+    gridPosition: {x: 0, y: -5}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - bomb_radius_1
+    - bomb_damage_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 55
+      formula: 0
+    - currency: 3
+      baseAmount: 3
+      formula: 0
+    effectType: 15
+    baseValue: 0.35
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_stability_3
+    title: "Крепкая воля III"
+    description: "Стабильность снижается медленнее.<br>Маг дольше удерживает внутренний разлом от распада.<br><br><size=90%><color=#B7A7FF>Потеря стабильности:</color> <color=#FFD27D>-6% за уровень, до -12%</color></size>"
+    gridPosition: {x: 0, y: -6}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - bomb_interval_1
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 60
+      formula: 2
+    - currency: 3
+      baseAmount: 5
+      formula: 1
+    effectType: 7
+    baseValue: 6
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_radius_2
+    title: "Широкая печать II"
+    description: "Увеличивает радиус взрыва бомб.<br>Взрывная печать расползается дальше, задевая больше врагов.<br><br><size=90%><color=#B7A7FF>Радиус взрыва:</color> <color=#FFD27D>+0.45</color></size>"
+    gridPosition: {x: -1, y: -7}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - ctl_stability_3
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 85
+      formula: 0
+    - currency: 3
+      baseAmount: 10
+      formula: 0
+    effectType: 13
+    baseValue: 0.45
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_damage_2
+    title: "Тяжелый взрыв II"
+    description: "Увеличивает урон бомб.<br>Избыточная сила сжимается плотнее перед разрушительным выбросом.<br><br><size=90%><color=#B7A7FF>Урон бомбы:</color> <color=#FFD27D>+5</color></size>"
+    gridPosition: {x: 1, y: -7}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - ctl_stability_3
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 90
+      formula: 0
+    - currency: 3
+      baseAmount: 12
+      formula: 0
+    effectType: 14
+    baseValue: 5
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_interval_2
+    title: "Быстрая печать II"
+    description: "Бомбы появляются чаще.<br>Маг быстрее сбрасывает лишнюю энергию, не давая ей разорвать себя.<br><br><size=90%><color=#B7A7FF>Интервал бомб:</color> <color=#FFD27D>-0.30 сек.</color></size>"
+    gridPosition: {x: 0, y: -8}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - bomb_radius_2
+    - bomb_damage_2
+    maxLevel: 1
+    costs:
+    - currency: 3
+      baseAmount: 18
+      formula: 0
+    effectType: 15
+    baseValue: 0.3
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_ash_drop_1
+    title: "Жадность разлома I"
+    description: "Увеличивает выпадение выбранного ресурса.<br>Разлом внутри мага вытягивает больше остатков из поверженных существ.<br><br><size=90%><color=#B7A7FF>Добыча пепла:</color> <color=#FFD27D>+15% за уровень, до +30%</color></size>"
+    gridPosition: {x: -1, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 10
+      formula: 2
+    effectType: 9
+    baseValue: 15
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_ash
+    title: "Тлеющий остаток I"
+    description: "Периодически дает ресурс сам по себе.<br>Даже между боями проклятие продолжает осыпаться частицами силы.<br><br><size=90%><color=#B7A7FF>Пепел:</color> <color=#FFD27D>+1 каждые 10 сек.</color></size>"
+    gridPosition: {x: -2, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_ash_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 45
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 10
+  - id: res_pickup_ash
+    title: "Притяжение осколков I"
+    description: "Увеличивает радиус сбора ресурсов.<br>Частицы силы сами тянутся к магу, узнавая источник разлома.<br><br><size=90%><color=#B7A7FF>Радиус сбора:</color> <color=#FFD27D>+0.35</color></size>"
+    gridPosition: {x: -3, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_passive_ash
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 60
+      formula: 0
+    effectType: 4
+    baseValue: 0.35
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_unlock_crystal
+    title: "Новая грань силы I"
+    description: "Открывает новый тип ресурса.<br>Маг начинает видеть более глубокие следы магии, скрытые раньше.<br><br><size=90%><color=#A7F3D0>Открывает:</color> <color=#FFD27D>кристаллы</color></size>"
+    gridPosition: {x: -4, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_pickup_ash
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 160
+      formula: 0
+    effectType: 8
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 2
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_crystal_drop_1
+    title: "Жадность разлома II"
+    description: "Увеличивает выпадение выбранного ресурса.<br>Разлом внутри мага вытягивает больше остатков из поверженных существ.<br><br><size=90%><color=#B7A7FF>Добыча кристаллов:</color> <color=#FFD27D>+10% за уровень, до +20%</color></size>"
+    gridPosition: {x: -5, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_unlock_crystal
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 120
+      formula: 2
+    - currency: 2
+      baseAmount: 10
+      formula: 2
+    effectType: 9
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 2
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_crystal
+    title: "Тлеющий остаток II"
+    description: "Периодически дает ресурс сам по себе.<br>Даже между боями проклятие продолжает осыпаться частицами силы.<br><br><size=90%><color=#B7A7FF>Кристаллы:</color> <color=#FFD27D>+1 каждые 18 сек.</color></size>"
+    gridPosition: {x: -6, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_crystal_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 35
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 2
+    passiveCurrencyIntervalSeconds: 18
+  - id: res_pickup_crystal
+    title: "Притяжение осколков II"
+    description: "Увеличивает радиус сбора ресурсов.<br>Частицы силы сами тянутся к магу, узнавая источник разлома.<br><br><size=90%><color=#B7A7FF>Радиус сбора:</color> <color=#FFD27D>+0.45</color></size>"
+    gridPosition: {x: -7, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_passive_crystal
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 45
+      formula: 0
+    effectType: 4
+    baseValue: 0.45
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_unlock_soul
+    title: "Новая грань силы II"
+    description: "Открывает новый тип ресурса.<br>Маг начинает видеть более глубокие следы магии, скрытые раньше.<br><br><size=90%><color=#A7F3D0>Открывает:</color> <color=#FFD27D>души</color></size>"
+    gridPosition: {x: -8, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_pickup_crystal
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 220
+      formula: 0
+    - currency: 2
+      baseAmount: 65
+      formula: 0
+    effectType: 8
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 3
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_soul_drop_1
+    title: "Жадность разлома III"
+    description: "Увеличивает выпадение выбранного ресурса.<br>Разлом внутри мага вытягивает больше остатков из поверженных существ.<br><br><size=90%><color=#B7A7FF>Добыча душ:</color> <color=#FFD27D>+8% за уровень, до +16%</color></size>"
+    gridPosition: {x: -9, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_unlock_soul
+    maxLevel: 2
+    costs:
+    - currency: 2
+      baseAmount: 80
+      formula: 2
+    - currency: 3
+      baseAmount: 8
+      formula: 2
+    effectType: 9
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 3
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_soul
+    title: "Тлеющий остаток III"
+    description: "Периодически дает ресурс сам по себе.<br>Даже между боями проклятие продолжает осыпаться частицами силы.<br><br><size=90%><color=#B7A7FF>Души:</color> <color=#FFD27D>+1 каждые 30 сек.</color></size>"
+    gridPosition: {x: -10, y: 0}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_soul_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 3
+      baseAmount: 25
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 3
+    passiveCurrencyIntervalSeconds: 30
+  - id: res_ash_drop_side
+    title: "Жадность разлома I+"
+    description: "Увеличивает выпадение выбранного ресурса.<br>Разлом внутри мага вытягивает больше остатков из поверженных существ.<br><br><size=90%><color=#B7A7FF>Добыча пепла:</color> <color=#FFD27D>+10%</color></size>"
+    gridPosition: {x: -3, y: 1}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_passive_ash
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 75
+      formula: 0
+    effectType: 9
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_crystal_drop_side
+    title: "Жадность разлома II+"
+    description: "Увеличивает выпадение выбранного ресурса.<br>Разлом внутри мага вытягивает больше остатков из поверженных существ.<br><br><size=90%><color=#B7A7FF>Добыча кристаллов:</color> <color=#FFD27D>+10%</color></size>"
+    gridPosition: {x: -6, y: 1}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_crystal_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 45
+      formula: 0
+    effectType: 9
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 2
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_soul_drop_side
+    title: "Жадность разлома III+"
+    description: "Увеличивает выпадение выбранного ресурса.<br>Разлом внутри мага вытягивает больше остатков из поверженных существ.<br><br><size=90%><color=#B7A7FF>Добыча душ:</color> <color=#FFD27D>+8%</color></size>"
+    gridPosition: {x: -9, y: 1}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - res_soul_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 3
+      baseAmount: 18
+      formula: 0
+    effectType: 9
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 3
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: final_stability
+    title: "Крепкая воля IV"
+    description: "Стабильность снижается медленнее.<br>Маг дольше удерживает внутренний разлом от распада.<br><br><size=90%><color=#B7A7FF>Потеря стабильности:</color> <color=#FFD27D>-10%</color></size>"
+    gridPosition: {x: -2, y: -6}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - ctl_stability_3
+    maxLevel: 1
+    costs:
+    - currency: 3
+      baseAmount: 20
+      formula: 0
+    effectType: 7
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: final_crit
+    title: "Глубокий разрез III"
+    description: "Увеличивает силу критического удара.<br>Удачный удар пробивает не тело, а саму ткань проклятия.<br><br><size=90%><color=#B7A7FF>Критический урон:</color> <color=#FFD27D>+15%</color></size>"
+    gridPosition: {x: 2, y: 7}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - atk_beam_2
+    maxLevel: 1
+    costs:
+    - currency: 3
+      baseAmount: 20
+      formula: 0
+    effectType: 6
+    baseValue: 15
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: final_inv
+    title: "Миг неуязвимости III"
+    description: "Увеличивает время неуязвимости после получения урона.<br>На короткий миг тело мага становится не плотью, а чистой магией.<br><br><size=90%><color=#B7A7FF>Неуязвимость после удара:</color> <color=#FFD27D>+0.15 сек.</color></size>"
+    gridPosition: {x: 8, y: 1}
+    icon: {fileID: 0}
+    previousNodeIds:
+    - mov_sprint_unlock
+    maxLevel: 1
+    costs:
+    - currency: 3
+      baseAmount: 16
+      formula: 0
+    effectType: 11
+    baseValue: 0.15
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3

@@ -144,9 +144,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OrbProjectile
   speed: 6
   lifetime: 5
+  spawnDuration: 0.25
+  slowdownPortion: 0.35
+  lingerTime: 0.2
   data:
-    effectType: 2
-    value: 100
+    effects:
+    - effectType: 2
+      value: 10
+      currencyType: 0
     attractSpeed: 8
     color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!50 &3186490497051098631
