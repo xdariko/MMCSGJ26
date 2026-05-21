@@ -1,6 +1,13 @@
 using System;
 using UnityEngine;
 
+public enum StabilityChangeType
+{
+    Decay,
+    Gain,
+    Damage
+}
+
 public class PlayerStabilitySystem : MonoBehaviour
 {
     [Header("Stability")]
@@ -20,6 +27,7 @@ public class PlayerStabilitySystem : MonoBehaviour
     public float Max => maxStability;
 
     public event Action<float, float> OnStabilityChanged;
+    public event Action<float, float, float, StabilityChangeType> OnStabilityDeltaChanged;
     public event Action OnDeath;
 
     private void Awake()
@@ -44,25 +52,48 @@ public class PlayerStabilitySystem : MonoBehaviour
     private void ApplyDecay()
     {
         float prev = currentStability;
+
         currentStability -= PlayerStats.StabilityDecay * Time.deltaTime;
         currentStability = Mathf.Clamp(currentStability, 0f, maxStability);
 
-        if (!Mathf.Approximately(prev, currentStability))
-            OnStabilityChanged?.Invoke(currentStability, maxStability);
+        NotifyStabilityChanged(prev, StabilityChangeType.Decay);
     }
 
     public void AddStability(float amount)
     {
+        if (isDead) return;
+
+        float prev = currentStability;
+
         currentStability += amount;
         currentStability = Mathf.Clamp(currentStability, 0f, maxStability);
-        OnStabilityChanged?.Invoke(currentStability, maxStability);
+
+        NotifyStabilityChanged(prev, StabilityChangeType.Gain);
+        CheckState();
     }
 
     public void RemoveStability(float amount)
     {
+        if (isDead) return;
+
+        float prev = currentStability;
+
         currentStability -= amount;
         currentStability = Mathf.Clamp(currentStability, 0f, maxStability);
+
+        NotifyStabilityChanged(prev, StabilityChangeType.Damage);
+        CheckState();
+    }
+
+    private void NotifyStabilityChanged(float previousValue, StabilityChangeType changeType)
+    {
+        if (Mathf.Approximately(previousValue, currentStability))
+            return;
+
+        float delta = currentStability - previousValue;
+
         OnStabilityChanged?.Invoke(currentStability, maxStability);
+        OnStabilityDeltaChanged?.Invoke(currentStability, maxStability, delta, changeType);
     }
 
     private void CheckState()
@@ -82,9 +113,6 @@ public class PlayerStabilitySystem : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        // Example: animator.SetTrigger("Death");
-        // Example: Instantiate(deathVFX, transform.position, Quaternion.identity);
-
         OnDeath?.Invoke();
 
         if (G.main != null)
@@ -95,9 +123,6 @@ public class PlayerStabilitySystem : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-
-        // Example: animator.SetTrigger("Overload");
-        // Example: Instantiate(overloadVFX, transform.position, Quaternion.identity);
 
         OnDeath?.Invoke();
 
