@@ -13,8 +13,18 @@ namespace GridSkillTree
         [SerializeField] private SkillTooltip tooltip;
 
         private readonly List<SkillNodeButton> spawnedButtons = new();
-        private readonly List<SkillTreeConnectionLine> spawnedLines = new();
+        private readonly List<ConnectionView> spawnedLines = new();
+
         private readonly Dictionary<string, RectTransform> nodeRectsById = new();
+        private readonly Dictionary<string, SkillNodeButton> buttonsById = new();
+        private readonly Dictionary<string, SkillNodeData> nodesById = new();
+
+        private class ConnectionView
+        {
+            public SkillTreeConnectionLine line;
+            public string fromNodeId;
+            public string toNodeId;
+        }
 
         private void Start()
         {
@@ -62,14 +72,32 @@ namespace GridSkillTree
                 Debug.LogWarning(validation.GetReport());
             }
 
+            CacheNodes();
             BuildNodes();
             BuildConnections();
+            Refresh();
+        }
+
+        private void CacheNodes()
+        {
+            nodesById.Clear();
+
+            foreach (SkillNodeData node in runtime.TreeData.nodes)
+            {
+                if (node == null || string.IsNullOrWhiteSpace(node.id))
+                    continue;
+
+                nodesById[node.id] = node;
+            }
         }
 
         private void BuildNodes()
         {
             foreach (SkillNodeData node in runtime.TreeData.nodes)
             {
+                if (node == null)
+                    continue;
+
                 SkillNodeButton button = Instantiate(config.nodeButtonPrefab, nodesRoot);
 
                 RectTransform rect = button.GetComponent<RectTransform>();
@@ -78,6 +106,7 @@ namespace GridSkillTree
                 button.Init(node, runtime, config, tooltip);
 
                 spawnedButtons.Add(button);
+                buttonsById[node.id] = button;
                 nodeRectsById[node.id] = rect;
             }
         }
@@ -89,6 +118,9 @@ namespace GridSkillTree
 
             foreach (SkillNodeData node in runtime.TreeData.nodes)
             {
+                if (node == null)
+                    continue;
+
                 if (!nodeRectsById.TryGetValue(node.id, out RectTransform currentRect))
                     continue;
 
@@ -106,26 +138,78 @@ namespace GridSkillTree
                     Vector2 to = currentRect.anchoredPosition;
 
                     line.SetPoints(from, to, config.connectionThickness);
-                    spawnedLines.Add(line);
+
+                    spawnedLines.Add(new ConnectionView
+                    {
+                        line = line,
+                        fromNodeId = previousNodeId,
+                        toNodeId = node.id
+                    });
                 }
             }
         }
 
         public void Refresh()
         {
+            if (tooltip != null)
+                tooltip.Hide();
+
+            RefreshNodesVisibility();
+            RefreshLinesVisibility();
+        }
+
+        private void RefreshNodesVisibility()
+        {
             foreach (SkillNodeButton button in spawnedButtons)
             {
-                button.Refresh();
+                if (button == null || button.Node == null)
+                    continue;
+
+                bool visible = runtime.ShouldShowNode(button.Node);
+
+                button.gameObject.SetActive(visible);
+
+                if (visible)
+                    button.Refresh();
             }
+        }
+
+        private void RefreshLinesVisibility()
+        {
+            foreach (ConnectionView connection in spawnedLines)
+            {
+                if (connection == null || connection.line == null)
+                    continue;
+
+                bool fromVisible = IsNodeVisible(connection.fromNodeId);
+                bool toVisible = IsNodeVisible(connection.toNodeId);
+
+                connection.line.gameObject.SetActive(fromVisible && toVisible);
+            }
+        }
+
+        private bool IsNodeVisible(string nodeId)
+        {
+            if (string.IsNullOrWhiteSpace(nodeId))
+                return false;
+
+            if (!nodesById.TryGetValue(nodeId, out SkillNodeData node))
+                return false;
+
+            return runtime.ShouldShowNode(node);
         }
 
         private void Clear()
         {
-            for (int i = nodesRoot.childCount - 1; i >= 0; i--)
+            if (nodesRoot != null)
             {
-                GameObject go = nodesRoot.GetChild(i).gameObject;
-                if (go.scene.isLoaded)
-                    Destroy(go);
+                for (int i = nodesRoot.childCount - 1; i >= 0; i--)
+                {
+                    GameObject go = nodesRoot.GetChild(i).gameObject;
+
+                    if (go.scene.isLoaded)
+                        Destroy(go);
+                }
             }
 
             if (linesRoot != null)
@@ -133,6 +217,7 @@ namespace GridSkillTree
                 for (int i = linesRoot.childCount - 1; i >= 0; i--)
                 {
                     GameObject go = linesRoot.GetChild(i).gameObject;
+
                     if (go.scene.isLoaded)
                         Destroy(go);
                 }
@@ -140,7 +225,10 @@ namespace GridSkillTree
 
             spawnedButtons.Clear();
             spawnedLines.Clear();
+
             nodeRectsById.Clear();
+            buttonsById.Clear();
+            nodesById.Clear();
         }
 
         private Vector2 GridToUIPosition(Vector2Int gridPosition)

@@ -97,7 +97,7 @@ RectTransform:
   m_GameObject: {fileID: 7797576832300817048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0612037, y: 1.0612037, z: 1.0612037}
+  m_LocalScale: {x: 1.1904267, y: 1.1904267, z: 1.1904267}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9054231283610017442}
@@ -240,6 +240,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tooltip
       objectReference: {fileID: 0}
+    - target: {fileID: 8603472202742841890, guid: 8c8b143d6b2dff24db8696ee480de605, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9016300439495765793, guid: 8c8b143d6b2dff24db8696ee480de605, type: 3}
+      propertyPath: statusText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9016300439495765793, guid: 8c8b143d6b2dff24db8696ee480de605, type: 3}
+      propertyPath: currencyDatabase.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9016300439495765793, guid: 8c8b143d6b2dff24db8696ee480de605, type: 3}
+      propertyPath: 'currencyDatabase.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c9f15db5355815d4a9c61ff844196db7, type: 2}
+    - target: {fileID: 9016300439495765793, guid: 8c8b143d6b2dff24db8696ee480de605, type: 3}
+      propertyPath: 'currencyDatabase.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c353bb1f9c672d34388762f2f25c6a7b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

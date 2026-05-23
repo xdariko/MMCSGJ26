@@ -72,16 +72,26 @@ public abstract class EnemyShooterBase : MonoBehaviour
 
     protected void SpawnProjectile(Vector2 direction)
     {
-        SpawnProjectile(direction, transform.position);
+        SpawnProjectile(projectilePrefab, direction, transform.position);
     }
 
     protected void SpawnProjectile(Vector2 direction, Vector3 position)
     {
-        if (projectilePrefab == null)
+        SpawnProjectile(projectilePrefab, direction, position);
+    }
+
+    protected void SpawnProjectile(OrbProjectile prefab, Vector2 direction)
+    {
+        SpawnProjectile(prefab, direction, transform.position);
+    }
+
+    protected void SpawnProjectile(OrbProjectile prefab, Vector2 direction, Vector3 position)
+    {
+        if (prefab == null)
             return;
 
         OrbProjectile projectile = Instantiate(
-            projectilePrefab,
+            prefab,
             position,
             Quaternion.identity
         );
@@ -95,6 +105,11 @@ public abstract class EnemyShooterBase : MonoBehaviour
             return Vector2.left;
 
         return (player.position - transform.position).normalized;
+    }
+
+    protected Vector2 DirectionToPlayerPosition(Vector3 capturedPlayerPosition)
+    {
+        return ((Vector2)capturedPlayerPosition - (Vector2)transform.position).normalized;
     }
 
     protected virtual void OnDisable()

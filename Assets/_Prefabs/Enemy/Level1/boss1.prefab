@@ -101,6 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 206813763729699764}
   - component: {fileID: 1387533816184785896}
+  - component: {fileID: 281132393729574651}
   - component: {fileID: 3090512295855857636}
   - component: {fileID: 222602781936902724}
   - component: {fileID: 95871430546822024}
@@ -169,6 +170,23 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.17708683, y: -0.27999997}
   m_Radius: 2.2921262
+--- !u!114 &281132393729574651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902383136821581742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3773256587184142a78517d65d150a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossCurrencyReward
+  rewards:
+  - currency: 1
+    amount: 80
+    requireUnlocked: 0
+    useDropMultiplier: 1
 --- !u!114 &3090512295855857636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d13babfa3e153b46973d87b0efb2400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 20
+  maxHealth: 50
+  invulnerable: 0
   xpReward: 0
   isBoss: 0
   hitSounds: []
@@ -198,7 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e1b45c083412a448538b41fc119666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  waitTime: 0
 --- !u!114 &95871430546822024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthVisual
   maskTransform: {fileID: 2212488462087810785}
+  useManualPositions: 1
   visibleLocalPosition: {x: -5, y: 1.3, z: 0}
   hiddenLocalPosition: {x: -8.66, y: -2.36, z: 0}
   bgRenderer: {fileID: 1419792578803758177}

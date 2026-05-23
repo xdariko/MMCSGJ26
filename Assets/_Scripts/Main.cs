@@ -69,7 +69,22 @@ public class Main : MonoBehaviour
         if (G.ui != null)
             G.ui.ShowVictoryPanel();
         else
+            ShowSkillTreeWithTransition();
+    }
+
+    private void ShowSkillTreeWithTransition()
+    {
+        if (G.transition != null)
+        {
+            G.transition.Play(() =>
+            {
+                ShowSkillTree();
+            });
+        }
+        else
+        {
             ShowSkillTree();
+        }
     }
 
     private void Update()
@@ -167,9 +182,18 @@ public class Main : MonoBehaviour
 
     public void StartNewRun()
     {
-        // New run after skill tree / death panel / victory panel.
-        // Keeps long-term progress and skill tree purchases,
-        // but cleans the scene and resets per-run state.
+        if (G.transition != null)
+        {
+            G.transition.Play(StartNewRunInternal);
+        }
+        else
+        {
+            StartNewRunInternal();
+        }
+    }
+
+    private void StartNewRunInternal()
+    {
         if (G.ui != null)
         {
             G.ui.HideSkillTreePanel();

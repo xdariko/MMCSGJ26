@@ -146,7 +146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d13babfa3e153b46973d87b0efb2400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 10
+  maxHealth: 30
+  invulnerable: 0
   xpReward: 0
   isBoss: 0
   hitSounds: []
@@ -163,7 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e1b45c083412a448538b41fc119666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  waitTime: 0
 --- !u!114 &95871430546822024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,10 +178,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 1
+    amount: 4
     requiresUnlockedCurrency: 1
   - prefab: {fileID: 7109306137672312565, guid: 84bf2c3b9adf148409c860cfdf73a0ba, type: 3}
-    amount: 1
+    amount: 2
     requiresUnlockedCurrency: 2
 --- !u!50 &142099318655730342
 Rigidbody2D:
@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthVisual
   maskTransform: {fileID: 2212488462087810785}
+  useManualPositions: 1
   visibleLocalPosition: {x: -3.44, y: 1.58, z: 0}
   hiddenLocalPosition: {x: -5.5, y: -0.5, z: 0}
   bgRenderer: {fileID: 1419792578803758177}
@@ -294,9 +295,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArcWaveShooter
   projectilePrefab: {fileID: 4381634397435925510, guid: 4c422735bf13afd42afe64d4dd1f6de2, type: 3}
   cooldown: 4
-  projectileCount: 5
-  arcAngle: 120
-  delayBetweenShots: 0.1
+  stopBeforeShootTime: 0.35
+  stopAfterShootTime: 0.2
+  redProjectilePrefab: {fileID: 4381634397435925510, guid: 785072914f3965f4a949e87b45fdd39b, type: 3}
+  blueProjectilePrefab: {fileID: 2263549109149115506, guid: 46cb188ad51550b4494835a53847c1c1, type: 3}
+  projectileCount: 7
+  arcAngle: 110
+  delayBetweenShots: 0.05
+  useMixedProjectiles: 1
+  swapColorsEveryWave: 1
+  invertDirection: 1
 --- !u!114 &893833331962431280
 MonoBehaviour:
   m_ObjectHideFlags: 0

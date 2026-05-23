@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 10
+  invulnerable: 0
   xpReward: 0
   isBoss: 0
   hitSounds: []
@@ -163,7 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e1b45c083412a448538b41fc119666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  waitTime: 0
 --- !u!114 &95871430546822024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 1
+    amount: 2
     requiresUnlockedCurrency: 1
   - prefab: {fileID: 7109306137672312565, guid: 84bf2c3b9adf148409c860cfdf73a0ba, type: 3}
     amount: 1
@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthVisual
   maskTransform: {fileID: 2212488462087810785}
+  useManualPositions: 1
   visibleLocalPosition: {x: -3.7, y: 1.2, z: 0}
   hiddenLocalPosition: {x: -6.25, y: -1.35, z: 0}
   bgRenderer: {fileID: 1419792578803758177}
@@ -294,6 +295,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FourDirectionShooter
   projectilePrefab: {fileID: 4381634397435925510, guid: 4c422735bf13afd42afe64d4dd1f6de2, type: 3}
   cooldown: 3
+  stopBeforeShootTime: 0.35
+  stopAfterShootTime: 0.2
+  redProjectilePrefab: {fileID: 4381634397435925510, guid: 4c422735bf13afd42afe64d4dd1f6de2, type: 3}
+  blueProjectilePrefab: {fileID: 2263549109149115506, guid: 54f3afa08b42db2499238c0825c345bb, type: 3}
+  swapColorsEveryShot: 1
 --- !u!114 &1667062120542933984
 MonoBehaviour:
   m_ObjectHideFlags: 0

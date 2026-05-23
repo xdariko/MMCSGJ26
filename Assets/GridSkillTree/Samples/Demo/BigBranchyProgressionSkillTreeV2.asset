@@ -1,0 +1,1969 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4391d70e4e04214b9be9284fff31682, type: 3}
+  m_Name: BigBranchyProgressionSkillTreeV2
+  m_EditorClassIdentifier: Assembly-CSharp::GridSkillTree.SkillTreeData
+  treeId: main_tree_big_branchy_v2
+  nodes:
+  - id: root_awakened
+    title: "\u041F\u0440\u043E\u0431\u0443\u0436\u0434\u0435\u043D\u0438\u0435 \u0440\u0430\u0437\u043B\u043E\u043C\u0430"
+    description: "\u041C\u0430\u0433 \u043F\u0440\u0438\u0445\u043E\u0434\u0438\u0442
+      \u0432 \u0441\u0435\u0431\u044F \u0443 \u043A\u0440\u0430\u044F \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u0433\u043E
+      \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br>\u0421\u0438\u043B\u0430 \u043D\u0435\u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u0430,
+      \u043D\u043E \u043F\u0443\u0442\u044C \u0435\u0449\u0435 \u043D\u0435 \u043F\u0440\u0435\u0440\u0432\u0430\u043D.<br><br><size=90%><color=#B7A7FF>\u041A\u0443\u043F\u0438
+      \u044D\u0442\u0443 \u043D\u043E\u0434\u0443, \u0447\u0442\u043E\u0431\u044B
+      \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u043F\u0435\u0440\u0432\u044B\u0435
+      \u0432\u0435\u0442\u0432\u0438 \u0434\u0435\u0440\u0435\u0432\u0430.</color></size>"
+    gridPosition: {x: 0, y: 0}
+    icon: {fileID: 21300000, guid: a48933e50e7346546aad7795ae0e68e0, type: 3}
+    previousNodeIds: []
+    maxLevel: 1
+    costs: []
+    effectType: 0
+    baseValue: 0
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_1
+    title: "\u041E\u0441\u0442\u0440\u044B\u0439 \u043B\u0443\u0447 I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439 \u0430\u0442\u0430\u043A\u0438.<br>\u0412\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u0438 \u0440\u0435\u0436\u0435\u0442
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432 \u0433\u043B\u0443\u0431\u0436\u0435.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D:</color>
+      <color=#FFD27D>+1 \u0437\u0430 \u0443\u0440\u043E\u0432\u0435\u043D\u044C,
+      \u0434\u043E +2</color></size>"
+    gridPosition: {x: 0, y: 1}
+    icon: {fileID: 21300000, guid: 3a39273bbcda9fa4eba22243b5b2f955, type: 3}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 15
+      formula: 2
+    effectType: 2
+    baseValue: 1
+    growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_chance_1
+    title: "\u0422\u043E\u0447\u043D\u044B\u0439 \u0432\u0441\u043F\u043B\u0435\u0441\u043A
+      I"
+    description: "\u041F\u043E\u0432\u044B\u0448\u0430\u0435\u0442 \u0448\u0430\u043D\u0441
+      \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E \u0443\u0434\u0430\u0440\u0430.<br>\u0418\u043D\u043E\u0433\u0434\u0430
+      \u0441\u0438\u043B\u0430 \u043C\u0430\u0433\u0430 \u0432\u044B\u0440\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+      \u043E\u0441\u043E\u0431\u0435\u043D\u043D\u043E \u0447\u0438\u0441\u0442\u044B\u043C
+      \u0438 \u0440\u0435\u0437\u043A\u0438\u043C \u0438\u043C\u043F\u0443\u043B\u044C\u0441\u043E\u043C.<br><br><size=90%><color=#B7A7FF>\u0428\u0430\u043D\u0441
+      \u043A\u0440\u0438\u0442\u0430:</color> <color=#FFD27D>+5%</color></size>"
+    gridPosition: {x: -1, y: 2}
+    icon: {fileID: 21300000, guid: a3c215b76fcbef1479ecb5d0fc25b24f, type: 3}
+    previousNodeIds:
+    - atk_damage_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 45
+      formula: 0
+    effectType: 5
+    baseValue: 5
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_mult_1
+    title: "\u0413\u043B\u0443\u0431\u043E\u043A\u0438\u0439 \u0440\u0430\u0437\u0440\u0435\u0437
+      I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u0438\u043B\u0443 \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E
+      \u0443\u0434\u0430\u0440\u0430.<br>\u0423\u0434\u0430\u0447\u043D\u044B\u0439
+      \u0443\u0434\u0430\u0440 \u043F\u0440\u043E\u0431\u0438\u0432\u0430\u0435\u0442
+      \u043D\u0435 \u0442\u0435\u043B\u043E, \u0430 \u0441\u0430\u043C\u0443 \u0442\u043A\u0430\u043D\u044C
+      \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u044F.<br><br><size=90%><color=#B7A7FF>\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
+      \u0443\u0440\u043E\u043D:</color> <color=#FFD27D>+15%</color></size>"
+    gridPosition: {x: 1, y: 2}
+    icon: {fileID: 21300000, guid: c0440f8e2ad764945b73473629adb5dd, type: 3}
+    previousNodeIds:
+    - atk_damage_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 55
+      formula: 0
+    effectType: 6
+    baseValue: 15
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_2
+    title: "\u041E\u0441\u0442\u0440\u044B\u0439 \u043B\u0443\u0447 II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439 \u0430\u0442\u0430\u043A\u0438.<br>\u0412\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u0438 \u0440\u0435\u0436\u0435\u0442
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432 \u0433\u043B\u0443\u0431\u0436\u0435.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D:</color>
+      <color=#FFD27D>+1</color></size>"
+    gridPosition: {x: 0, y: 3}
+    icon: {fileID: 21300000, guid: 3a39273bbcda9fa4eba22243b5b2f955, type: 3}
+    previousNodeIds:
+    - atk_crit_chance_1
+    - atk_crit_mult_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 80
+      formula: 0
+    effectType: 2
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_beam_1
+    title: "\u0420\u0430\u0441\u0449\u0435\u043F\u043B\u0435\u043D\u0438\u0435 \u043B\u0443\u0447\u0430
+      I"
+    description: "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+      \u043B\u0443\u0447\u0438 \u0430\u0442\u0430\u043A\u0438.<br>\u041C\u0430\u0433\u0438\u044F
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043D\u0435 \u0438\u0434\u0435\u0442
+      \u043E\u0434\u043D\u0438\u043C \u043F\u043E\u0442\u043E\u043A\u043E\u043C \u2014
+      \u043E\u043D\u0430 \u0440\u0430\u0441\u043F\u0430\u0434\u0430\u0435\u0442\u0441\u044F
+      \u043D\u0430 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0439.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+      \u043B\u0443\u0447\u0438:</color> <color=#FFD27D>+1</color></size>"
+    gridPosition: {x: 0, y: 4}
+    icon: {fileID: 21300000, guid: f2a1d5cbd742c3541991ba61fe3673be, type: 3}
+    previousNodeIds:
+    - atk_damage_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 130
+      formula: 0
+    effectType: 3
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_chance_2
+    title: "\u0422\u043E\u0447\u043D\u044B\u0439 \u0432\u0441\u043F\u043B\u0435\u0441\u043A
+      II"
+    description: "\u041F\u043E\u0432\u044B\u0448\u0430\u0435\u0442 \u0448\u0430\u043D\u0441
+      \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E \u0443\u0434\u0430\u0440\u0430.<br>\u0418\u043D\u043E\u0433\u0434\u0430
+      \u0441\u0438\u043B\u0430 \u043C\u0430\u0433\u0430 \u0432\u044B\u0440\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+      \u043E\u0441\u043E\u0431\u0435\u043D\u043D\u043E \u0447\u0438\u0441\u0442\u044B\u043C
+      \u0438 \u0440\u0435\u0437\u043A\u0438\u043C \u0438\u043C\u043F\u0443\u043B\u044C\u0441\u043E\u043C.<br><br><size=90%><color=#B7A7FF>\u0428\u0430\u043D\u0441
+      \u043A\u0440\u0438\u0442\u0430:</color> <color=#FFD27D>+7%</color></size>"
+    gridPosition: {x: -2, y: 3}
+    icon: {fileID: 21300000, guid: a3c215b76fcbef1479ecb5d0fc25b24f, type: 3}
+    previousNodeIds:
+    - atk_crit_chance_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 95
+      formula: 0
+    - currency: 2
+      baseAmount: 8
+      formula: 0
+    effectType: 5
+    baseValue: 7
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_mult_2
+    title: "\u0413\u043B\u0443\u0431\u043E\u043A\u0438\u0439 \u0440\u0430\u0437\u0440\u0435\u0437
+      II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u0438\u043B\u0443 \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E
+      \u0443\u0434\u0430\u0440\u0430.<br>\u0423\u0434\u0430\u0447\u043D\u044B\u0439
+      \u0443\u0434\u0430\u0440 \u043F\u0440\u043E\u0431\u0438\u0432\u0430\u0435\u0442
+      \u043D\u0435 \u0442\u0435\u043B\u043E, \u0430 \u0441\u0430\u043C\u0443 \u0442\u043A\u0430\u043D\u044C
+      \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u044F.<br><br><size=90%><color=#B7A7FF>\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
+      \u0443\u0440\u043E\u043D:</color> <color=#FFD27D>+20%</color></size>"
+    gridPosition: {x: 2, y: 3}
+    icon: {fileID: 21300000, guid: c0440f8e2ad764945b73473629adb5dd, type: 3}
+    previousNodeIds:
+    - atk_crit_mult_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 110
+      formula: 0
+    - currency: 2
+      baseAmount: 10
+      formula: 0
+    effectType: 6
+    baseValue: 20
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_3
+    title: "\u041E\u0441\u0442\u0440\u044B\u0439 \u043B\u0443\u0447 III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439 \u0430\u0442\u0430\u043A\u0438.<br>\u0412\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u0438 \u0440\u0435\u0436\u0435\u0442
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432 \u0433\u043B\u0443\u0431\u0436\u0435.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D:</color>
+      <color=#FFD27D>+2</color></size>"
+    gridPosition: {x: -1, y: 5}
+    icon: {fileID: 21300000, guid: 3a39273bbcda9fa4eba22243b5b2f955, type: 3}
+    previousNodeIds:
+    - atk_beam_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 28
+      formula: 0
+    effectType: 2
+    baseValue: 2
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_4
+    title: "\u041E\u0441\u0442\u0440\u044B\u0439 \u043B\u0443\u0447 IV"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439 \u0430\u0442\u0430\u043A\u0438.<br>\u0412\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u0438 \u0440\u0435\u0436\u0435\u0442
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432 \u0433\u043B\u0443\u0431\u0436\u0435.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D:</color>
+      <color=#FFD27D>+2</color></size>"
+    gridPosition: {x: 1, y: 5}
+    icon: {fileID: 21300000, guid: 3a39273bbcda9fa4eba22243b5b2f955, type: 3}
+    previousNodeIds:
+    - atk_beam_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 36
+      formula: 0
+    effectType: 2
+    baseValue: 2
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_beam_2
+    title: "\u0420\u0430\u0441\u0449\u0435\u043F\u043B\u0435\u043D\u0438\u0435 \u043B\u0443\u0447\u0430
+      II"
+    description: "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+      \u043B\u0443\u0447\u0438 \u0430\u0442\u0430\u043A\u0438.<br>\u041C\u0430\u0433\u0438\u044F
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043D\u0435 \u0438\u0434\u0435\u0442
+      \u043E\u0434\u043D\u0438\u043C \u043F\u043E\u0442\u043E\u043A\u043E\u043C \u2014
+      \u043E\u043D\u0430 \u0440\u0430\u0441\u043F\u0430\u0434\u0430\u0435\u0442\u0441\u044F
+      \u043D\u0430 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0439.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+      \u043B\u0443\u0447\u0438:</color> <color=#FFD27D>+1</color></size>"
+    gridPosition: {x: 0, y: 6}
+    icon: {fileID: 21300000, guid: f2a1d5cbd742c3541991ba61fe3673be, type: 3}
+    previousNodeIds:
+    - atk_damage_3
+    - atk_damage_4
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 280
+      formula: 0
+    - currency: 2
+      baseAmount: 55
+      formula: 0
+    effectType: 3
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_chance_3
+    title: "\u0422\u043E\u0447\u043D\u044B\u0439 \u0432\u0441\u043F\u043B\u0435\u0441\u043A
+      III"
+    description: "\u041F\u043E\u0432\u044B\u0448\u0430\u0435\u0442 \u0448\u0430\u043D\u0441
+      \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E \u0443\u0434\u0430\u0440\u0430.<br>\u0418\u043D\u043E\u0433\u0434\u0430
+      \u0441\u0438\u043B\u0430 \u043C\u0430\u0433\u0430 \u0432\u044B\u0440\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+      \u043E\u0441\u043E\u0431\u0435\u043D\u043D\u043E \u0447\u0438\u0441\u0442\u044B\u043C
+      \u0438 \u0440\u0435\u0437\u043A\u0438\u043C \u0438\u043C\u043F\u0443\u043B\u044C\u0441\u043E\u043C.<br><br><size=90%><color=#B7A7FF>\u0428\u0430\u043D\u0441
+      \u043A\u0440\u0438\u0442\u0430:</color> <color=#FFD27D>+8%</color></size>"
+    gridPosition: {x: -2, y: 6}
+    icon: {fileID: 21300000, guid: a3c215b76fcbef1479ecb5d0fc25b24f, type: 3}
+    previousNodeIds:
+    - atk_damage_3
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 45
+      formula: 0
+    - currency: 3
+      baseAmount: 4
+      formula: 0
+    effectType: 5
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_crit_mult_3
+    title: "\u0413\u043B\u0443\u0431\u043E\u043A\u0438\u0439 \u0440\u0430\u0437\u0440\u0435\u0437
+      III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u0438\u043B\u0443 \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E
+      \u0443\u0434\u0430\u0440\u0430.<br>\u0423\u0434\u0430\u0447\u043D\u044B\u0439
+      \u0443\u0434\u0430\u0440 \u043F\u0440\u043E\u0431\u0438\u0432\u0430\u0435\u0442
+      \u043D\u0435 \u0442\u0435\u043B\u043E, \u0430 \u0441\u0430\u043C\u0443 \u0442\u043A\u0430\u043D\u044C
+      \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u044F.<br><br><size=90%><color=#B7A7FF>\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
+      \u0443\u0440\u043E\u043D:</color> <color=#FFD27D>+25%</color></size>"
+    gridPosition: {x: 2, y: 6}
+    icon: {fileID: 21300000, guid: c0440f8e2ad764945b73473629adb5dd, type: 3}
+    previousNodeIds:
+    - atk_damage_4
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 50
+      formula: 0
+    - currency: 3
+      baseAmount: 5
+      formula: 0
+    effectType: 6
+    baseValue: 25
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_damage_5
+    title: "\u041E\u0441\u0442\u0440\u044B\u0439 \u043B\u0443\u0447 V"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439 \u0430\u0442\u0430\u043A\u0438.<br>\u0412\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u0438 \u0440\u0435\u0436\u0435\u0442
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432 \u0433\u043B\u0443\u0431\u0436\u0435.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D:</color>
+      <color=#FFD27D>+3</color></size>"
+    gridPosition: {x: 0, y: 7}
+    icon: {fileID: 21300000, guid: 3a39273bbcda9fa4eba22243b5b2f955, type: 3}
+    previousNodeIds:
+    - atk_beam_2
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 85
+      formula: 0
+    - currency: 3
+      baseAmount: 10
+      formula: 0
+    effectType: 2
+    baseValue: 3
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: atk_beam_3
+    title: "\u0420\u0430\u0441\u0449\u0435\u043F\u043B\u0435\u043D\u0438\u0435 \u043B\u0443\u0447\u0430
+      III"
+    description: "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+      \u043B\u0443\u0447\u0438 \u0430\u0442\u0430\u043A\u0438.<br>\u041C\u0430\u0433\u0438\u044F
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043D\u0435 \u0438\u0434\u0435\u0442
+      \u043E\u0434\u043D\u0438\u043C \u043F\u043E\u0442\u043E\u043A\u043E\u043C \u2014
+      \u043E\u043D\u0430 \u0440\u0430\u0441\u043F\u0430\u0434\u0430\u0435\u0442\u0441\u044F
+      \u043D\u0430 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0439.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+      \u043B\u0443\u0447\u0438:</color> <color=#FFD27D>+1</color></size>"
+    gridPosition: {x: 0, y: 8}
+    icon: {fileID: 21300000, guid: f2a1d5cbd742c3541991ba61fe3673be, type: 3}
+    previousNodeIds:
+    - atk_damage_5
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 600
+      formula: 0
+    - currency: 2
+      baseAmount: 120
+      formula: 0
+    - currency: 3
+      baseAmount: 22
+      formula: 0
+    effectType: 3
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_1
+    title: "\u041B\u0435\u0433\u043A\u0438\u0439 \u0448\u0430\u0433 I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F.<br>\u041C\u0430\u0433
+      \u043B\u0435\u0433\u0447\u0435 \u0441\u043A\u043E\u043B\u044C\u0437\u0438\u0442
+      \u043C\u0435\u0436\u0434\u0443 \u043F\u043E\u0442\u043E\u043A\u0430\u043C\u0438
+      \u0432\u0440\u0430\u0436\u0434\u0435\u0431\u043D\u043E\u0439 \u043C\u0430\u0433\u0438\u0438.<br><br><size=90%><color=#B7A7FF>\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C:</color>
+      <color=#FFD27D>+5% \u0437\u0430 \u0443\u0440\u043E\u0432\u0435\u043D\u044C,
+      \u0434\u043E +10%</color></size>"
+    gridPosition: {x: 1, y: 0}
+    icon: {fileID: 21300000, guid: 3a76409b861df824e8c320bf677cfa03, type: 3}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 12
+      formula: 2
+    effectType: 1
+    baseValue: 5
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_1
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.35 \u0437\u0430 \u0443\u0440\u043E\u0432\u0435\u043D\u044C,
+      \u0434\u043E +0.70</color></size>"
+    gridPosition: {x: 2, y: 0}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - mov_speed_1
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 25
+      formula: 2
+    effectType: 4
+    baseValue: 0.35
+    growthFormula: 1
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_2
+    title: "\u041B\u0435\u0433\u043A\u0438\u0439 \u0448\u0430\u0433 II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F.<br>\u041C\u0430\u0433
+      \u043B\u0435\u0433\u0447\u0435 \u0441\u043A\u043E\u043B\u044C\u0437\u0438\u0442
+      \u043C\u0435\u0436\u0434\u0443 \u043F\u043E\u0442\u043E\u043A\u0430\u043C\u0438
+      \u0432\u0440\u0430\u0436\u0434\u0435\u0431\u043D\u043E\u0439 \u043C\u0430\u0433\u0438\u0438.<br><br><size=90%><color=#B7A7FF>\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C:</color>
+      <color=#FFD27D>+7%</color></size>"
+    gridPosition: {x: 3, y: 1}
+    icon: {fileID: 21300000, guid: 3a76409b861df824e8c320bf677cfa03, type: 3}
+    previousNodeIds:
+    - mov_speed_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 60
+      formula: 0
+    effectType: 1
+    baseValue: 7
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_2
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.45</color></size>"
+    gridPosition: {x: 3, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - mov_pickup_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 55
+      formula: 0
+    effectType: 4
+    baseValue: 0.45
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_inv_1
+    title: "\u041C\u0438\u0433 \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u0440\u0435\u043C\u044F \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      \u043F\u043E\u0441\u043B\u0435 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
+      \u0443\u0440\u043E\u043D\u0430.<br>\u041D\u0430 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0439
+      \u043C\u0438\u0433 \u0442\u0435\u043B\u043E \u043C\u0430\u0433\u0430 \u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F
+      \u043D\u0435 \u043F\u043B\u043E\u0442\u044C\u044E, \u0430 \u0447\u0438\u0441\u0442\u043E\u0439
+      \u043C\u0430\u0433\u0438\u0435\u0439.<br><br><size=90%><color=#B7A7FF>\u041D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u044C
+      \u043F\u043E\u0441\u043B\u0435 \u0443\u0434\u0430\u0440\u0430:</color> <color=#FFD27D>+0.15
+      \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: 4, y: 0}
+    icon: {fileID: 21300000, guid: aa909b5013e405f4ca3e97d04176f5d2, type: 3}
+    previousNodeIds:
+    - mov_pickup_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 75
+      formula: 0
+    effectType: 11
+    baseValue: 0.15
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_3
+    title: "\u041B\u0435\u0433\u043A\u0438\u0439 \u0448\u0430\u0433 III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F.<br>\u041C\u0430\u0433
+      \u043B\u0435\u0433\u0447\u0435 \u0441\u043A\u043E\u043B\u044C\u0437\u0438\u0442
+      \u043C\u0435\u0436\u0434\u0443 \u043F\u043E\u0442\u043E\u043A\u0430\u043C\u0438
+      \u0432\u0440\u0430\u0436\u0434\u0435\u0431\u043D\u043E\u0439 \u043C\u0430\u0433\u0438\u0438.<br><br><size=90%><color=#B7A7FF>\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C:</color>
+      <color=#FFD27D>+8%</color></size>"
+    gridPosition: {x: 5, y: 1}
+    icon: {fileID: 21300000, guid: 3a76409b861df824e8c320bf677cfa03, type: 3}
+    previousNodeIds:
+    - mov_speed_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 120
+      formula: 0
+    - currency: 2
+      baseAmount: 12
+      formula: 0
+    effectType: 1
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_3
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.50</color></size>"
+    gridPosition: {x: 5, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - mov_pickup_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 115
+      formula: 0
+    - currency: 2
+      baseAmount: 10
+      formula: 0
+    effectType: 4
+    baseValue: 0.5
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_inv_2
+    title: "\u041C\u0438\u0433 \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u0440\u0435\u043C\u044F \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      \u043F\u043E\u0441\u043B\u0435 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
+      \u0443\u0440\u043E\u043D\u0430.<br>\u041D\u0430 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0439
+      \u043C\u0438\u0433 \u0442\u0435\u043B\u043E \u043C\u0430\u0433\u0430 \u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F
+      \u043D\u0435 \u043F\u043B\u043E\u0442\u044C\u044E, \u0430 \u0447\u0438\u0441\u0442\u043E\u0439
+      \u043C\u0430\u0433\u0438\u0435\u0439.<br><br><size=90%><color=#B7A7FF>\u041D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u044C
+      \u043F\u043E\u0441\u043B\u0435 \u0443\u0434\u0430\u0440\u0430:</color> <color=#FFD27D>+0.20
+      \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: 5, y: 0}
+    icon: {fileID: 21300000, guid: aa909b5013e405f4ca3e97d04176f5d2, type: 3}
+    previousNodeIds:
+    - mov_inv_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 135
+      formula: 0
+    - currency: 2
+      baseAmount: 14
+      formula: 0
+    effectType: 11
+    baseValue: 0.2
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_sprint_unlock
+    title: "\u0420\u044B\u0432\u043E\u043A \u0441\u043A\u0432\u043E\u0437\u044C \u0442\u044C\u043C\u0443"
+    description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0441\u043F\u0440\u0438\u043D\u0442
+      \u043D\u0430 \u041B\u041A\u041C.<br>\u041C\u0430\u0433 \u043D\u0430 \u043C\u0433\u043D\u043E\u0432\u0435\u043D\u0438\u0435
+      \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u0432\u0430\u0435\u0442\u0441\u044F
+      \u0432 \u0440\u0430\u0437\u043B\u043E\u043C \u0438 \u0432\u044B\u0445\u043E\u0434\u0438\u0442
+      \u0447\u0443\u0442\u044C \u0434\u0430\u043B\u044C\u0448\u0435.<br><br><size=90%><color=#A7F3D0>\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442:</color>
+      <color=#FFD27D>\u0441\u043F\u0440\u0438\u043D\u0442 \u043D\u0430 \u041B\u041A\u041C</color></size>"
+    gridPosition: {x: 6, y: 0}
+    icon: {fileID: 21300000, guid: 9959bfd0d977c2a48ac02e5f0c9f99a1, type: 3}
+    previousNodeIds:
+    - mov_inv_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 220
+      formula: 0
+    - currency: 2
+      baseAmount: 45
+      formula: 0
+    - currency: 3
+      baseAmount: 8
+      formula: 0
+    effectType: 16
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_4
+    title: "\u041B\u0435\u0433\u043A\u0438\u0439 \u0448\u0430\u0433 IV"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F.<br>\u041C\u0430\u0433
+      \u043B\u0435\u0433\u0447\u0435 \u0441\u043A\u043E\u043B\u044C\u0437\u0438\u0442
+      \u043C\u0435\u0436\u0434\u0443 \u043F\u043E\u0442\u043E\u043A\u0430\u043C\u0438
+      \u0432\u0440\u0430\u0436\u0434\u0435\u0431\u043D\u043E\u0439 \u043C\u0430\u0433\u0438\u0438.<br><br><size=90%><color=#B7A7FF>\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C:</color>
+      <color=#FFD27D>+10%</color></size>"
+    gridPosition: {x: 7, y: 1}
+    icon: {fileID: 21300000, guid: 3a76409b861df824e8c320bf677cfa03, type: 3}
+    previousNodeIds:
+    - mov_sprint_unlock
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 55
+      formula: 0
+    - currency: 3
+      baseAmount: 6
+      formula: 0
+    effectType: 1
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_4
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      IV"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.65</color></size>"
+    gridPosition: {x: 7, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - mov_sprint_unlock
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 50
+      formula: 0
+    - currency: 3
+      baseAmount: 5
+      formula: 0
+    effectType: 4
+    baseValue: 0.65
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_inv_3
+    title: "\u041C\u0438\u0433 \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u0440\u0435\u043C\u044F \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      \u043F\u043E\u0441\u043B\u0435 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
+      \u0443\u0440\u043E\u043D\u0430.<br>\u041D\u0430 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0439
+      \u043C\u0438\u0433 \u0442\u0435\u043B\u043E \u043C\u0430\u0433\u0430 \u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F
+      \u043D\u0435 \u043F\u043B\u043E\u0442\u044C\u044E, \u0430 \u0447\u0438\u0441\u0442\u043E\u0439
+      \u043C\u0430\u0433\u0438\u0435\u0439.<br><br><size=90%><color=#B7A7FF>\u041D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u044C
+      \u043F\u043E\u0441\u043B\u0435 \u0443\u0434\u0430\u0440\u0430:</color> <color=#FFD27D>+0.25
+      \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: 8, y: 0}
+    icon: {fileID: 21300000, guid: aa909b5013e405f4ca3e97d04176f5d2, type: 3}
+    previousNodeIds:
+    - mov_sprint_unlock
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 70
+      formula: 0
+    - currency: 3
+      baseAmount: 8
+      formula: 0
+    effectType: 11
+    baseValue: 0.25
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_5
+    title: "\u041B\u0435\u0433\u043A\u0438\u0439 \u0448\u0430\u0433 V"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F.<br>\u041C\u0430\u0433
+      \u043B\u0435\u0433\u0447\u0435 \u0441\u043A\u043E\u043B\u044C\u0437\u0438\u0442
+      \u043C\u0435\u0436\u0434\u0443 \u043F\u043E\u0442\u043E\u043A\u0430\u043C\u0438
+      \u0432\u0440\u0430\u0436\u0434\u0435\u0431\u043D\u043E\u0439 \u043C\u0430\u0433\u0438\u0438.<br><br><size=90%><color=#B7A7FF>\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C:</color>
+      <color=#FFD27D>+12%</color></size>"
+    gridPosition: {x: 9, y: 1}
+    icon: {fileID: 21300000, guid: 3a76409b861df824e8c320bf677cfa03, type: 3}
+    previousNodeIds:
+    - mov_speed_4
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 95
+      formula: 0
+    - currency: 3
+      baseAmount: 14
+      formula: 0
+    effectType: 1
+    baseValue: 12
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_5
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      V"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.80</color></size>"
+    gridPosition: {x: 9, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - mov_pickup_4
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 90
+      formula: 0
+    - currency: 3
+      baseAmount: 12
+      formula: 0
+    effectType: 4
+    baseValue: 0.8
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_inv_4
+    title: "\u041C\u0438\u0433 \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      IV"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u0440\u0435\u043C\u044F \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438
+      \u043F\u043E\u0441\u043B\u0435 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
+      \u0443\u0440\u043E\u043D\u0430.<br>\u041D\u0430 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0439
+      \u043C\u0438\u0433 \u0442\u0435\u043B\u043E \u043C\u0430\u0433\u0430 \u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F
+      \u043D\u0435 \u043F\u043B\u043E\u0442\u044C\u044E, \u0430 \u0447\u0438\u0441\u0442\u043E\u0439
+      \u043C\u0430\u0433\u0438\u0435\u0439.<br><br><size=90%><color=#B7A7FF>\u041D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u044C
+      \u043F\u043E\u0441\u043B\u0435 \u0443\u0434\u0430\u0440\u0430:</color> <color=#FFD27D>+0.30
+      \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: 10, y: 0}
+    icon: {fileID: 21300000, guid: aa909b5013e405f4ca3e97d04176f5d2, type: 3}
+    previousNodeIds:
+    - mov_inv_3
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 500
+      formula: 0
+    - currency: 2
+      baseAmount: 110
+      formula: 0
+    - currency: 3
+      baseAmount: 18
+      formula: 0
+    effectType: 11
+    baseValue: 0.3
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_speed_final
+    title: "\u041B\u0435\u0433\u043A\u0438\u0439 \u0448\u0430\u0433 VI"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F.<br>\u041C\u0430\u0433
+      \u043B\u0435\u0433\u0447\u0435 \u0441\u043A\u043E\u043B\u044C\u0437\u0438\u0442
+      \u043C\u0435\u0436\u0434\u0443 \u043F\u043E\u0442\u043E\u043A\u0430\u043C\u0438
+      \u0432\u0440\u0430\u0436\u0434\u0435\u0431\u043D\u043E\u0439 \u043C\u0430\u0433\u0438\u0438.<br><br><size=90%><color=#B7A7FF>\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C:</color>
+      <color=#FFD27D>+15%</color></size>"
+    gridPosition: {x: 11, y: 1}
+    icon: {fileID: 21300000, guid: 3a76409b861df824e8c320bf677cfa03, type: 3}
+    previousNodeIds:
+    - mov_speed_5
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 140
+      formula: 0
+    - currency: 3
+      baseAmount: 25
+      formula: 0
+    effectType: 1
+    baseValue: 15
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_pickup_final
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      VI"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+1.00</color></size>"
+    gridPosition: {x: 11, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - mov_pickup_5
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 130
+      formula: 0
+    - currency: 3
+      baseAmount: 24
+      formula: 0
+    effectType: 4
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: mov_mastery
+    title: "\u0420\u044B\u0432\u043E\u043A \u0441\u043A\u0432\u043E\u0437\u044C \u0442\u044C\u043C\u0443
+      II"
+    description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0441\u043F\u0440\u0438\u043D\u0442
+      \u043D\u0430 \u041B\u041A\u041C.<br>\u041C\u0430\u0433 \u043D\u0430 \u043C\u0433\u043D\u043E\u0432\u0435\u043D\u0438\u0435
+      \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u0432\u0430\u0435\u0442\u0441\u044F
+      \u0432 \u0440\u0430\u0437\u043B\u043E\u043C \u0438 \u0432\u044B\u0445\u043E\u0434\u0438\u0442
+      \u0447\u0443\u0442\u044C \u0434\u0430\u043B\u044C\u0448\u0435.<br><br><size=90%><color=#B7A7FF>\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C:</color>
+      <color=#FFD27D>+8% \u043F\u043E\u0441\u043B\u0435 \u043E\u0442\u043A\u0440\u044B\u0442\u0438\u044F
+      \u0440\u044B\u0432\u043A\u0430</color></size>"
+    gridPosition: {x: 12, y: 0}
+    icon: {fileID: 21300000, guid: 3a76409b861df824e8c320bf677cfa03, type: 3}
+    previousNodeIds:
+    - mov_inv_4
+    - mov_speed_final
+    - mov_pickup_final
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 900
+      formula: 0
+    - currency: 2
+      baseAmount: 180
+      formula: 0
+    - currency: 3
+      baseAmount: 35
+      formula: 0
+    effectType: 1
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_stability_1
+    title: "\u041A\u0440\u0435\u043F\u043A\u0430\u044F \u0432\u043E\u043B\u044F I"
+    description: "\u0421\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u044C
+      \u0441\u043D\u0438\u0436\u0430\u0435\u0442\u0441\u044F \u043C\u0435\u0434\u043B\u0435\u043D\u043D\u0435\u0435.<br>\u041C\u0430\u0433
+      \u0434\u043E\u043B\u044C\u0448\u0435 \u0443\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442
+      \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0438\u0439 \u0440\u0430\u0437\u043B\u043E\u043C
+      \u043E\u0442 \u0440\u0430\u0441\u043F\u0430\u0434\u0430.<br><br><size=90%><color=#B7A7FF>\u041F\u043E\u0442\u0435\u0440\u044F
+      \u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u0438:</color>
+      <color=#FFD27D>-8% \u0437\u0430 \u0443\u0440\u043E\u0432\u0435\u043D\u044C,
+      \u0434\u043E -16%</color></size>"
+    gridPosition: {x: 0, y: -1}
+    icon: {fileID: 21300000, guid: 02b4e568eaa25d24e838cb93d1aade77, type: 3}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 18
+      formula: 2
+    effectType: 7
+    baseValue: 8
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_stability_2
+    title: "\u041A\u0440\u0435\u043F\u043A\u0430\u044F \u0432\u043E\u043B\u044F II"
+    description: "\u0421\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u044C
+      \u0441\u043D\u0438\u0436\u0430\u0435\u0442\u0441\u044F \u043C\u0435\u0434\u043B\u0435\u043D\u043D\u0435\u0435.<br>\u041C\u0430\u0433
+      \u0434\u043E\u043B\u044C\u0448\u0435 \u0443\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442
+      \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0438\u0439 \u0440\u0430\u0437\u043B\u043E\u043C
+      \u043E\u0442 \u0440\u0430\u0441\u043F\u0430\u0434\u0430.<br><br><size=90%><color=#B7A7FF>\u041F\u043E\u0442\u0435\u0440\u044F
+      \u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u0438:</color>
+      <color=#FFD27D>-10%</color></size>"
+    gridPosition: {x: 0, y: -2}
+    icon: {fileID: 21300000, guid: 02b4e568eaa25d24e838cb93d1aade77, type: 3}
+    previousNodeIds:
+    - ctl_stability_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 70
+      formula: 0
+    effectType: 7
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_stability_3
+    title: "\u041A\u0440\u0435\u043F\u043A\u0430\u044F \u0432\u043E\u043B\u044F III"
+    description: "\u0421\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u044C
+      \u0441\u043D\u0438\u0436\u0430\u0435\u0442\u0441\u044F \u043C\u0435\u0434\u043B\u0435\u043D\u043D\u0435\u0435.<br>\u041C\u0430\u0433
+      \u0434\u043E\u043B\u044C\u0448\u0435 \u0443\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442
+      \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0438\u0439 \u0440\u0430\u0437\u043B\u043E\u043C
+      \u043E\u0442 \u0440\u0430\u0441\u043F\u0430\u0434\u0430.<br><br><size=90%><color=#B7A7FF>\u041F\u043E\u0442\u0435\u0440\u044F
+      \u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u0438:</color>
+      <color=#FFD27D>-12%</color></size>"
+    gridPosition: {x: -1, y: -2}
+    icon: {fileID: 21300000, guid: 02b4e568eaa25d24e838cb93d1aade77, type: 3}
+    previousNodeIds:
+    - ctl_stability_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 100
+      formula: 0
+    - currency: 2
+      baseAmount: 8
+      formula: 0
+    effectType: 7
+    baseValue: 12
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: ctl_stability_4
+    title: "\u041A\u0440\u0435\u043F\u043A\u0430\u044F \u0432\u043E\u043B\u044F IV"
+    description: "\u0421\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u044C
+      \u0441\u043D\u0438\u0436\u0430\u0435\u0442\u0441\u044F \u043C\u0435\u0434\u043B\u0435\u043D\u043D\u0435\u0435.<br>\u041C\u0430\u0433
+      \u0434\u043E\u043B\u044C\u0448\u0435 \u0443\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442
+      \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0438\u0439 \u0440\u0430\u0437\u043B\u043E\u043C
+      \u043E\u0442 \u0440\u0430\u0441\u043F\u0430\u0434\u0430.<br><br><size=90%><color=#B7A7FF>\u041F\u043E\u0442\u0435\u0440\u044F
+      \u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u0438:</color>
+      <color=#FFD27D>-14%</color></size>"
+    gridPosition: {x: 1, y: -2}
+    icon: {fileID: 21300000, guid: 02b4e568eaa25d24e838cb93d1aade77, type: 3}
+    previousNodeIds:
+    - ctl_stability_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 115
+      formula: 0
+    - currency: 2
+      baseAmount: 10
+      formula: 0
+    effectType: 7
+    baseValue: 14
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_unlock
+    title: "\u041F\u0435\u0447\u0430\u0442\u044C \u0432\u0437\u0440\u044B\u0432\u0430"
+    description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0431\u043E\u043C\u0431\u044B.<br>\u041C\u0430\u0433
+      \u0443\u0447\u0438\u0442\u0441\u044F \u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0442\u044C
+      \u0438\u0437\u0431\u044B\u0442\u043E\u043A \u0441\u0438\u043B\u044B \u043D\u0430\u0440\u0443\u0436\u0443,
+      \u0437\u0430\u043F\u0435\u0447\u0430\u0442\u044B\u0432\u0430\u044F \u0435\u0433\u043E
+      \u0432\u043E \u0432\u0437\u0440\u044B\u0432\u043D\u043E\u0439 \u0437\u043D\u0430\u043A.<br><br><size=90%><color=#A7F3D0>\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442:</color>
+      <color=#FFD27D>\u0431\u043E\u043C\u0431\u044B</color></size>"
+    gridPosition: {x: 0, y: -3}
+    icon: {fileID: 21300000, guid: 1668cf614525fae46a9d06637c9dd7ca, type: 3}
+    previousNodeIds:
+    - ctl_stability_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 160
+      formula: 0
+    - currency: 2
+      baseAmount: 25
+      formula: 0
+    effectType: 12
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_radius_1
+    title: "\u0428\u0438\u0440\u043E\u043A\u0430\u044F \u043F\u0435\u0447\u0430\u0442\u044C
+      I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0432\u0437\u0440\u044B\u0432\u0430 \u0431\u043E\u043C\u0431.<br>\u0412\u0437\u0440\u044B\u0432\u043D\u0430\u044F
+      \u043F\u0435\u0447\u0430\u0442\u044C \u0440\u0430\u0441\u043F\u043E\u043B\u0437\u0430\u0435\u0442\u0441\u044F
+      \u0434\u0430\u043B\u044C\u0448\u0435, \u0437\u0430\u0434\u0435\u0432\u0430\u044F
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0440\u0430\u0433\u043E\u0432.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0432\u0437\u0440\u044B\u0432\u0430:</color> <color=#FFD27D>+0.35</color></size>"
+    gridPosition: {x: -1, y: -4}
+    icon: {fileID: 21300000, guid: e7b7f68d5004aa64c8bd570f6a1e139d, type: 3}
+    previousNodeIds:
+    - bomb_unlock
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 90
+      formula: 0
+    - currency: 2
+      baseAmount: 12
+      formula: 0
+    effectType: 13
+    baseValue: 0.35
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_damage_1
+    title: "\u0422\u044F\u0436\u0435\u043B\u044B\u0439 \u0432\u0437\u0440\u044B\u0432
+      I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u0431\u043E\u043C\u0431.<br>\u0418\u0437\u0431\u044B\u0442\u043E\u0447\u043D\u0430\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u0436\u0438\u043C\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u043F\u0435\u0440\u0435\u0434 \u0440\u0430\u0437\u0440\u0443\u0448\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u043C
+      \u0432\u044B\u0431\u0440\u043E\u0441\u043E\u043C.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D
+      \u0431\u043E\u043C\u0431\u044B:</color> <color=#FFD27D>+3</color></size>"
+    gridPosition: {x: 1, y: -4}
+    icon: {fileID: 21300000, guid: e59405fb7aa659444bef3ff07956b0ef, type: 3}
+    previousNodeIds:
+    - bomb_unlock
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 100
+      formula: 0
+    - currency: 2
+      baseAmount: 15
+      formula: 0
+    effectType: 14
+    baseValue: 3
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_interval_1
+    title: "\u0411\u044B\u0441\u0442\u0440\u0430\u044F \u043F\u0435\u0447\u0430\u0442\u044C
+      I"
+    description: "\u0411\u043E\u043C\u0431\u044B \u043F\u043E\u044F\u0432\u043B\u044F\u044E\u0442\u0441\u044F
+      \u0447\u0430\u0449\u0435.<br>\u041C\u0430\u0433 \u0431\u044B\u0441\u0442\u0440\u0435\u0435
+      \u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442 \u043B\u0438\u0448\u043D\u044E\u044E
+      \u044D\u043D\u0435\u0440\u0433\u0438\u044E, \u043D\u0435 \u0434\u0430\u0432\u0430\u044F
+      \u0435\u0439 \u0440\u0430\u0437\u043E\u0440\u0432\u0430\u0442\u044C \u0441\u0435\u0431\u044F.<br><br><size=90%><color=#B7A7FF>\u0418\u043D\u0442\u0435\u0440\u0432\u0430\u043B
+      \u0431\u043E\u043C\u0431:</color> <color=#FFD27D>-0.35 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: 0, y: -5}
+    icon: {fileID: 21300000, guid: bdffece932f2edf4480b8843e1ad9eb2, type: 3}
+    previousNodeIds:
+    - bomb_radius_1
+    - bomb_damage_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 160
+      formula: 0
+    - currency: 2
+      baseAmount: 26
+      formula: 0
+    effectType: 15
+    baseValue: 0.35
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_radius_2
+    title: "\u0428\u0438\u0440\u043E\u043A\u0430\u044F \u043F\u0435\u0447\u0430\u0442\u044C
+      II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0432\u0437\u0440\u044B\u0432\u0430 \u0431\u043E\u043C\u0431.<br>\u0412\u0437\u0440\u044B\u0432\u043D\u0430\u044F
+      \u043F\u0435\u0447\u0430\u0442\u044C \u0440\u0430\u0441\u043F\u043E\u043B\u0437\u0430\u0435\u0442\u0441\u044F
+      \u0434\u0430\u043B\u044C\u0448\u0435, \u0437\u0430\u0434\u0435\u0432\u0430\u044F
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0440\u0430\u0433\u043E\u0432.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0432\u0437\u0440\u044B\u0432\u0430:</color> <color=#FFD27D>+0.45</color></size>"
+    gridPosition: {x: -2, y: -5}
+    icon: {fileID: 21300000, guid: e7b7f68d5004aa64c8bd570f6a1e139d, type: 3}
+    previousNodeIds:
+    - bomb_radius_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 42
+      formula: 0
+    effectType: 13
+    baseValue: 0.45
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_damage_2
+    title: "\u0422\u044F\u0436\u0435\u043B\u044B\u0439 \u0432\u0437\u0440\u044B\u0432
+      II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u0431\u043E\u043C\u0431.<br>\u0418\u0437\u0431\u044B\u0442\u043E\u0447\u043D\u0430\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u0436\u0438\u043C\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u043F\u0435\u0440\u0435\u0434 \u0440\u0430\u0437\u0440\u0443\u0448\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u043C
+      \u0432\u044B\u0431\u0440\u043E\u0441\u043E\u043C.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D
+      \u0431\u043E\u043C\u0431\u044B:</color> <color=#FFD27D>+5</color></size>"
+    gridPosition: {x: 2, y: -5}
+    icon: {fileID: 21300000, guid: e59405fb7aa659444bef3ff07956b0ef, type: 3}
+    previousNodeIds:
+    - bomb_damage_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 48
+      formula: 0
+    effectType: 14
+    baseValue: 5
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_interval_2
+    title: "\u0411\u044B\u0441\u0442\u0440\u0430\u044F \u043F\u0435\u0447\u0430\u0442\u044C
+      II"
+    description: "\u0411\u043E\u043C\u0431\u044B \u043F\u043E\u044F\u0432\u043B\u044F\u044E\u0442\u0441\u044F
+      \u0447\u0430\u0449\u0435.<br>\u041C\u0430\u0433 \u0431\u044B\u0441\u0442\u0440\u0435\u0435
+      \u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442 \u043B\u0438\u0448\u043D\u044E\u044E
+      \u044D\u043D\u0435\u0440\u0433\u0438\u044E, \u043D\u0435 \u0434\u0430\u0432\u0430\u044F
+      \u0435\u0439 \u0440\u0430\u0437\u043E\u0440\u0432\u0430\u0442\u044C \u0441\u0435\u0431\u044F.<br><br><size=90%><color=#B7A7FF>\u0418\u043D\u0442\u0435\u0440\u0432\u0430\u043B
+      \u0431\u043E\u043C\u0431:</color> <color=#FFD27D>-0.45 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: 0, y: -6}
+    icon: {fileID: 21300000, guid: bdffece932f2edf4480b8843e1ad9eb2, type: 3}
+    previousNodeIds:
+    - bomb_interval_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 60
+      formula: 0
+    - currency: 3
+      baseAmount: 5
+      formula: 0
+    effectType: 15
+    baseValue: 0.45
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_radius_3
+    title: "\u0428\u0438\u0440\u043E\u043A\u0430\u044F \u043F\u0435\u0447\u0430\u0442\u044C
+      III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0432\u0437\u0440\u044B\u0432\u0430 \u0431\u043E\u043C\u0431.<br>\u0412\u0437\u0440\u044B\u0432\u043D\u0430\u044F
+      \u043F\u0435\u0447\u0430\u0442\u044C \u0440\u0430\u0441\u043F\u043E\u043B\u0437\u0430\u0435\u0442\u0441\u044F
+      \u0434\u0430\u043B\u044C\u0448\u0435, \u0437\u0430\u0434\u0435\u0432\u0430\u044F
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0440\u0430\u0433\u043E\u0432.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0432\u0437\u0440\u044B\u0432\u0430:</color> <color=#FFD27D>+0.60</color></size>"
+    gridPosition: {x: -2, y: -7}
+    icon: {fileID: 21300000, guid: e7b7f68d5004aa64c8bd570f6a1e139d, type: 3}
+    previousNodeIds:
+    - bomb_radius_2
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 90
+      formula: 0
+    - currency: 3
+      baseAmount: 12
+      formula: 0
+    effectType: 13
+    baseValue: 0.6
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_damage_3
+    title: "\u0422\u044F\u0436\u0435\u043B\u044B\u0439 \u0432\u0437\u0440\u044B\u0432
+      III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0443\u0440\u043E\u043D \u0431\u043E\u043C\u0431.<br>\u0418\u0437\u0431\u044B\u0442\u043E\u0447\u043D\u0430\u044F
+      \u0441\u0438\u043B\u0430 \u0441\u0436\u0438\u043C\u0430\u0435\u0442\u0441\u044F
+      \u043F\u043B\u043E\u0442\u043D\u0435\u0435 \u043F\u0435\u0440\u0435\u0434 \u0440\u0430\u0437\u0440\u0443\u0448\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u043C
+      \u0432\u044B\u0431\u0440\u043E\u0441\u043E\u043C.<br><br><size=90%><color=#B7A7FF>\u0423\u0440\u043E\u043D
+      \u0431\u043E\u043C\u0431\u044B:</color> <color=#FFD27D>+8</color></size>"
+    gridPosition: {x: 2, y: -7}
+    icon: {fileID: 21300000, guid: e59405fb7aa659444bef3ff07956b0ef, type: 3}
+    previousNodeIds:
+    - bomb_damage_2
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 100
+      formula: 0
+    - currency: 3
+      baseAmount: 14
+      formula: 0
+    effectType: 14
+    baseValue: 8
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: bomb_interval_3
+    title: "\u0411\u044B\u0441\u0442\u0440\u0430\u044F \u043F\u0435\u0447\u0430\u0442\u044C
+      III"
+    description: "\u0411\u043E\u043C\u0431\u044B \u043F\u043E\u044F\u0432\u043B\u044F\u044E\u0442\u0441\u044F
+      \u0447\u0430\u0449\u0435.<br>\u041C\u0430\u0433 \u0431\u044B\u0441\u0442\u0440\u0435\u0435
+      \u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442 \u043B\u0438\u0448\u043D\u044E\u044E
+      \u044D\u043D\u0435\u0440\u0433\u0438\u044E, \u043D\u0435 \u0434\u0430\u0432\u0430\u044F
+      \u0435\u0439 \u0440\u0430\u0437\u043E\u0440\u0432\u0430\u0442\u044C \u0441\u0435\u0431\u044F.<br><br><size=90%><color=#B7A7FF>\u0418\u043D\u0442\u0435\u0440\u0432\u0430\u043B
+      \u0431\u043E\u043C\u0431:</color> <color=#FFD27D>-0.60 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: 0, y: -8}
+    icon: {fileID: 21300000, guid: bdffece932f2edf4480b8843e1ad9eb2, type: 3}
+    previousNodeIds:
+    - bomb_interval_2
+    - bomb_radius_3
+    - bomb_damage_3
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 700
+      formula: 0
+    - currency: 2
+      baseAmount: 130
+      formula: 0
+    - currency: 3
+      baseAmount: 28
+      formula: 0
+    effectType: 15
+    baseValue: 0.6
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_ash_drop_1
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u041F\u0435\u043F\u0435\u043B +15% \u0437\u0430 \u0443\u0440\u043E\u0432\u0435\u043D\u044C,
+      \u0434\u043E +30%</color></size>"
+    gridPosition: {x: -1, y: 0}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - root_awakened
+    maxLevel: 2
+    costs:
+    - currency: 1
+      baseAmount: 10
+      formula: 2
+    effectType: 9
+    baseValue: 15
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_ash_1
+    title: "\u0422\u043B\u0435\u044E\u0449\u0438\u0439 \u043E\u0441\u0442\u0430\u0442\u043E\u043A
+      I"
+    description: "\u041F\u0435\u0440\u0438\u043E\u0434\u0438\u0447\u0435\u0441\u043A\u0438
+      \u0434\u0430\u0435\u0442 \u0440\u0435\u0441\u0443\u0440\u0441 \u0441\u0430\u043C
+      \u043F\u043E \u0441\u0435\u0431\u0435.<br>\u0414\u0430\u0436\u0435 \u043C\u0435\u0436\u0434\u0443
+      \u0431\u043E\u044F\u043C\u0438 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u0435
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442 \u043E\u0441\u044B\u043F\u0430\u0442\u044C\u0441\u044F
+      \u0447\u0430\u0441\u0442\u0438\u0446\u0430\u043C\u0438 \u0441\u0438\u043B\u044B.<br><br><size=90%><color=#B7A7FF>\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u044B\u0439
+      \u0434\u043E\u0445\u043E\u0434:</color> <color=#FFD27D>\u041F\u0435\u043F\u0435\u043B
+      +1 \u043A\u0430\u0436\u0434\u044B\u0435 10 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: -2, y: 0}
+    icon: {fileID: 21300000, guid: bac3a98b149512a47a7d91e08aaf7c3a, type: 3}
+    previousNodeIds:
+    - res_ash_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 55
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 10
+  - id: res_pickup_1
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      I"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.40</color></size>"
+    gridPosition: {x: -3, y: 0}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - res_passive_ash_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 75
+      formula: 0
+    effectType: 4
+    baseValue: 0.4
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_ash_drop_2
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u041F\u0435\u043F\u0435\u043B +20%</color></size>"
+    gridPosition: {x: -2, y: 1}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_ash_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 85
+      formula: 0
+    effectType: 9
+    baseValue: 20
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_ash_2
+    title: "\u0422\u043B\u0435\u044E\u0449\u0438\u0439 \u043E\u0441\u0442\u0430\u0442\u043E\u043A
+      II"
+    description: "\u041F\u0435\u0440\u0438\u043E\u0434\u0438\u0447\u0435\u0441\u043A\u0438
+      \u0434\u0430\u0435\u0442 \u0440\u0435\u0441\u0443\u0440\u0441 \u0441\u0430\u043C
+      \u043F\u043E \u0441\u0435\u0431\u0435.<br>\u0414\u0430\u0436\u0435 \u043C\u0435\u0436\u0434\u0443
+      \u0431\u043E\u044F\u043C\u0438 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u0435
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442 \u043E\u0441\u044B\u043F\u0430\u0442\u044C\u0441\u044F
+      \u0447\u0430\u0441\u0442\u0438\u0446\u0430\u043C\u0438 \u0441\u0438\u043B\u044B.<br><br><size=90%><color=#B7A7FF>\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u044B\u0439
+      \u0434\u043E\u0445\u043E\u0434:</color> <color=#FFD27D>\u041F\u0435\u043F\u0435\u043B
+      +2 \u043A\u0430\u0436\u0434\u044B\u0435 12 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: -3, y: 1}
+    icon: {fileID: 21300000, guid: bac3a98b149512a47a7d91e08aaf7c3a, type: 3}
+    previousNodeIds:
+    - res_ash_drop_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 120
+      formula: 0
+    effectType: 10
+    baseValue: 2
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 12
+  - id: res_pickup_2
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      II"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.50</color></size>"
+    gridPosition: {x: -2, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - res_passive_ash_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 95
+      formula: 0
+    effectType: 4
+    baseValue: 0.5
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_unlock_crystal
+    title: "\u041D\u043E\u0432\u0430\u044F \u0433\u0440\u0430\u043D\u044C \u0441\u0438\u043B\u044B
+      I"
+    description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u043D\u043E\u0432\u044B\u0439
+      \u0442\u0438\u043F \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u041C\u0430\u0433
+      \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442 \u0432\u0438\u0434\u0435\u0442\u044C
+      \u0431\u043E\u043B\u0435\u0435 \u0433\u043B\u0443\u0431\u043E\u043A\u0438\u0435
+      \u0441\u043B\u0435\u0434\u044B \u043C\u0430\u0433\u0438\u0438, \u0441\u043A\u0440\u044B\u0442\u044B\u0435
+      \u0440\u0430\u043D\u044C\u0448\u0435.<br><br><size=90%><color=#A7F3D0>\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442:</color>
+      <color=#FFD27D>\u043A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B</color></size>"
+    gridPosition: {x: -4, y: 0}
+    icon: {fileID: 21300000, guid: a5ba3cf0f147f5d4584c4c520ed4e905, type: 3}
+    previousNodeIds:
+    - res_pickup_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 180
+      formula: 0
+    effectType: 8
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 2
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_crystal_drop_1
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B +12%</color></size>"
+    gridPosition: {x: -5, y: 0}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_unlock_crystal
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 130
+      formula: 0
+    - currency: 2
+      baseAmount: 8
+      formula: 0
+    effectType: 9
+    baseValue: 12
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 2
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_crystal_1
+    title: "\u0422\u043B\u0435\u044E\u0449\u0438\u0439 \u043E\u0441\u0442\u0430\u0442\u043E\u043A
+      III"
+    description: "\u041F\u0435\u0440\u0438\u043E\u0434\u0438\u0447\u0435\u0441\u043A\u0438
+      \u0434\u0430\u0435\u0442 \u0440\u0435\u0441\u0443\u0440\u0441 \u0441\u0430\u043C
+      \u043F\u043E \u0441\u0435\u0431\u0435.<br>\u0414\u0430\u0436\u0435 \u043C\u0435\u0436\u0434\u0443
+      \u0431\u043E\u044F\u043C\u0438 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u0435
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442 \u043E\u0441\u044B\u043F\u0430\u0442\u044C\u0441\u044F
+      \u0447\u0430\u0441\u0442\u0438\u0446\u0430\u043C\u0438 \u0441\u0438\u043B\u044B.<br><br><size=90%><color=#B7A7FF>\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u044B\u0439
+      \u0434\u043E\u0445\u043E\u0434:</color> <color=#FFD27D>\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B
+      +1 \u043A\u0430\u0436\u0434\u044B\u0435 18 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: -6, y: 0}
+    icon: {fileID: 21300000, guid: bac3a98b149512a47a7d91e08aaf7c3a, type: 3}
+    previousNodeIds:
+    - res_crystal_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 180
+      formula: 0
+    - currency: 2
+      baseAmount: 22
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 2
+    passiveCurrencyIntervalSeconds: 18
+  - id: res_crystal_drop_2
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      IV"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B +15%</color></size>"
+    gridPosition: {x: -5, y: 1}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_crystal_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 35
+      formula: 0
+    effectType: 9
+    baseValue: 15
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 2
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_crystal_2
+    title: "\u0422\u043B\u0435\u044E\u0449\u0438\u0439 \u043E\u0441\u0442\u0430\u0442\u043E\u043A
+      IV"
+    description: "\u041F\u0435\u0440\u0438\u043E\u0434\u0438\u0447\u0435\u0441\u043A\u0438
+      \u0434\u0430\u0435\u0442 \u0440\u0435\u0441\u0443\u0440\u0441 \u0441\u0430\u043C
+      \u043F\u043E \u0441\u0435\u0431\u0435.<br>\u0414\u0430\u0436\u0435 \u043C\u0435\u0436\u0434\u0443
+      \u0431\u043E\u044F\u043C\u0438 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u0435
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442 \u043E\u0441\u044B\u043F\u0430\u0442\u044C\u0441\u044F
+      \u0447\u0430\u0441\u0442\u0438\u0446\u0430\u043C\u0438 \u0441\u0438\u043B\u044B.<br><br><size=90%><color=#B7A7FF>\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u044B\u0439
+      \u0434\u043E\u0445\u043E\u0434:</color> <color=#FFD27D>\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B
+      +1 \u043A\u0430\u0436\u0434\u044B\u0435 14 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: -6, y: 1}
+    icon: {fileID: 21300000, guid: bac3a98b149512a47a7d91e08aaf7c3a, type: 3}
+    previousNodeIds:
+    - res_crystal_drop_2
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 50
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 2
+    passiveCurrencyIntervalSeconds: 14
+  - id: res_crystal_pickup
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      III"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.60</color></size>"
+    gridPosition: {x: -5, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - res_unlock_crystal
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 160
+      formula: 0
+    - currency: 2
+      baseAmount: 18
+      formula: 0
+    effectType: 4
+    baseValue: 0.6
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_ash_drop_3
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      V"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u041F\u0435\u043F\u0435\u043B +25%</color></size>"
+    gridPosition: {x: -4, y: -1}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_pickup_2
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 190
+      formula: 0
+    - currency: 2
+      baseAmount: 12
+      formula: 0
+    effectType: 9
+    baseValue: 25
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_unlock_soul
+    title: "\u041D\u043E\u0432\u0430\u044F \u0433\u0440\u0430\u043D\u044C \u0441\u0438\u043B\u044B
+      II"
+    description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u043D\u043E\u0432\u044B\u0439
+      \u0442\u0438\u043F \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u041C\u0430\u0433
+      \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442 \u0432\u0438\u0434\u0435\u0442\u044C
+      \u0431\u043E\u043B\u0435\u0435 \u0433\u043B\u0443\u0431\u043E\u043A\u0438\u0435
+      \u0441\u043B\u0435\u0434\u044B \u043C\u0430\u0433\u0438\u0438, \u0441\u043A\u0440\u044B\u0442\u044B\u0435
+      \u0440\u0430\u043D\u044C\u0448\u0435.<br><br><size=90%><color=#A7F3D0>\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442:</color>
+      <color=#FFD27D>\u0434\u0443\u0448\u0438</color></size>"
+    gridPosition: {x: -7, y: 0}
+    icon: {fileID: 21300000, guid: a5ba3cf0f147f5d4584c4c520ed4e905, type: 3}
+    previousNodeIds:
+    - res_passive_crystal_1
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 420
+      formula: 0
+    - currency: 2
+      baseAmount: 80
+      formula: 0
+    effectType: 8
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 3
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_soul_drop_1
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      VI"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u0414\u0443\u0448\u0438 +10%</color></size>"
+    gridPosition: {x: -8, y: 0}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_unlock_soul
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 70
+      formula: 0
+    - currency: 3
+      baseAmount: 5
+      formula: 0
+    effectType: 9
+    baseValue: 10
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 3
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_soul_1
+    title: "\u0422\u043B\u0435\u044E\u0449\u0438\u0439 \u043E\u0441\u0442\u0430\u0442\u043E\u043A
+      V"
+    description: "\u041F\u0435\u0440\u0438\u043E\u0434\u0438\u0447\u0435\u0441\u043A\u0438
+      \u0434\u0430\u0435\u0442 \u0440\u0435\u0441\u0443\u0440\u0441 \u0441\u0430\u043C
+      \u043F\u043E \u0441\u0435\u0431\u0435.<br>\u0414\u0430\u0436\u0435 \u043C\u0435\u0436\u0434\u0443
+      \u0431\u043E\u044F\u043C\u0438 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u0435
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442 \u043E\u0441\u044B\u043F\u0430\u0442\u044C\u0441\u044F
+      \u0447\u0430\u0441\u0442\u0438\u0446\u0430\u043C\u0438 \u0441\u0438\u043B\u044B.<br><br><size=90%><color=#B7A7FF>\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u044B\u0439
+      \u0434\u043E\u0445\u043E\u0434:</color> <color=#FFD27D>\u0414\u0443\u0448\u0438
+      +1 \u043A\u0430\u0436\u0434\u044B\u0435 25 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: -9, y: 0}
+    icon: {fileID: 21300000, guid: bac3a98b149512a47a7d91e08aaf7c3a, type: 3}
+    previousNodeIds:
+    - res_soul_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 100
+      formula: 0
+    - currency: 3
+      baseAmount: 12
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 3
+    passiveCurrencyIntervalSeconds: 25
+  - id: res_soul_drop_2
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      VII"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u0414\u0443\u0448\u0438 +12%</color></size>"
+    gridPosition: {x: -8, y: 1}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_soul_drop_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 90
+      formula: 0
+    - currency: 3
+      baseAmount: 10
+      formula: 0
+    effectType: 9
+    baseValue: 12
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 3
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_passive_soul_2
+    title: "\u0422\u043B\u0435\u044E\u0449\u0438\u0439 \u043E\u0441\u0442\u0430\u0442\u043E\u043A
+      VI"
+    description: "\u041F\u0435\u0440\u0438\u043E\u0434\u0438\u0447\u0435\u0441\u043A\u0438
+      \u0434\u0430\u0435\u0442 \u0440\u0435\u0441\u0443\u0440\u0441 \u0441\u0430\u043C
+      \u043F\u043E \u0441\u0435\u0431\u0435.<br>\u0414\u0430\u0436\u0435 \u043C\u0435\u0436\u0434\u0443
+      \u0431\u043E\u044F\u043C\u0438 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u0435
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442 \u043E\u0441\u044B\u043F\u0430\u0442\u044C\u0441\u044F
+      \u0447\u0430\u0441\u0442\u0438\u0446\u0430\u043C\u0438 \u0441\u0438\u043B\u044B.<br><br><size=90%><color=#B7A7FF>\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u044B\u0439
+      \u0434\u043E\u0445\u043E\u0434:</color> <color=#FFD27D>\u0414\u0443\u0448\u0438
+      +1 \u043A\u0430\u0436\u0434\u044B\u0435 20 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: -9, y: 1}
+    icon: {fileID: 21300000, guid: bac3a98b149512a47a7d91e08aaf7c3a, type: 3}
+    previousNodeIds:
+    - res_soul_drop_2
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 140
+      formula: 0
+    - currency: 3
+      baseAmount: 18
+      formula: 0
+    effectType: 10
+    baseValue: 1
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 3
+    passiveCurrencyIntervalSeconds: 20
+  - id: res_all_drop_1
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      VIII"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u041F\u0435\u043F\u0435\u043B +30%</color></size>"
+    gridPosition: {x: -7, y: -1}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_ash_drop_3
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 350
+      formula: 0
+    - currency: 2
+      baseAmount: 55
+      formula: 0
+    effectType: 9
+    baseValue: 30
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_all_pickup_1
+    title: "\u041F\u0440\u0438\u0442\u044F\u0436\u0435\u043D\u0438\u0435 \u043E\u0441\u043A\u043E\u043B\u043A\u043E\u0432
+      IV"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0440\u0430\u0434\u0438\u0443\u0441 \u0441\u0431\u043E\u0440\u0430 \u0440\u0435\u0441\u0443\u0440\u0441\u043E\u0432.<br>\u0427\u0430\u0441\u0442\u0438\u0446\u044B
+      \u0441\u0438\u043B\u044B \u0441\u0430\u043C\u0438 \u0442\u044F\u043D\u0443\u0442\u0441\u044F
+      \u043A \u043C\u0430\u0433\u0443, \u0443\u0437\u043D\u0430\u0432\u0430\u044F
+      \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0440\u0430\u0437\u043B\u043E\u043C\u0430.<br><br><size=90%><color=#B7A7FF>\u0420\u0430\u0434\u0438\u0443\u0441
+      \u0441\u0431\u043E\u0440\u0430:</color> <color=#FFD27D>+0.80</color></size>"
+    gridPosition: {x: -8, y: -1}
+    icon: {fileID: 21300000, guid: 02453098506e95e449ed45091acfe1c5, type: 3}
+    previousNodeIds:
+    - res_all_drop_1
+    - res_unlock_soul
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 90
+      formula: 0
+    - currency: 3
+      baseAmount: 8
+      formula: 0
+    effectType: 4
+    baseValue: 0.8
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_crystal_drop_3
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      IX"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B +20%</color></size>"
+    gridPosition: {x: -10, y: -1}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_all_pickup_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 120
+      formula: 0
+    - currency: 3
+      baseAmount: 18
+      formula: 0
+    effectType: 9
+    baseValue: 20
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 2
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_soul_drop_3
+    title: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C \u0440\u0430\u0437\u043B\u043E\u043C\u0430
+      X"
+    description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0432\u044B\u043F\u0430\u0434\u0435\u043D\u0438\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
+      \u0440\u0435\u0441\u0443\u0440\u0441\u0430.<br>\u0420\u0430\u0437\u043B\u043E\u043C
+      \u0432\u043D\u0443\u0442\u0440\u0438 \u043C\u0430\u0433\u0430 \u0432\u044B\u0442\u044F\u0433\u0438\u0432\u0430\u0435\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u043E\u0441\u0442\u0430\u0442\u043A\u043E\u0432
+      \u0438\u0437 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043D\u044B\u0445
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432.<br><br><size=90%><color=#B7A7FF>\u0414\u043E\u0431\u044B\u0447\u0430:</color>
+      <color=#FFD27D>\u0414\u0443\u0448\u0438 +15%</color></size>"
+    gridPosition: {x: -10, y: 1}
+    icon: {fileID: 21300000, guid: f936a251e30905449aa0565fb96c270e, type: 3}
+    previousNodeIds:
+    - res_passive_soul_1
+    maxLevel: 1
+    costs:
+    - currency: 2
+      baseAmount: 140
+      formula: 0
+    - currency: 3
+      baseAmount: 25
+      formula: 0
+    effectType: 9
+    baseValue: 15
+    growthFormula: 2
+    unlockCurrencyType: 0
+    currencyDropType: 3
+    passiveCurrencyType: 1
+    passiveCurrencyIntervalSeconds: 3
+  - id: res_mastery
+    title: "\u0422\u043B\u0435\u044E\u0449\u0438\u0439 \u043E\u0441\u0442\u0430\u0442\u043E\u043A
+      VII"
+    description: "\u041F\u0435\u0440\u0438\u043E\u0434\u0438\u0447\u0435\u0441\u043A\u0438
+      \u0434\u0430\u0435\u0442 \u0440\u0435\u0441\u0443\u0440\u0441 \u0441\u0430\u043C
+      \u043F\u043E \u0441\u0435\u0431\u0435.<br>\u0414\u0430\u0436\u0435 \u043C\u0435\u0436\u0434\u0443
+      \u0431\u043E\u044F\u043C\u0438 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u0438\u0435
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442 \u043E\u0441\u044B\u043F\u0430\u0442\u044C\u0441\u044F
+      \u0447\u0430\u0441\u0442\u0438\u0446\u0430\u043C\u0438 \u0441\u0438\u043B\u044B.<br><br><size=90%><color=#B7A7FF>\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u044B\u0439
+      \u0434\u043E\u0445\u043E\u0434:</color> <color=#FFD27D>\u0414\u0443\u0448\u0438
+      +2 \u043A\u0430\u0436\u0434\u044B\u0435 30 \u0441\u0435\u043A.</color></size>"
+    gridPosition: {x: -11, y: 0}
+    icon: {fileID: 21300000, guid: bac3a98b149512a47a7d91e08aaf7c3a, type: 3}
+    previousNodeIds:
+    - res_passive_soul_2
+    - res_crystal_drop_3
+    - res_soul_drop_3
+    maxLevel: 1
+    costs:
+    - currency: 1
+      baseAmount: 900
+      formula: 0
+    - currency: 2
+      baseAmount: 190
+      formula: 0
+    - currency: 3
+      baseAmount: 40
+      formula: 0
+    effectType: 10
+    baseValue: 2
+    growthFormula: 0
+    unlockCurrencyType: 0
+    currencyDropType: 1
+    passiveCurrencyType: 3
+    passiveCurrencyIntervalSeconds: 30

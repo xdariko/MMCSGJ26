@@ -12,27 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e93183318d106c48836636a7730cd7f, type: 3}
   m_Name: Wave Config 2
   m_EditorClassIdentifier: Assembly-CSharp::WaveConfig
-  spawnInterval: {x: 0.5, y: 2}
+  spawnInterval: {x: 0.85, y: 1.45}
   enemies:
-  - prefab: {fileID: 902383136821581742, guid: 97bf1c4839ad1df4a9d158b82fd24967, type: 3}
+  - prefab: {fileID: 902383136821581742, guid: 8429a1a38430d3346bc5d88cfb69a5b8, type: 3}
     spawnType: 1
     maxAlive: 20
-    spawnWeight: 1
+    spawnWeight: 0.35
     xp: 1
-  - prefab: {fileID: 902383136821581742, guid: 6a28cc4eaf235bb44b802dfc9f696a3f, type: 3}
+  - prefab: {fileID: 902383136821581742, guid: f9aa807a6b1f1a54792900b171231d2d, type: 3}
     spawnType: 1
     maxAlive: 10
-    spawnWeight: 1
-    xp: 1
-  - prefab: {fileID: 902383136821581742, guid: e9b02ce635a5366419870654a4663dd1, type: 3}
-    spawnType: 1
-    maxAlive: 3
     spawnWeight: 0.25
     xp: 2
+  - prefab: {fileID: 902383136821581742, guid: e9b02ce635a5366419870654a4663dd1, type: 3}
+    spawnType: 1
+    maxAlive: 2
+    spawnWeight: 0.22
+    xp: 4
   - prefab: {fileID: 902383136821581742, guid: c4a7c2632f0834941b26a9277b2739f1, type: 3}
     spawnType: 1
-    maxAlive: 3
-    spawnWeight: 0.25
-    xp: 3
+    maxAlive: 2
+    spawnWeight: 0.18
+    xp: 5
   bossPrefab: {fileID: 902383136821581742, guid: 4e2d42386e610f94dafc8276f2b9c63f, type: 3}
-  xpToSpawnBoss: 30
+  xpToSpawnBoss: 48

@@ -20,13 +20,19 @@ namespace GridSkillTree
         [Header("Cost Display")]
         [Tooltip("Container where currency cost entries are spawned (Horizontal/VerticalLayoutGroup recommended).")]
         [SerializeField] private Transform costEntriesParent;
+
         [Tooltip("Prefab with Image (icon) + TMP_Text (amount).")]
         [SerializeField] private GameObject costEntryPrefab;
+
         [Tooltip("All known currencies — used to resolve icons.")]
         [SerializeField] private CurrencyData[] currencyDatabase;
 
         [Header("Position")]
         [SerializeField] private float verticalOffset = 10f;
+
+        [Header("Draw On Top")]
+        [SerializeField] private bool moveToRootCanvas = true;
+        [SerializeField] private int sortingOrder = 32767;
 
         [Header("Animation")]
         [SerializeField] private float popupScale = 1.08f;
@@ -36,36 +42,102 @@ namespace GridSkillTree
         [SerializeField] private float shakeDuration = 0.18f;
 
         private RectTransform tooltipRect;
+        private Canvas rootCanvas;
+        private Canvas tooltipCanvas;
         private Tween currentTween;
+
+        private readonly List<GameObject> spawnedCostEntries = new();
 
         private void Awake()
         {
+            if (root == null)
+                root = gameObject;
+
             tooltipRect = root.GetComponent<RectTransform>();
+
+            SetupTopLayer();
 
             HideImmediate();
         }
 
+        private void SetupTopLayer()
+        {
+            rootCanvas = FindRootCanvas();
+
+            if (moveToRootCanvas && rootCanvas != null && root.transform.parent != rootCanvas.transform)
+            {
+                root.transform.SetParent(rootCanvas.transform, false);
+            }
+
+            root.transform.SetAsLastSibling();
+
+            tooltipCanvas = root.GetComponent<Canvas>();
+
+            if (tooltipCanvas == null)
+                tooltipCanvas = root.AddComponent<Canvas>();
+
+            tooltipCanvas.overrideSorting = true;
+            tooltipCanvas.sortingOrder = sortingOrder;
+
+            if (rootCanvas != null)
+                tooltipCanvas.sortingLayerID = rootCanvas.sortingLayerID;
+
+            if (root.GetComponent<GraphicRaycaster>() == null)
+                root.AddComponent<GraphicRaycaster>();
+        }
+
+        private Canvas FindRootCanvas()
+        {
+            Canvas[] canvases = GetComponentsInParent<Canvas>(true);
+
+            Canvas result = null;
+
+            foreach (Canvas canvas in canvases)
+            {
+                if (canvas == null)
+                    continue;
+
+                if (canvas.isRootCanvas)
+                    result = canvas;
+            }
+
+            if (result != null)
+                return result;
+
+            if (canvases.Length > 0)
+                return canvases[canvases.Length - 1];
+
+            return null;
+        }
+
         public void Show(SkillNodeData node, SkillTreeRuntime runtime, RectTransform target)
         {
-            if (node == null || runtime == null || target == null)
+            if (node == null || runtime == null || target == null || root == null)
                 return;
 
+            SetupTopLayer();
+
             int level = runtime.GetLevel(node.id);
-            SkillNodeVisualState state = runtime.GetVisualState(node);
 
             root.SetActive(true);
+            root.transform.SetAsLastSibling();
 
-            titleText.text = node.title;
-            descriptionText.text = node.description;
+            if (titleText != null)
+                titleText.text = node.title;
 
-            levelText.text = $"Level: {level}/{node.maxLevel}";
+            if (descriptionText != null)
+                descriptionText.text = node.description;
+
+            if (levelText != null)
+                levelText.text = $"Level: {level}/{node.maxLevel}";
 
             BuildCostEntries(node, runtime, level >= node.maxLevel);
 
             if (costText != null)
                 costText.text = level >= node.maxLevel ? "MAX" : "Cost:";
 
-            statusText.text = $"Status: {state}";
+            if (statusText != null)
+                statusText.text = $"Status: {runtime.GetStatusText(node)}";
 
             MoveAboveTarget(target);
 
@@ -77,26 +149,29 @@ namespace GridSkillTree
             currentTween?.Kill();
 
             ClearCostEntries();
-            root.SetActive(false);
-        }
 
-        private readonly List<GameObject> spawnedCostEntries = new();
+            if (root != null)
+                root.SetActive(false);
+        }
 
         private void BuildCostEntries(SkillNodeData node, SkillTreeRuntime runtime, bool maxed)
         {
             ClearCostEntries();
 
-            if (maxed || costEntriesParent == null || costEntryPrefab == null) return;
+            if (maxed || costEntriesParent == null || costEntryPrefab == null)
+                return;
 
             foreach (var (currency, amount) in runtime.GetCosts(node))
             {
                 GameObject go = Instantiate(costEntryPrefab, costEntriesParent);
                 go.SetActive(true);
+
                 spawnedCostEntries.Add(go);
 
                 CurrencyData data = FindCurrency(currency);
 
                 Image icon = go.GetComponentInChildren<Image>();
+
                 if (icon != null && data != null)
                 {
                     icon.sprite = data.icon;
@@ -104,6 +179,7 @@ namespace GridSkillTree
                 }
 
                 TMP_Text label = go.GetComponentInChildren<TMP_Text>();
+
                 if (label != null)
                     label.text = amount.ToString();
             }
@@ -112,21 +188,32 @@ namespace GridSkillTree
         private void ClearCostEntries()
         {
             foreach (GameObject go in spawnedCostEntries)
-                if (go != null) Destroy(go);
+            {
+                if (go != null)
+                    Destroy(go);
+            }
+
             spawnedCostEntries.Clear();
         }
 
         private CurrencyData FindCurrency(CurrencyType type)
         {
-            if (currencyDatabase == null) return null;
+            if (currencyDatabase == null)
+                return null;
+
             foreach (CurrencyData cd in currencyDatabase)
-                if (cd != null && cd.type == type) return cd;
+            {
+                if (cd != null && cd.type == type)
+                    return cd;
+            }
+
             return null;
         }
 
         private void HideImmediate()
         {
-            root.SetActive(false);
+            if (root != null)
+                root.SetActive(false);
 
             if (tooltipRect != null)
             {
@@ -142,6 +229,74 @@ namespace GridSkillTree
 
             Canvas.ForceUpdateCanvases();
 
+            if (rootCanvas == null)
+            {
+                MoveAboveTargetFallback(target);
+                return;
+            }
+
+            RectTransform canvasRect = rootCanvas.transform as RectTransform;
+
+            if (canvasRect == null)
+            {
+                MoveAboveTargetFallback(target);
+                return;
+            }
+
+            Canvas targetCanvas = target.GetComponentInParent<Canvas>();
+            Camera targetCamera = GetCanvasCamera(targetCanvas);
+            Camera rootCamera = GetCanvasCamera(rootCanvas);
+
+            Vector3[] corners = new Vector3[4];
+            target.GetWorldCorners(corners);
+
+            Vector3 topCenterWorld = (corners[1] + corners[2]) * 0.5f;
+            Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(targetCamera, topCenterWorld);
+
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvasRect,
+                    screenPoint,
+                    rootCamera,
+                    out Vector2 localPoint))
+            {
+                MoveAboveTargetFallback(target);
+                return;
+            }
+
+            float tooltipWidth = tooltipRect.rect.width;
+            float tooltipHeight = tooltipRect.rect.height;
+
+            float x = localPoint.x;
+            float y = localPoint.y + verticalOffset + tooltipHeight * tooltipRect.pivot.y;
+
+            float minX = canvasRect.rect.xMin + tooltipWidth * tooltipRect.pivot.x;
+            float maxX = canvasRect.rect.xMax - tooltipWidth * (1f - tooltipRect.pivot.x);
+
+            float minY = canvasRect.rect.yMin + tooltipHeight * tooltipRect.pivot.y;
+            float maxY = canvasRect.rect.yMax - tooltipHeight * (1f - tooltipRect.pivot.y);
+
+            if (minX <= maxX)
+                x = Mathf.Clamp(x, minX, maxX);
+
+            if (minY <= maxY)
+                y = Mathf.Clamp(y, minY, maxY);
+
+            tooltipRect.anchoredPosition = new Vector2(x, y);
+        }
+
+        private Camera GetCanvasCamera(Canvas canvas)
+        {
+            if (canvas == null)
+                return null;
+
+            if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+                return null;
+
+            return canvas.worldCamera;
+        }
+
+        private void MoveAboveTargetFallback(RectTransform target)
+        {
             Vector2 targetAnchoredPosition = target.anchoredPosition;
 
             float targetHeight = target.rect.height;
@@ -160,6 +315,9 @@ namespace GridSkillTree
 
         private void PlayAppearAnimation()
         {
+            if (tooltipRect == null)
+                return;
+
             currentTween?.Kill();
 
             tooltipRect.localScale = Vector3.zero;

@@ -21,6 +21,9 @@ namespace GridSkillTree
         private SkillTreeUIConfig config;
         private SkillTooltip tooltip;
 
+        public SkillNodeData Node => node;
+        public string NodeId => node != null ? node.id : string.Empty;
+
         public void Init(
             SkillNodeData node,
             SkillTreeRuntime runtime,
@@ -63,15 +66,22 @@ namespace GridSkillTree
                 else
                 {
                     var costs = runtime.GetCosts(node);
+
                     if (costs.Count == 0)
+                    {
                         costText.text = "";
+                    }
                     else if (costs.Count == 1)
+                    {
                         costText.text = costs[0].amount.ToString();
+                    }
                     else
                     {
                         string[] parts = new string[costs.Count];
+
                         for (int i = 0; i < costs.Count; i++)
                             parts[i] = costs[i].amount.ToString();
+
                         costText.text = string.Join(" + ", parts);
                     }
                 }
@@ -89,7 +99,6 @@ namespace GridSkillTree
                 {
                     SkillNodeVisualState.Locked => config.lockedColor,
                     SkillNodeVisualState.Available => config.availableColor,
-                    SkillNodeVisualState.Purchased => config.purchasedColor,
                     SkillNodeVisualState.Maxed => config.maxedColor,
                     _ => Color.white
                 };
@@ -99,10 +108,10 @@ namespace GridSkillTree
                 lockIcon.SetActive(state == SkillNodeVisualState.Locked);
 
             if (purchasedMark != null)
-                purchasedMark.SetActive(state == SkillNodeVisualState.Purchased || state == SkillNodeVisualState.Maxed);
+                purchasedMark.SetActive(state == SkillNodeVisualState.Maxed);
 
             if (button != null)
-                button.interactable = runtime.CanBuy(node);
+                button.interactable = state == SkillNodeVisualState.Available;
         }
 
         private void OnClick()
@@ -112,11 +121,21 @@ namespace GridSkillTree
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (tooltip != null)
+            if (tooltip != null && node != null && runtime != null)
                 tooltip.Show(node, runtime, GetComponent<RectTransform>());
         }
 
         public void OnPointerExit(PointerEventData eventData)
+        {
+            HideTooltip();
+        }
+
+        private void OnDisable()
+        {
+            HideTooltip();
+        }
+
+        private void HideTooltip()
         {
             if (tooltip != null)
                 tooltip.Hide();

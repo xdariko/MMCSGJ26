@@ -17,9 +17,8 @@ namespace GridSkillTree
         public Vector2 spacing = new Vector2(30f, 30f);
 
         [Header("State Colors")]
-        public Color lockedColor = Color.gray;
-        public Color availableColor = Color.white;
-        public Color purchasedColor = Color.green;
-        public Color maxedColor = Color.yellow;
+        public Color lockedColor = new Color32(42, 42, 55, 255);
+        public Color availableColor = new Color32(105, 76, 180, 255);
+        public Color maxedColor = new Color32(192, 154, 74, 255);
     }
 }

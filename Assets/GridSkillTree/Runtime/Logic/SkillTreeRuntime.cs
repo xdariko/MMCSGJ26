@@ -50,7 +50,9 @@ namespace GridSkillTree
         public List<(CurrencyType currency, int amount)> GetCosts(SkillNodeData node)
         {
             List<(CurrencyType, int)> result = new();
-            if (node == null) return result;
+
+            if (node == null)
+                return result;
 
             int currentLevel = GetLevel(node.id);
 
@@ -63,6 +65,7 @@ namespace GridSkillTree
                     continue;
 
                 int amount = c.GetAmount(currentLevel);
+
                 if (amount > 0)
                     result.Add((c.currency, amount));
             }
@@ -72,6 +75,9 @@ namespace GridSkillTree
 
         public bool IsUnlocked(SkillNodeData node)
         {
+            if (node == null)
+                return false;
+
             if (node.previousNodeIds == null || node.previousNodeIds.Count == 0)
                 return true;
 
@@ -82,6 +88,20 @@ namespace GridSkillTree
             }
 
             return true;
+        }
+
+        public bool ShouldShowNode(SkillNodeData node)
+        {
+            if (node == null)
+                return false;
+
+            if (node.previousNodeIds == null || node.previousNodeIds.Count == 0)
+                return true;
+
+            if (GetLevel(node.id) > 0)
+                return true;
+
+            return IsUnlocked(node);
         }
 
         public bool CanBuy(SkillNodeData node)
@@ -131,18 +151,31 @@ namespace GridSkillTree
 
         public SkillNodeVisualState GetVisualState(SkillNodeData node)
         {
+            if (node == null)
+                return SkillNodeVisualState.Locked;
+
             int level = GetLevel(node.id);
 
             if (level >= node.maxLevel)
                 return SkillNodeVisualState.Maxed;
 
-            if (level > 0)
-                return SkillNodeVisualState.Purchased;
-
             if (CanBuy(node))
                 return SkillNodeVisualState.Available;
 
             return SkillNodeVisualState.Locked;
+        }
+
+        public string GetStatusText(SkillNodeData node)
+        {
+            SkillNodeVisualState state = GetVisualState(node);
+
+            return state switch
+            {
+                SkillNodeVisualState.Locked => "Недоступно",
+                SkillNodeVisualState.Available => "Можно улучшить",
+                SkillNodeVisualState.Maxed => "Улучшено полностью",
+                _ => ""
+            };
         }
 
         public void SaveProgress()
@@ -151,6 +184,7 @@ namespace GridSkillTree
                 return;
 
             string json = JsonUtility.ToJson(Progress);
+
             PlayerPrefs.SetString(SaveKey, json);
             PlayerPrefs.Save();
         }
@@ -161,10 +195,12 @@ namespace GridSkillTree
                 return;
 
             string json = PlayerPrefs.GetString(SaveKey, string.Empty);
+
             if (string.IsNullOrWhiteSpace(json))
                 return;
 
             SkillTreeProgress loaded = JsonUtility.FromJson<SkillTreeProgress>(json);
+
             if (loaded == null)
                 return;
 
@@ -185,6 +221,7 @@ namespace GridSkillTree
             };
 
             PlayerStats.ResetBonuses();
+
             OnTreeChanged?.Invoke();
         }
 
@@ -199,6 +236,7 @@ namespace GridSkillTree
                     continue;
 
                 int level = Progress.GetLevel(node.id);
+
                 if (level <= 0)
                     continue;
 
@@ -217,51 +255,66 @@ namespace GridSkillTree
                 case SkillEffectType.MoveSpeedPercent:
                     PlayerStats.BonusMoveSpeedPercent += delta;
                     break;
+
                 case SkillEffectType.DamageFlat:
                     PlayerStats.BonusDamageFlat += delta;
                     break;
+
                 case SkillEffectType.BeamCount:
                     PlayerStats.BonusBeamCount += Mathf.RoundToInt(delta);
                     break;
+
                 case SkillEffectType.PickupRadius:
                     PlayerStats.BonusPickupRadius += delta;
                     break;
+
                 case SkillEffectType.CritChance:
                     PlayerStats.BonusCritChance += delta;
                     break;
+
                 case SkillEffectType.CritMultiplier:
                     PlayerStats.BonusCritMultiplier += delta;
                     break;
+
                 case SkillEffectType.StabilityDecayReduction:
                     PlayerStats.BonusStabilityDecayReduction += delta;
                     break;
+
                 case SkillEffectType.UnlockCurrency:
                     CurrencyManager.Unlock(node.unlockCurrencyType);
                     break;
+
                 case SkillEffectType.CurrencyDropPercent:
                     PlayerStats.AddCurrencyDropBonus(node.currencyDropType, delta);
                     break;
+
                 case SkillEffectType.PassiveCurrency:
                     PlayerStats.AddPassiveCurrencyReward(
                         node.passiveCurrencyType,
                         Mathf.RoundToInt(delta),
                         node.passiveCurrencyIntervalSeconds);
                     break;
+
                 case SkillEffectType.InvincibilityDuration:
                     PlayerStats.BonusInvincibilityDuration += delta;
                     break;
+
                 case SkillEffectType.UnlockBombs:
                     PlayerStats.UnlockBombs();
                     break;
+
                 case SkillEffectType.BombExplosionRadius:
                     PlayerStats.AddBombExplosionRadius(delta);
                     break;
+
                 case SkillEffectType.BombDamage:
                     PlayerStats.AddBombDamage(delta);
                     break;
+
                 case SkillEffectType.BombSpawnIntervalReduction:
                     PlayerStats.AddBombSpawnIntervalReduction(delta);
                     break;
+
                 case SkillEffectType.UnlockSprint:
                     PlayerStats.UnlockSprint();
                     break;

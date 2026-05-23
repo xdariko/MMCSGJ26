@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 10
+  invulnerable: 0
   xpReward: 0
   isBoss: 0
   hitSounds: []
@@ -198,7 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e1b45c083412a448538b41fc119666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  waitTime: 0
 --- !u!114 &1254369556776070032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 1
+    amount: 2
     requiresUnlockedCurrency: 1
 --- !u!50 &142099318655730342
 Rigidbody2D:
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthVisual
   maskTransform: {fileID: 2212488462087810785}
+  useManualPositions: 1
   visibleLocalPosition: {x: -4, y: 1.1, z: 0}
   hiddenLocalPosition: {x: -6.8, y: -1.7, z: 0}
   bgRenderer: {fileID: 1419792578803758177}

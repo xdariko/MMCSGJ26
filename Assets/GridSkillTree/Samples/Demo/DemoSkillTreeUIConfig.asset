@@ -17,7 +17,6 @@ MonoBehaviour:
   connectionThickness: 6
   cellSize: {x: 120, y: 120}
   spacing: {x: 30, y: 30}
-  lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  availableColor: {r: 1, g: 1, b: 1, a: 1}
-  purchasedColor: {r: 0, g: 1, b: 0, a: 1}
-  maxedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  lockedColor: {r: 0.16470589, g: 0.16470589, b: 0.21176471, a: 1}
+  availableColor: {r: 0.35686275, g: 0.29411766, b: 0.5411765, a: 1}
+  maxedColor: {r: 0.3647059, g: 0.5411765, b: 0.22745098, a: 1}

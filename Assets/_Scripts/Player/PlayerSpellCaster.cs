@@ -40,11 +40,11 @@ public class PlayerSpellCaster : MonoBehaviour
     {
         int maxTargets = PlayerStats.BeamCount;
 
-        Collider2D[] hits =
-            Physics2D.OverlapCircleAll(
-                transform.position,
-                detectionRadius,
-                enemyLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position,
+            detectionRadius,
+            enemyLayer
+        );
 
         List<EnemyHealth> candidates = new();
 
@@ -72,6 +72,7 @@ public class PlayerSpellCaster : MonoBehaviour
         {
             float distA = Vector2.SqrMagnitude(transform.position - a.transform.position);
             float distB = Vector2.SqrMagnitude(transform.position - b.transform.position);
+
             return distA.CompareTo(distB);
         });
 
@@ -80,18 +81,14 @@ public class PlayerSpellCaster : MonoBehaviour
 
         for (int i = currentTargets.Count - 1; i >= 0; i--)
         {
-            if (currentTargets[i] == null ||
-                currentTargets[i].IsDead ||
-                currentTargets[i].IsInvulnerable ||
-                !candidates.Contains(currentTargets[i]))
+            EnemyHealth target = currentTargets[i];
+
+            if (target == null ||
+                target.IsDead ||
+                target.IsInvulnerable ||
+                !candidates.Contains(target))
             {
-                if (i < currentBeams.Count && currentBeams[i] != null)
-                    Destroy(currentBeams[i].gameObject);
-
-                currentTargets.RemoveAt(i);
-
-                if (i < currentBeams.Count)
-                    currentBeams.RemoveAt(i);
+                RemoveTargetAt(i);
             }
         }
 
@@ -102,8 +99,20 @@ public class PlayerSpellCaster : MonoBehaviour
 
             currentTargets.Add(enemy);
 
-            SpellBeam beam = Instantiate(beamPrefab);
+            if (beamPrefab == null)
+            {
+                currentBeams.Add(null);
+                continue;
+            }
+
+            SpellBeam beam = Instantiate(
+                beamPrefab,
+                transform.position,
+                Quaternion.identity
+            );
+
             beam.Initialize(transform, enemy.transform);
+
             currentBeams.Add(beam);
         }
     }
@@ -122,7 +131,9 @@ public class PlayerSpellCaster : MonoBehaviour
 
         float baseDmg = PlayerStats.Damage;
 
-        foreach (EnemyHealth target in currentTargets)
+        EnemyHealth[] targetsSnapshot = currentTargets.ToArray();
+
+        foreach (EnemyHealth target in targetsSnapshot)
         {
             if (target == null)
                 continue;
@@ -137,8 +148,61 @@ public class PlayerSpellCaster : MonoBehaviour
             float dmg = isCrit ? baseDmg * PlayerStats.CritMultiplier : baseDmg;
 
             target.TakeDamage(dmg, isCrit);
-            SpawnHitEffect(target.transform.position);
+
+            if (target != null)
+                SpawnHitEffect(target.transform.position);
         }
+    }
+
+    private void RemoveTargetAt(int index)
+    {
+        if (index < 0 || index >= currentTargets.Count)
+            return;
+
+        if (index < currentBeams.Count && currentBeams[index] != null)
+            Destroy(currentBeams[index].gameObject);
+
+        currentTargets.RemoveAt(index);
+
+        if (index < currentBeams.Count)
+            currentBeams.RemoveAt(index);
+    }
+
+    private void OnDisable()
+    {
+        ClearBeams();
+    }
+
+    private void OnDestroy()
+    {
+        ClearBeams();
+    }
+
+    private void ClearBeams()
+    {
+        foreach (SpellBeam beam in currentBeams)
+        {
+            if (beam != null)
+                Destroy(beam.gameObject);
+        }
+
+        currentBeams.Clear();
+        currentTargets.Clear();
+    }
+
+    private void SpawnHitEffect(Vector3 position)
+    {
+        if (hitEffectPrefab == null)
+            return;
+
+        GameObject fx = Instantiate(
+            hitEffectPrefab,
+            position,
+            Quaternion.identity
+        );
+
+        if (hitEffectLifetime > 0f)
+            Destroy(fx, hitEffectLifetime);
     }
 
     private void OnDrawGizmosSelected()
@@ -147,17 +211,7 @@ public class PlayerSpellCaster : MonoBehaviour
 
         Gizmos.DrawWireSphere(
             transform.position,
-            detectionRadius);
-    }
-
-    private void SpawnHitEffect(Vector3 position)
-    {
-        if (hitEffectPrefab == null)
-            return;
-
-        GameObject fx = Instantiate(hitEffectPrefab, position, Quaternion.identity);
-
-        if (hitEffectLifetime > 0f)
-            Destroy(fx, hitEffectLifetime);
+            detectionRadius
+        );
     }
 }

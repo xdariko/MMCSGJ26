@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,54 @@ public class DeathPanelUI : MonoBehaviour
     [SerializeField] private GameObject emptyLabel;
     [SerializeField] private Button continueButton;
 
+    [Header("Count Animation")]
+    [SerializeField] private bool animateNumbers = true;
+
+    [Tooltip("Минимальная длительность нарастания числа.")]
+    [SerializeField] private float minCountDuration = 0.35f;
+
+    [Tooltip("Максимальная длительность нарастания числа.")]
+    [SerializeField] private float maxCountDuration = 1.1f;
+
+    [Tooltip("Чем больше значение, тем медленнее будут считаться большие числа.")]
+    [SerializeField] private float amountDurationMultiplier = 0.015f;
+
+    [Tooltip("Задержка между стартом анимации разных валют.")]
+    [SerializeField] private float entryStartDelay = 0.12f;
+
+    [Tooltip("Если true, анимация будет работать даже при Time.timeScale = 0.")]
+    [SerializeField] private bool useUnscaledTime = true;
+
+    [Header("Entry Pop Animation")]
+    [SerializeField] private bool animateEntryAppear = true;
+    [SerializeField] private float entryAppearDuration = 0.18f;
+    [SerializeField] private float entryStartScale = 0.75f;
+    [SerializeField] private float entryPunchScale = 0.15f;
+
+    [Header("Tick Sound")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip tickClip;
+
+    [Tooltip("Громкость тика.")]
+    [Range(0f, 1f)]
+    [SerializeField] private float tickVolume = 0.6f;
+
+    [Tooltip("Минимальная пауза между звуками, чтобы звук не превращался в кашу.")]
+    [SerializeField] private float minTickInterval = 0.035f;
+
+    [Tooltip("Играть звук только если число изменилось хотя бы на это значение. Для маленьких чисел можно 1, для больших 2-5.")]
+    [SerializeField] private int tickEveryAmount = 1;
+
+    [Header("Final Sound")]
+    [SerializeField] private AudioClip finishClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float finishVolume = 0.75f;
+
     private readonly List<GameObject> spawnedEntries = new();
+    private readonly List<Tween> activeTweens = new();
+
+    private float lastTickTime;
+    private int activeCountAnimations;
 
     private void Awake()
     {
@@ -36,6 +84,8 @@ public class DeathPanelUI : MonoBehaviour
     {
         if (continueButton != null)
             continueButton.onClick.RemoveListener(OnContinueClicked);
+
+        KillTweens();
     }
 
     public void ShowDeath()
@@ -58,10 +108,16 @@ public class DeathPanelUI : MonoBehaviour
         if (panel == null)
             return;
 
+        KillTweens();
+
         if (titleText != null)
             titleText.text = title;
 
         panel.SetActive(true);
+
+        if (continueButton != null)
+            continueButton.interactable = false;
+
         Populate();
     }
 
@@ -69,6 +125,8 @@ public class DeathPanelUI : MonoBehaviour
     {
         if (panel == null)
             return;
+
+        KillTweens();
 
         panel.SetActive(false);
         ClearEntries();
@@ -79,6 +137,7 @@ public class DeathPanelUI : MonoBehaviour
         ClearEntries();
 
         bool anyCollected = false;
+        int visibleEntryIndex = 0;
 
         foreach (CurrencyData data in currencyDatabase)
         {
@@ -86,27 +145,39 @@ public class DeathPanelUI : MonoBehaviour
                 continue;
 
             int collected = CurrencyManager.GetRunCollected(data.type);
+
             if (collected <= 0)
                 continue;
 
             anyCollected = true;
-            SpawnEntry(data, collected);
+
+            SpawnEntry(data, collected, visibleEntryIndex);
+
+            visibleEntryIndex++;
         }
 
         if (emptyLabel != null)
             emptyLabel.SetActive(!anyCollected);
+
+        if (!anyCollected)
+        {
+            if (continueButton != null)
+                continueButton.interactable = true;
+        }
     }
 
-    private void SpawnEntry(CurrencyData data, int amount)
+    private void SpawnEntry(CurrencyData data, int amount, int index)
     {
         if (entryPrefab == null || entriesParent == null)
             return;
 
         GameObject go = Instantiate(entryPrefab, entriesParent);
         go.SetActive(true);
+
         spawnedEntries.Add(go);
 
         Image icon = go.GetComponentInChildren<Image>();
+
         if (icon != null)
         {
             icon.sprite = data.icon;
@@ -114,8 +185,133 @@ public class DeathPanelUI : MonoBehaviour
         }
 
         TextMeshProUGUI label = go.GetComponentInChildren<TextMeshProUGUI>();
+
         if (label != null)
-            label.text = amount.ToString();
+        {
+            if (animateNumbers)
+                label.text = "0";
+            else
+                label.text = amount.ToString();
+        }
+
+        RectTransform rect = go.GetComponent<RectTransform>();
+
+        if (animateEntryAppear && rect != null)
+            PlayEntryAppear(rect, index);
+
+        if (animateNumbers && label != null)
+        {
+            float delay = index * entryStartDelay;
+            AnimateNumber(label, amount, delay);
+        }
+        else
+        {
+            if (continueButton != null)
+                continueButton.interactable = true;
+        }
+    }
+
+    private void PlayEntryAppear(RectTransform rect, int index)
+    {
+        rect.localScale = Vector3.one * entryStartScale;
+
+        Tween tween = rect
+            .DOScale(1f, entryAppearDuration)
+            .SetDelay(index * entryStartDelay)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(useUnscaledTime);
+
+        activeTweens.Add(tween);
+    }
+
+    private void AnimateNumber(TextMeshProUGUI label, int targetAmount, float delay)
+    {
+        activeCountAnimations++;
+
+        int currentValue = 0;
+        int lastSoundValue = 0;
+
+        float duration = Mathf.Clamp(
+            targetAmount * amountDurationMultiplier,
+            minCountDuration,
+            maxCountDuration
+        );
+
+        Tween tween = DOTween
+            .To(
+                () => currentValue,
+                value =>
+                {
+                    currentValue = value;
+                    label.text = currentValue.ToString();
+
+                    if (Mathf.Abs(currentValue - lastSoundValue) >= Mathf.Max(1, tickEveryAmount))
+                    {
+                        TryPlayTickSound();
+                        lastSoundValue = currentValue;
+                    }
+                },
+                targetAmount,
+                duration
+            )
+            .SetDelay(delay)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(useUnscaledTime)
+            .OnComplete(() =>
+            {
+                label.text = targetAmount.ToString();
+
+                RectTransform labelRect = label.GetComponent<RectTransform>();
+
+                if (labelRect != null && entryPunchScale > 0f)
+                {
+                    Tween punchTween = labelRect
+                        .DOPunchScale(Vector3.one * entryPunchScale, 0.18f, 6, 0.7f)
+                        .SetUpdate(useUnscaledTime);
+
+                    activeTweens.Add(punchTween);
+                }
+
+                activeCountAnimations--;
+
+                if (activeCountAnimations <= 0)
+                    FinishCounting();
+            });
+
+        activeTweens.Add(tween);
+    }
+
+    private void FinishCounting()
+    {
+        activeCountAnimations = 0;
+
+        PlayFinishSound();
+
+        if (continueButton != null)
+            continueButton.interactable = true;
+    }
+
+    private void TryPlayTickSound()
+    {
+        if (audioSource == null || tickClip == null)
+            return;
+
+        float currentTime = useUnscaledTime ? Time.unscaledTime : Time.time;
+
+        if (currentTime - lastTickTime < minTickInterval)
+            return;
+
+        lastTickTime = currentTime;
+
+        audioSource.PlayOneShot(tickClip, tickVolume);
+    }
+
+    private void PlayFinishSound()
+    {
+        if (audioSource == null || finishClip == null)
+            return;
+
+        audioSource.PlayOneShot(finishClip, finishVolume);
     }
 
     private void ClearEntries()
@@ -129,12 +325,34 @@ public class DeathPanelUI : MonoBehaviour
         spawnedEntries.Clear();
     }
 
+    private void KillTweens()
+    {
+        foreach (Tween tween in activeTweens)
+        {
+            if (tween != null && tween.IsActive())
+                tween.Kill();
+        }
+
+        activeTweens.Clear();
+        activeCountAnimations = 0;
+    }
+
     private void OnContinueClicked()
     {
         Hide();
 
-        if (G.ui != null)
-            G.ui.ShowSkillTreePanel();
+        if (G.transition != null)
+        {
+            G.transition.Play(() =>
+            {
+                if (G.ui != null)
+                    G.ui.ShowSkillTreePanel();
+            });
+        }
+        else
+        {
+            if (G.ui != null)
+                G.ui.ShowSkillTreePanel();
+        }
     }
 }
-

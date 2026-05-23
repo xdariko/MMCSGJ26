@@ -40,7 +40,6 @@ namespace GridSkillTree
     {
         Locked,
         Available,
-        Purchased,
         Maxed
     }
 }

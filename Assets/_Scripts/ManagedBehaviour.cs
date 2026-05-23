@@ -12,6 +12,7 @@ public static class G
     public static PlayerStabilitySystem stability;
     public static WaveDirector waveDirector;
     public static SpawnArea spawnArea;
+    public static ScreenDustTransition transition;
 
     public static bool IsPaused;
     public static bool IsMenuOpen;
@@ -37,6 +38,7 @@ public static class G
         spawnArea = null;
         damagePopupPrefab = null;
         levelDatabase = null;
+        transition = null;
     }
 }
 

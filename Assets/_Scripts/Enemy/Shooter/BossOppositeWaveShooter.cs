@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class BossOppositeWaveShooter : EnemyShooterBase
 {
+    [Header("Projectile Variants")]
+    [SerializeField] private OrbProjectile redProjectilePrefab;
+    [SerializeField] private OrbProjectile blueProjectilePrefab;
+
+    [Tooltip("Каждая N-ая атака будет синей. Например 4 = три красные атаки, потом одна синяя.")]
+    [SerializeField] private int blueAttackEvery = 4;
+
     [Header("Boss Pattern")]
     [SerializeField] private float attackDuration = 3f;
     [SerializeField] private float waitAfterAttack = 1.5f;
@@ -25,6 +32,7 @@ public class BossOppositeWaveShooter : EnemyShooterBase
 
     private bool isAttacking;
     private float waitTimer;
+    private int attackIndex;
 
     protected override void Update()
     {
@@ -44,12 +52,15 @@ public class BossOppositeWaveShooter : EnemyShooterBase
 
     protected override void Shoot()
     {
-        // Босс использует свой AttackRoutine
+        // Босс использует свой AttackRoutine.
     }
 
     private IEnumerator AttackRoutine()
     {
         isAttacking = true;
+        attackIndex++;
+
+        OrbProjectile currentProjectile = GetProjectileForCurrentAttack();
 
         if (brain != null)
             brain.LockMovement();
@@ -61,7 +72,7 @@ public class BossOppositeWaveShooter : EnemyShooterBase
 
         while (elapsed < attackDuration)
         {
-            FireOppositePair(currentAngle);
+            FireOppositePair(currentAngle, currentProjectile);
 
             float stepDirection = clockwise ? -1f : 1f;
             currentAngle += angleStep * stepDirection;
@@ -80,6 +91,19 @@ public class BossOppositeWaveShooter : EnemyShooterBase
         isAttacking = false;
     }
 
+    private OrbProjectile GetProjectileForCurrentAttack()
+    {
+        bool useBlue =
+            blueAttackEvery > 0 &&
+            attackIndex % blueAttackEvery == 0;
+
+        OrbProjectile prefab = useBlue
+            ? blueProjectilePrefab
+            : redProjectilePrefab;
+
+        return prefab != null ? prefab : projectilePrefab;
+    }
+
     private float GetInitialAngle()
     {
         if (!aimFirstPairAtPlayer)
@@ -93,24 +117,24 @@ public class BossOppositeWaveShooter : EnemyShooterBase
         return Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
     }
 
-    private void FireOppositePair(float angle)
+    private void FireOppositePair(float angle, OrbProjectile projectile)
     {
         Vector2 firstDirection =
             Quaternion.Euler(0f, 0f, angle) * Vector2.right;
 
         Vector2 secondDirection = -firstDirection;
 
-        SpawnProjectileFromDirection(firstDirection);
-        SpawnProjectileFromDirection(secondDirection);
+        SpawnProjectileFromDirection(firstDirection, projectile);
+        SpawnProjectileFromDirection(secondDirection, projectile);
     }
 
-    private void SpawnProjectileFromDirection(Vector2 direction)
+    private void SpawnProjectileFromDirection(Vector2 direction, OrbProjectile projectile)
     {
         Vector3 spawnPosition =
             transform.position +
             (Vector3)(direction.normalized * projectileSpawnOffset);
 
-        SpawnProjectile(direction, spawnPosition);
+        SpawnProjectile(projectile, direction, spawnPosition);
     }
 
     protected override void OnDisable()
