@@ -12,6 +12,7 @@ public class Main : MonoBehaviour
     [SerializeField] private LevelDatabase levelDatabase;
 
     private float passiveCurrencyTimer;
+    private bool gameStarted;
 
     private void Awake()
     {
@@ -24,9 +25,47 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
-        EnsurePlayerSpawnedAtScreenCenter();
         CurrencyManager.ResetRunCollected();
+
+        TryPlayIntroCutsceneOrStartGame();
+    }
+
+    private void TryPlayIntroCutsceneOrStartGame()
+    {
+        if (G.ui != null && G.ui.ShouldPlayIntroCutscene())
+        {
+            G.ui.PlayIntroCutscene(() =>
+            {
+                StartGameAfterIntro();
+            });
+
+            return;
+        }
+
+        StartGameAfterIntro();
+    }
+
+    private void StartGameAfterIntro()
+    {
+        if (gameStarted)
+            return;
+
+        gameStarted = true;
+
+        Time.timeScale = 1f;
+        G.IsPaused = false;
+        G.IsPlayerDead = false;
+
+        EnsurePlayerSpawnedAtScreenCenter();
         LoadSelectedLevel();
+
+        PlayGameMusicAfterTransition();
+    }
+
+    private void PlayGameMusicAfterTransition()
+    {
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayNextGameMusicForRun(false);
     }
 
     private void LoadSelectedLevel()
@@ -35,6 +74,7 @@ public class Main : MonoBehaviour
             return;
 
         int idx = LevelProgress.SelectedLevel;
+
         if (idx < 0 || idx >= levelDatabase.levels.Length)
             return;
 
@@ -54,12 +94,12 @@ public class Main : MonoBehaviour
         bool wasLastLevel = levelDatabase != null
             && LevelProgress.SelectedLevel >= levelDatabase.levels.Length - 1;
 
-        EndCurrentRunCleanup();
+        EndCurrentRunCleanup(false);
 
         if (wasLastLevel)
         {
             if (G.ui != null)
-                G.ui.SetFinalPanel(true);
+                G.ui.PlayFinalCutscene();
 
             return;
         }
@@ -91,6 +131,9 @@ public class Main : MonoBehaviour
     {
         HandlePauseInput();
 
+        if (!gameStarted)
+            return;
+
         if (G.IsPlayerDead)
             return;
 
@@ -114,6 +157,7 @@ public class Main : MonoBehaviour
         passiveCurrencyTimer += Time.deltaTime;
 
         float interval = Mathf.Max(0.1f, PlayerStats.PassiveCurrencyIntervalSeconds);
+
         if (passiveCurrencyTimer < interval)
             return;
 
@@ -121,20 +165,31 @@ public class Main : MonoBehaviour
         passiveCurrencyTimer -= tickCount * interval;
 
         foreach (var reward in PlayerStats.GetPassiveCurrencyRewards())
-        {
             CurrencyManager.Add(reward.Key, reward.Value * tickCount);
-        }
     }
 
     private void TogglePause()
     {
+        if (G.ui != null && G.ui.IsFinalPanelOpen())
+            return;
+
+        bool menuOpen =
+            G.IsMenuOpen ||
+            (G.ui != null && G.ui.IsSkillTreePanelOpen()) ||
+            (G.ui != null && G.ui.IsRunResultPanelOpen());
+
+        if (G.IsPlayerDead && !menuOpen)
+            return;
+
         SetPause(!G.IsPaused);
     }
 
     private void SetPause(bool paused)
     {
         G.IsPaused = paused;
-        Time.timeScale = paused ? 0f : 1f;
+
+        if (!G.IsMenuOpen)
+            Time.timeScale = paused ? 0f : 1f;
 
         if (G.ui != null)
             G.ui.SetPausePanel(paused);
@@ -150,17 +205,20 @@ public class Main : MonoBehaviour
         if (G.IsPlayerDead)
             return;
 
-        EndCurrentRunCleanup();
+        EndCurrentRunCleanup(true);
 
         if (G.ui != null)
             G.ui.ShowDeathPanel();
     }
 
-    private void EndCurrentRunCleanup()
+    private void EndCurrentRunCleanup(bool stopMusicImmediately)
     {
         G.IsPlayerDead = true;
         G.IsPaused = false;
         Time.timeScale = 1f;
+
+        if (stopMusicImmediately && MusicManager.Instance != null)
+            MusicManager.Instance.StopMusicImmediate();
 
         if (G.waveDirector != null)
             G.waveDirector.OnWaveComplete -= OnLevelComplete;
@@ -184,15 +242,33 @@ public class Main : MonoBehaviour
     {
         if (G.transition != null)
         {
-            G.transition.Play(StartNewRunInternal);
+            G.IsPaused = true;
+            Time.timeScale = 0f;
+
+            G.transition.Play(
+                () =>
+                {
+                    StartNewRunInternal(false);
+
+                    G.IsPaused = true;
+                    Time.timeScale = 0f;
+                },
+                () =>
+                {
+                    G.IsPaused = false;
+                    Time.timeScale = 1f;
+
+                    PlayGameMusicAfterTransition();
+                }
+            );
         }
         else
         {
-            StartNewRunInternal();
+            StartNewRunInternal(true);
         }
     }
 
-    private void StartNewRunInternal()
+    private void StartNewRunInternal(bool playMusicNow)
     {
         if (G.ui != null)
         {
@@ -202,6 +278,8 @@ public class Main : MonoBehaviour
 
         Time.timeScale = 1f;
         G.ResetRuntimeFlags();
+
+        gameStarted = true;
         passiveCurrencyTimer = 0f;
 
         ClearEnemies();
@@ -214,11 +292,11 @@ public class Main : MonoBehaviour
 
         EnsurePlayerSpawnedAtScreenCenter();
         LoadSelectedLevel();
+
+        if (playMusicNow)
+            PlayGameMusicAfterTransition();
     }
 
-    // This is the REAL New Game button logic.
-    // It wipes all progress: currencies, level progress, skill tree PlayerPrefs,
-    // runtime bonuses and base stat cache, then reloads the scene cleanly.
     public void RestartCurrentRun()
     {
         ResetGameToInitialState();
@@ -226,9 +304,11 @@ public class Main : MonoBehaviour
 
     public void ResetGameToInitialState()
     {
-        // REAL New Game: wipe absolutely everything and reload.
         Time.timeScale = 1f;
         G.ResetRuntimeFlags();
+
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.StopMusicImmediate();
 
         if (G.ui != null)
         {
@@ -243,6 +323,8 @@ public class Main : MonoBehaviour
         DestroyPlayer();
 
         passiveCurrencyTimer = 0f;
+        gameStarted = false;
+
         GameResetUtility.ResetAllProgressAndReload();
     }
 
@@ -266,20 +348,24 @@ public class Main : MonoBehaviour
         G.player = Instantiate(
             playerPrefab,
             GetScreenCenterWorldPosition(),
-            Quaternion.identity);
+            Quaternion.identity
+        );
     }
 
     private Vector3 GetScreenCenterWorldPosition()
     {
         Camera cam = Camera.main;
+
         if (cam == null)
             return Vector3.zero;
 
         float distanceToWorldPlane = Mathf.Abs(cam.transform.position.z);
+
         Vector3 screenCenter = new Vector3(
             Screen.width * 0.5f,
             Screen.height * 0.5f,
-            distanceToWorldPlane);
+            distanceToWorldPlane
+        );
 
         Vector3 worldPosition = cam.ScreenToWorldPoint(screenCenter);
         worldPosition.z = 0f;

@@ -1,13 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Serialization;
 
 public class UI : MonoBehaviour
 {
+    [Header("Panels")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject finalPanel;
     [SerializeField] private GameObject skillTreePanel;
     [SerializeField] private DeathPanelUI deathPanel;
+
+    [Header("Comic Cutscenes")]
+    [SerializeField] private ComicCutsceneUI introCutscene;
+    [SerializeField] private ComicCutsceneUI finalCutscene;
+    [SerializeField] private bool playIntroCutsceneOnSceneStart = true;
 
     [Header("Pause Panel Buttons")]
     [SerializeField] private Button continueButton;
@@ -20,6 +27,8 @@ public class UI : MonoBehaviour
     [Header("Final Panel Buttons")]
     [SerializeField] private Button restartButton;
     [SerializeField] private Button finalExitButton;
+
+    private bool introCutsceneWasPlayed;
 
     private void Awake()
     {
@@ -71,6 +80,52 @@ public class UI : MonoBehaviour
             finalExitButton.onClick.RemoveListener(OnExitClicked);
     }
 
+    public bool ShouldPlayIntroCutscene()
+    {
+        return playIntroCutsceneOnSceneStart
+            && !introCutsceneWasPlayed
+            && introCutscene != null;
+    }
+
+    public void PlayIntroCutscene(Action onComplete)
+    {
+        if (introCutscene == null)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        introCutsceneWasPlayed = true;
+
+        introCutscene.Play(() =>
+        {
+            onComplete?.Invoke();
+        });
+    }
+
+    public void PlayFinalCutscene()
+    {
+        HideSkillTreePanel();
+        HideRunResultPanel();
+
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
+
+        if (finalPanel != null)
+            finalPanel.SetActive(false);
+
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayMenuMusic();
+
+        if (finalCutscene != null)
+        {
+            finalCutscene.Play();
+            return;
+        }
+
+        SetFinalPanel(true);
+    }
+
     private void OnContinueClicked()
     {
         if (G.main != null)
@@ -79,7 +134,6 @@ public class UI : MonoBehaviour
 
     private void OnRestartClicked()
     {
-        // Final panel restart is also a clean New Game.
         OnNewGameClicked();
     }
 
@@ -98,17 +152,33 @@ public class UI : MonoBehaviour
 
     internal void SetPausePanel(bool active)
     {
-        if (pausePanel != null)
-            pausePanel.SetActive(active);
+        if (pausePanel == null)
+            return;
+
+        pausePanel.SetActive(active);
+
+        if (active)
+            pausePanel.transform.SetAsLastSibling();
     }
 
     public void SetFinalPanel(bool active)
     {
         if (finalPanel != null)
+        {
             finalPanel.SetActive(active);
 
+            if (active)
+                finalPanel.transform.SetAsLastSibling();
+        }
+
         if (active)
+        {
+            G.IsPaused = true;
             Time.timeScale = 0f;
+
+            if (MusicManager.Instance != null)
+                MusicManager.Instance.PlayMenuMusic();
+        }
     }
 
     public bool IsFinalPanelOpen()
@@ -120,12 +190,24 @@ public class UI : MonoBehaviour
     {
         if (skillTreePanel != null)
             skillTreePanel.SetActive(true);
+
+        G.IsMenuOpen = true;
+
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayMenuMusic();
     }
 
     public void HideSkillTreePanel()
     {
         if (skillTreePanel != null)
             skillTreePanel.SetActive(false);
+
+        G.IsMenuOpen = false;
+    }
+
+    public bool IsSkillTreePanelOpen()
+    {
+        return skillTreePanel != null && skillTreePanel.activeInHierarchy;
     }
 
     public void ShowDeathPanel()
@@ -144,5 +226,15 @@ public class UI : MonoBehaviour
     {
         if (deathPanel != null)
             deathPanel.Hide();
+    }
+
+    public bool IsDeathPanelOpen()
+    {
+        return deathPanel != null && deathPanel.IsDeathOpen();
+    }
+
+    public bool IsRunResultPanelOpen()
+    {
+        return deathPanel != null && deathPanel.IsOpen();
     }
 }

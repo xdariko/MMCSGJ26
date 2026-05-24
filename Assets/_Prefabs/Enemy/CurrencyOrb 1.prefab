@@ -152,3 +152,8 @@ MonoBehaviour:
     attractSpeed: 8
     color: {r: 1, g: 1, b: 1, a: 1}
   collectDistance: 0.25
+  collectSounds:
+  - {fileID: 8300000, guid: 91259cb80b0977d4098537fc1fff34b9, type: 3}
+  - {fileID: 8300000, guid: 9e9202516f9f5214e803798e2342b3de, type: 3}
+  - {fileID: 8300000, guid: e9daa4798333ec345b0775a92c68e144, type: 3}
+  collectSoundVolume: 0.7

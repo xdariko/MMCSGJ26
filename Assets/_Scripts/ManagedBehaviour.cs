@@ -8,6 +8,7 @@ public static class G
 {
     public static Main main;
     public static UI ui;
+    public static MusicManager music;
     public static GameObject player;
     public static PlayerStabilitySystem stability;
     public static WaveDirector waveDirector;
@@ -32,6 +33,7 @@ public static class G
     {
         main = null;
         ui = null;
+        music = null;
         player = null;
         stability = null;
         waveDirector = null;
@@ -79,6 +81,10 @@ public static class PlayerStats
     public static float BonusCritMultiplier;
 
     private static readonly Dictionary<CurrencyType, float> CurrencyDropBonusPercent = new();
+
+    // Нужен, чтобы бонус +10%, +15%, +20% не терялся на орбах, которые дают по 1 ресурсу.
+    private static readonly Dictionary<CurrencyType, float> CurrencyDropRoundingCarry = new();
+
     private static readonly Dictionary<CurrencyType, int> PassiveCurrencyAmounts = new();
 
     public static float PassiveCurrencyIntervalSeconds = 3f;
@@ -118,6 +124,7 @@ public static class PlayerStats
             return 1f;
 
         CurrencyDropBonusPercent.TryGetValue(currencyType, out float bonusPercent);
+
         return Mathf.Max(0f, 1f + bonusPercent);
     }
 
@@ -126,7 +133,32 @@ public static class PlayerStats
         if (baseAmount <= 0)
             return 0;
 
-        return Mathf.Max(1, Mathf.RoundToInt(baseAmount * GetCurrencyDropMultiplier(currencyType)));
+        if (currencyType == CurrencyType.None)
+            return baseAmount;
+
+        float multiplier = GetCurrencyDropMultiplier(currencyType);
+
+        if (multiplier <= 0f)
+            return 0;
+
+        CurrencyDropRoundingCarry.TryGetValue(currencyType, out float carry);
+
+        float exactAmount = baseAmount * multiplier + carry;
+
+        // Округляем накопленно, а не каждый орб отдельно.
+        // Так бонус +15% не теряется на ресурсах по 1 штуке.
+        int finalAmount = Mathf.FloorToInt(exactAmount + 0.5f);
+
+        finalAmount = Mathf.Max(1, finalAmount);
+
+        CurrencyDropRoundingCarry[currencyType] = exactAmount - finalAmount;
+
+        return finalAmount;
+    }
+
+    public static void ResetCurrencyDropRoundingCarry()
+    {
+        CurrencyDropRoundingCarry.Clear();
     }
 
     public static void AddPassiveCurrencyReward(CurrencyType currencyType, int amount, float intervalSeconds)
@@ -218,14 +250,17 @@ public static class PlayerStats
         BonusCritChance = 0f;
         BonusCritMultiplier = 0f;
         BonusInvincibilityDuration = 0f;
+
         PassiveCurrencyIntervalSeconds = 3f;
+
         CurrencyDropBonusPercent.Clear();
+        CurrencyDropRoundingCarry.Clear();
         PassiveCurrencyAmounts.Clear();
+
         ResetBombStats();
         ResetSprintStats();
     }
 }
-
 
 public static class GameResetUtility
 {
@@ -248,14 +283,13 @@ public static class GameResetUtility
         PlayerStats.ResetBonuses();
         PlayerStats.ResetBaseStats();
 
-        // Do not rely only on reflection here. This project has CurrencyManager,
-        // so call the real reset directly to clear both total wallet and run-collected values.
         CurrencyManager.ResetAll();
     }
 
     private static void TryResetCurrencyManager()
     {
         Type currencyManagerType = FindType("CurrencyManager");
+
         if (currencyManagerType == null)
             return;
 
@@ -276,7 +310,8 @@ public static class GameResetUtility
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static,
                 null,
                 Type.EmptyTypes,
-                null);
+                null
+            );
 
             if (method == null)
                 continue;
@@ -288,12 +323,14 @@ public static class GameResetUtility
     private static Type FindType(string typeName)
     {
         Type directType = Type.GetType(typeName);
+
         if (directType != null)
             return directType;
 
         foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             Type foundType = assembly.GetType(typeName);
+
             if (foundType != null)
                 return foundType;
         }
@@ -302,16 +339,15 @@ public static class GameResetUtility
     }
 }
 
-
 public class ManagedBehaviour : MonoBehaviour
 {
-    void Update()
+    private void Update()
     {
         if (!G.IsPaused)
             PausableUpdate();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!G.IsPaused)
             PausableFixedUpdate();

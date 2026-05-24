@@ -19,6 +19,10 @@ public class PlayerSpellCaster : MonoBehaviour
     [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private float hitEffectLifetime = 1.5f;
 
+    [Header("Hit Sound")]
+    [SerializeField] private AudioClip[] hitSounds;
+    [SerializeField] private float hitSoundVolume = 0.7f;
+
     private readonly List<EnemyHealth> currentTargets = new();
     private readonly List<SpellBeam> currentBeams = new();
 
@@ -32,6 +36,9 @@ public class PlayerSpellCaster : MonoBehaviour
 
     private void Update()
     {
+        if (G.IsPaused || G.IsPlayerDead)
+            return;
+
         FindTargets();
         HandleAttack();
     }
@@ -147,10 +154,12 @@ public class PlayerSpellCaster : MonoBehaviour
             bool isCrit = Random.value < PlayerStats.CritChance;
             float dmg = isCrit ? baseDmg * PlayerStats.CritMultiplier : baseDmg;
 
+            Vector3 hitPosition = target.transform.position;
+
             target.TakeDamage(dmg, isCrit);
 
-            if (target != null)
-                SpawnHitEffect(target.transform.position);
+            SpawnHitEffect(hitPosition);
+            PlayHitSound(hitPosition);
         }
     }
 
@@ -203,6 +212,18 @@ public class PlayerSpellCaster : MonoBehaviour
 
         if (hitEffectLifetime > 0f)
             Destroy(fx, hitEffectLifetime);
+    }
+
+    private void PlayHitSound(Vector3 position)
+    {
+        if (hitSounds == null || hitSounds.Length == 0)
+            return;
+
+        SoundManagerSO.PlaySoundFXClip(
+            hitSounds,
+            position,
+            hitSoundVolume
+        );
     }
 
     private void OnDrawGizmosSelected()

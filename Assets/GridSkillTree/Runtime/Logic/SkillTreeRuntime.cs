@@ -38,8 +38,7 @@ namespace GridSkillTree
             if (loadSavedProgress)
                 LoadProgress();
 
-            PlayerStats.ResetBonuses();
-            ApplyAllPurchasedEffects();
+            RebuildAllBonusesFromProgress();
         }
 
         public int GetLevel(string nodeId)
@@ -138,7 +137,7 @@ namespace GridSkillTree
 
             Progress.SetLevel(node.id, currentLevel + 1);
 
-            ApplyEffect(node, currentLevel + 1);
+            RebuildAllBonusesFromProgress();
 
             if (saveProgressOnBuy)
                 SaveProgress();
@@ -220,13 +219,15 @@ namespace GridSkillTree
                 skillPoints = startingSkillPoints
             };
 
-            PlayerStats.ResetBonuses();
+            RebuildAllBonusesFromProgress();
 
             OnTreeChanged?.Invoke();
         }
 
-        private void ApplyAllPurchasedEffects()
+        private void RebuildAllBonusesFromProgress()
         {
+            PlayerStats.ResetBonuses();
+
             if (treeData == null || treeData.nodes == null || Progress == null)
                 return;
 
@@ -240,44 +241,42 @@ namespace GridSkillTree
                 if (level <= 0)
                     continue;
 
-                ApplyEffect(node, level);
+                ApplyFullEffect(node, level);
             }
         }
 
-        private void ApplyEffect(SkillNodeData node, int newLevel)
+        private void ApplyFullEffect(SkillNodeData node, int level)
         {
-            float value = node.GetValue(newLevel);
-            float prevValue = newLevel > 1 ? node.GetValue(newLevel - 1) : 0f;
-            float delta = value - prevValue;
+            float value = node.GetValue(level);
 
             switch (node.effectType)
             {
                 case SkillEffectType.MoveSpeedPercent:
-                    PlayerStats.BonusMoveSpeedPercent += delta;
+                    PlayerStats.BonusMoveSpeedPercent += value;
                     break;
 
                 case SkillEffectType.DamageFlat:
-                    PlayerStats.BonusDamageFlat += delta;
+                    PlayerStats.BonusDamageFlat += value;
                     break;
 
                 case SkillEffectType.BeamCount:
-                    PlayerStats.BonusBeamCount += Mathf.RoundToInt(delta);
+                    PlayerStats.BonusBeamCount += Mathf.RoundToInt(value);
                     break;
 
                 case SkillEffectType.PickupRadius:
-                    PlayerStats.BonusPickupRadius += delta;
+                    PlayerStats.BonusPickupRadius += value;
                     break;
 
                 case SkillEffectType.CritChance:
-                    PlayerStats.BonusCritChance += delta;
+                    PlayerStats.BonusCritChance += value;
                     break;
 
                 case SkillEffectType.CritMultiplier:
-                    PlayerStats.BonusCritMultiplier += delta;
+                    PlayerStats.BonusCritMultiplier += value;
                     break;
 
                 case SkillEffectType.StabilityDecayReduction:
-                    PlayerStats.BonusStabilityDecayReduction += delta;
+                    PlayerStats.BonusStabilityDecayReduction += value;
                     break;
 
                 case SkillEffectType.UnlockCurrency:
@@ -285,18 +284,19 @@ namespace GridSkillTree
                     break;
 
                 case SkillEffectType.CurrencyDropPercent:
-                    PlayerStats.AddCurrencyDropBonus(node.currencyDropType, delta);
+                    PlayerStats.AddCurrencyDropBonus(node.currencyDropType, value);
                     break;
 
                 case SkillEffectType.PassiveCurrency:
                     PlayerStats.AddPassiveCurrencyReward(
                         node.passiveCurrencyType,
-                        Mathf.RoundToInt(delta),
-                        node.passiveCurrencyIntervalSeconds);
+                        Mathf.RoundToInt(value),
+                        node.passiveCurrencyIntervalSeconds
+                    );
                     break;
 
                 case SkillEffectType.InvincibilityDuration:
-                    PlayerStats.BonusInvincibilityDuration += delta;
+                    PlayerStats.BonusInvincibilityDuration += value;
                     break;
 
                 case SkillEffectType.UnlockBombs:
@@ -304,15 +304,15 @@ namespace GridSkillTree
                     break;
 
                 case SkillEffectType.BombExplosionRadius:
-                    PlayerStats.AddBombExplosionRadius(delta);
+                    PlayerStats.AddBombExplosionRadius(value);
                     break;
 
                 case SkillEffectType.BombDamage:
-                    PlayerStats.AddBombDamage(delta);
+                    PlayerStats.AddBombDamage(value);
                     break;
 
                 case SkillEffectType.BombSpawnIntervalReduction:
-                    PlayerStats.AddBombSpawnIntervalReduction(delta);
+                    PlayerStats.AddBombSpawnIntervalReduction(value);
                     break;
 
                 case SkillEffectType.UnlockSprint:

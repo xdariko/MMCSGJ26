@@ -59,6 +59,7 @@ public class DeathPanelUI : MonoBehaviour
 
     [Header("Final Sound")]
     [SerializeField] private AudioClip finishClip;
+
     [Range(0f, 1f)]
     [SerializeField] private float finishVolume = 0.75f;
 
@@ -67,6 +68,7 @@ public class DeathPanelUI : MonoBehaviour
 
     private float lastTickTime;
     private int activeCountAnimations;
+    private bool currentPanelIsDeath;
 
     private void Awake()
     {
@@ -90,17 +92,37 @@ public class DeathPanelUI : MonoBehaviour
 
     public void ShowDeath()
     {
+        currentPanelIsDeath = true;
+
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.StopMusicImmediate();
+
         Show(deathTitle);
     }
 
     public void ShowVictory()
     {
+        currentPanelIsDeath = false;
+
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.StopMusicImmediate();
+
         Show(victoryTitle);
     }
 
     public void Show()
     {
-        Show(deathTitle);
+        ShowDeath();
+    }
+
+    public bool IsOpen()
+    {
+        return panel != null && panel.activeInHierarchy;
+    }
+
+    public bool IsDeathOpen()
+    {
+        return IsOpen() && currentPanelIsDeath;
     }
 
     private void Show(string title)
@@ -129,6 +151,8 @@ public class DeathPanelUI : MonoBehaviour
         KillTweens();
 
         panel.SetActive(false);
+        currentPanelIsDeath = false;
+
         ClearEntries();
     }
 

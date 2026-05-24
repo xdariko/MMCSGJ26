@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: Wave Config 1
   m_EditorClassIdentifier: Assembly-CSharp::WaveConfig
   spawnInterval: {x: 1, y: 1.7}
+  speedUpSpawnNearBoss: 1
+  nearBossSpawnInterval: {x: 0.65, y: 1.1}
+  keepSpawningDuringBoss: 1
+  bossFightSpawnInterval: {x: 0.9, y: 1.4}
+  maxTotalAliveBeforeBoss: 20
+  maxTotalAliveDuringBoss: 10
   enemies:
   - prefab: {fileID: 902383136821581742, guid: 97bf1c4839ad1df4a9d158b82fd24967, type: 3}
     spawnType: 1

@@ -31,8 +31,20 @@ public class ScreenDustTransition : MonoBehaviour
 
     public void Play(Action onCovered)
     {
+        Play(onCovered, null);
+    }
+
+    public void Play(Action onCovered, Action onFinished)
+    {
         if (isPlaying)
             return;
+
+        if (curtain == null)
+        {
+            onCovered?.Invoke();
+            onFinished?.Invoke();
+            return;
+        }
 
         isPlaying = true;
 
@@ -50,8 +62,11 @@ public class ScreenDustTransition : MonoBehaviour
         sequence = DOTween.Sequence();
         sequence.SetUpdate(useUnscaledTime);
 
-        sequence.Append(curtain.DOAnchorPos(Vector2.zero, coverDuration)
-            .SetEase(Ease.OutCubic));
+        sequence.Append(
+            curtain
+                .DOAnchorPos(Vector2.zero, coverDuration)
+                .SetEase(Ease.OutCubic)
+        );
 
         sequence.AppendCallback(() =>
         {
@@ -60,13 +75,17 @@ public class ScreenDustTransition : MonoBehaviour
 
         sequence.AppendInterval(coveredPause);
 
-        sequence.Append(curtain.DOAnchorPos(new Vector2(-width, 0f), uncoverDuration)
-            .SetEase(Ease.InCubic));
+        sequence.Append(
+            curtain
+                .DOAnchorPos(new Vector2(-width, 0f), uncoverDuration)
+                .SetEase(Ease.InCubic)
+        );
 
         sequence.AppendCallback(() =>
         {
             HideInstant();
             isPlaying = false;
+            onFinished?.Invoke();
         });
     }
 

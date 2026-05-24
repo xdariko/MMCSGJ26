@@ -30,6 +30,12 @@ namespace GridSkillTree
         [Header("Position")]
         [SerializeField] private float verticalOffset = 10f;
 
+        [Tooltip("Дополнительный отступ от верхнего края экрана. Если места меньше — тултип не появится.")]
+        [SerializeField] private float topScreenPadding = 20f;
+
+        [Tooltip("Если true, тултип вообще не появится, когда над кнопкой нет места.")]
+        [SerializeField] private bool hideIfNoSpaceAbove = true;
+
         [Header("Draw On Top")]
         [SerializeField] private bool moveToRootCanvas = true;
         [SerializeField] private int sortingOrder = 32767;
@@ -46,6 +52,10 @@ namespace GridSkillTree
         private Canvas tooltipCanvas;
         private Tween currentTween;
 
+        private SkillNodeData currentNode;
+        private RectTransform currentTarget;
+        private bool isVisible;
+
         private readonly List<GameObject> spawnedCostEntries = new();
 
         private void Awake()
@@ -58,6 +68,21 @@ namespace GridSkillTree
             SetupTopLayer();
 
             HideImmediate();
+        }
+
+        private void LateUpdate()
+        {
+            if (!isVisible)
+                return;
+
+            if (currentTarget == null)
+            {
+                Hide();
+                return;
+            }
+
+            if (!TryMoveAboveTarget(currentTarget))
+                Hide();
         }
 
         private void SetupTopLayer()
@@ -117,10 +142,21 @@ namespace GridSkillTree
 
             SetupTopLayer();
 
-            int level = runtime.GetLevel(node.id);
+            currentNode = node;
+            currentTarget = target;
 
             root.SetActive(true);
             root.transform.SetAsLastSibling();
+
+            Canvas.ForceUpdateCanvases();
+
+            if (!TryMoveAboveTarget(target))
+            {
+                Hide();
+                return;
+            }
+
+            int level = runtime.GetLevel(node.id);
 
             if (titleText != null)
                 titleText.text = node.title;
@@ -139,9 +175,17 @@ namespace GridSkillTree
             if (statusText != null)
                 statusText.text = $"Status: {runtime.GetStatusText(node)}";
 
-            MoveAboveTarget(target);
+            bool sameTargetAlreadyVisible =
+                isVisible &&
+                currentNode == node &&
+                currentTarget == target;
 
-            PlayAppearAnimation();
+            isVisible = true;
+
+            if (!sameTargetAlreadyVisible)
+                PlayAppearAnimation();
+            else
+                EnsureNormalScale();
         }
 
         public void Hide()
@@ -149,6 +193,10 @@ namespace GridSkillTree
             currentTween?.Kill();
 
             ClearCostEntries();
+
+            currentNode = null;
+            currentTarget = null;
+            isVisible = false;
 
             if (root != null)
                 root.SetActive(false);
@@ -212,6 +260,12 @@ namespace GridSkillTree
 
         private void HideImmediate()
         {
+            currentTween?.Kill();
+
+            isVisible = false;
+            currentNode = null;
+            currentTarget = null;
+
             if (root != null)
                 root.SetActive(false);
 
@@ -222,26 +276,20 @@ namespace GridSkillTree
             }
         }
 
-        private void MoveAboveTarget(RectTransform target)
+        private bool TryMoveAboveTarget(RectTransform target)
         {
-            if (tooltipRect == null)
-                return;
+            if (tooltipRect == null || target == null)
+                return false;
 
             Canvas.ForceUpdateCanvases();
 
             if (rootCanvas == null)
-            {
-                MoveAboveTargetFallback(target);
-                return;
-            }
+                return TryMoveAboveTargetFallback(target);
 
             RectTransform canvasRect = rootCanvas.transform as RectTransform;
 
             if (canvasRect == null)
-            {
-                MoveAboveTargetFallback(target);
-                return;
-            }
+                return TryMoveAboveTargetFallback(target);
 
             Canvas targetCanvas = target.GetComponentInParent<Canvas>();
             Camera targetCamera = GetCanvasCamera(targetCanvas);
@@ -259,8 +307,7 @@ namespace GridSkillTree
                     rootCamera,
                     out Vector2 localPoint))
             {
-                MoveAboveTargetFallback(target);
-                return;
+                return TryMoveAboveTargetFallback(target);
             }
 
             float tooltipWidth = tooltipRect.rect.width;
@@ -272,8 +319,15 @@ namespace GridSkillTree
             float minX = canvasRect.rect.xMin + tooltipWidth * tooltipRect.pivot.x;
             float maxX = canvasRect.rect.xMax - tooltipWidth * (1f - tooltipRect.pivot.x);
 
-            float minY = canvasRect.rect.yMin + tooltipHeight * tooltipRect.pivot.y;
-            float maxY = canvasRect.rect.yMax - tooltipHeight * (1f - tooltipRect.pivot.y);
+            float minY = canvasRect.rect.xMin;
+            minY = canvasRect.rect.yMin + tooltipHeight * tooltipRect.pivot.y;
+
+            float maxY = canvasRect.rect.yMax - tooltipHeight * (1f - tooltipRect.pivot.y) - topScreenPadding;
+
+            bool hasSpaceAbove = y <= maxY;
+
+            if (hideIfNoSpaceAbove && !hasSpaceAbove)
+                return false;
 
             if (minX <= maxX)
                 x = Mathf.Clamp(x, minX, maxX);
@@ -282,6 +336,29 @@ namespace GridSkillTree
                 y = Mathf.Clamp(y, minY, maxY);
 
             tooltipRect.anchoredPosition = new Vector2(x, y);
+
+            return true;
+        }
+
+        private bool TryMoveAboveTargetFallback(RectTransform target)
+        {
+            if (tooltipRect == null || target == null)
+                return false;
+
+            Vector2 targetAnchoredPosition = target.anchoredPosition;
+
+            float targetHeight = target.rect.height;
+            float tooltipHeight = tooltipRect.rect.height;
+
+            float y =
+                targetAnchoredPosition.y +
+                targetHeight / 2f +
+                tooltipHeight / 2f +
+                verticalOffset;
+
+            tooltipRect.anchoredPosition = new Vector2(targetAnchoredPosition.x, y);
+
+            return true;
         }
 
         private Camera GetCanvasCamera(Canvas canvas)
@@ -293,24 +370,6 @@ namespace GridSkillTree
                 return null;
 
             return canvas.worldCamera;
-        }
-
-        private void MoveAboveTargetFallback(RectTransform target)
-        {
-            Vector2 targetAnchoredPosition = target.anchoredPosition;
-
-            float targetHeight = target.rect.height;
-            float tooltipHeight = tooltipRect.rect.height;
-
-            float x = targetAnchoredPosition.x;
-
-            float y =
-                targetAnchoredPosition.y +
-                targetHeight / 2f +
-                tooltipHeight / 2f +
-                verticalOffset;
-
-            tooltipRect.anchoredPosition = new Vector2(x, y);
         }
 
         private void PlayAppearAnimation()
@@ -350,6 +409,15 @@ namespace GridSkillTree
             );
 
             currentTween = seq;
+        }
+
+        private void EnsureNormalScale()
+        {
+            if (tooltipRect == null)
+                return;
+
+            tooltipRect.localScale = Vector3.one;
+            tooltipRect.localRotation = Quaternion.identity;
         }
     }
 }

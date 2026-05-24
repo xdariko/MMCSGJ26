@@ -4,9 +4,11 @@ public class KillZone : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
+
+        if (enemy != null)
         {
-            Destroy(other.transform.root.gameObject);
+            enemy.DespawnWithoutReward();
             return;
         }
 

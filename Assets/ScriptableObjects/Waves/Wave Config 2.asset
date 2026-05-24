@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e93183318d106c48836636a7730cd7f, type: 3}
   m_Name: Wave Config 2
   m_EditorClassIdentifier: Assembly-CSharp::WaveConfig
-  spawnInterval: {x: 0.85, y: 1.45}
+  spawnInterval: {x: 0.95, y: 1.45}
+  speedUpSpawnNearBoss: 1
+  nearBossSpawnInterval: {x: 0.45, y: 0.9}
+  keepSpawningDuringBoss: 1
+  bossFightSpawnInterval: {x: 0.9, y: 1.4}
+  maxTotalAliveBeforeBoss: 20
+  maxTotalAliveDuringBoss: 10
   enemies:
   - prefab: {fileID: 902383136821581742, guid: 8429a1a38430d3346bc5d88cfb69a5b8, type: 3}
     spawnType: 1

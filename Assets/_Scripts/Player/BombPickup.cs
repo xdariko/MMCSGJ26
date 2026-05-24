@@ -9,6 +9,10 @@ public class BombPickup : MonoBehaviour
     [SerializeField] private GameObject explosionEffectPrefab;
     [SerializeField] private float explosionEffectLifetime = 1.5f;
 
+    [Header("Explosion Sound")]
+    [SerializeField] private AudioClip[] explosionSounds;
+    [SerializeField] private float explosionSoundVolume = 0.8f;
+
     [Header("Fallback Values")]
     [SerializeField] private float explosionRadius = 2f;
     [SerializeField] private float damage = 5f;
@@ -66,14 +70,20 @@ public class BombPickup : MonoBehaviour
 
         pulseTween?.Kill();
 
+        PlayExplosionSound();
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
             explosionRadius,
-            enemyLayer);
+            enemyLayer
+        );
 
         foreach (Collider2D hit in hits)
         {
             EnemyHealth enemy = hit.GetComponent<EnemyHealth>();
+
+            if (enemy == null)
+                enemy = hit.GetComponentInParent<EnemyHealth>();
 
             if (enemy != null)
                 enemy.TakeDamage(damage);
@@ -84,13 +94,26 @@ public class BombPickup : MonoBehaviour
             GameObject fx = Instantiate(
                 explosionEffectPrefab,
                 transform.position,
-                Quaternion.identity);
+                Quaternion.identity
+            );
 
             if (explosionEffectLifetime > 0f)
                 Destroy(fx, explosionEffectLifetime);
         }
 
         Destroy(gameObject);
+    }
+
+    private void PlayExplosionSound()
+    {
+        if (explosionSounds == null || explosionSounds.Length == 0)
+            return;
+
+        SoundManagerSO.PlaySoundFXClip(
+            explosionSounds,
+            transform.position,
+            explosionSoundVolume
+        );
     }
 
     private void OnDestroy()
@@ -104,6 +127,7 @@ public class BombPickup : MonoBehaviour
 
         Gizmos.DrawWireSphere(
             transform.position,
-            explosionRadius);
+            explosionRadius
+        );
     }
 }

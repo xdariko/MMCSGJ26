@@ -258,8 +258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthVisual
   maskTransform: {fileID: 2212488462087810785}
   useManualPositions: 1
-  visibleLocalPosition: {x: 0, y: 0, z: 0}
-  hiddenLocalPosition: {x: 0, y: 0, z: 0}
+  visibleLocalPosition: {x: -5.1464, y: 1.1746, z: 0}
+  hiddenLocalPosition: {x: -9.36, y: -3.04, z: 0}
   bgRenderer: {fileID: 1419792578803758177}
   fillRenderer: {fileID: 2096631521082307660}
   shakeTarget: {fileID: 206813763729699764}
@@ -372,7 +372,7 @@ Transform:
   m_GameObject: {fileID: 3032339113947578432}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -5.1464, y: 1.1746, z: 0}
+  m_LocalPosition: {x: -5.17, y: 1.15, z: 0}
   m_LocalScale: {x: 1.7181633, y: 1.1282945, z: 0.86}
   m_ConstrainProportionsScale: 1
   m_Children: []

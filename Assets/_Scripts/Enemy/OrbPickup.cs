@@ -9,6 +9,10 @@ public class OrbPickup : MonoBehaviour
     [Header("Collect")]
     [SerializeField] private float collectDistance = 0.25f;
 
+    [Header("Collect Sound")]
+    [SerializeField] private AudioClip[] collectSounds;
+    [SerializeField] private float collectSoundVolume = 0.7f;
+
     private Transform target;
 
     private bool isFollowing;
@@ -28,14 +32,19 @@ public class OrbPickup : MonoBehaviour
         if (!isFollowing || isCollected || target == null)
             return;
 
+        if (data == null)
+            return;
+
         transform.position = Vector3.MoveTowards(
             transform.position,
             target.position,
-            data.attractSpeed * Time.deltaTime);
+            data.attractSpeed * Time.deltaTime
+        );
 
         float distance = Vector2.Distance(
             transform.position,
-            target.position);
+            target.position
+        );
 
         if (distance <= collectDistance)
         {
@@ -54,7 +63,10 @@ public class OrbPickup : MonoBehaviour
 
         isCollected = true;
 
+        Vector3 collectPosition = transform.position;
+
         ApplyEffects(stability);
+        PlayCollectSound(collectPosition);
 
         Destroy(gameObject);
     }
@@ -87,7 +99,8 @@ public class OrbPickup : MonoBehaviour
                 int baseAmount = Mathf.RoundToInt(effect.value);
                 int finalAmount = PlayerStats.ApplyCurrencyDropMultiplier(
                     effect.currencyType,
-                    baseAmount);
+                    baseAmount
+                );
 
                 CurrencyManager.Add(effect.currencyType, finalAmount);
                 break;
@@ -96,5 +109,17 @@ public class OrbPickup : MonoBehaviour
                 stability.RemoveStability(effect.value);
                 break;
         }
+    }
+
+    private void PlayCollectSound(Vector3 position)
+    {
+        if (collectSounds == null || collectSounds.Length == 0)
+            return;
+
+        SoundManagerSO.PlaySoundFXClip(
+            collectSounds,
+            position,
+            collectSoundVolume
+        );
     }
 }

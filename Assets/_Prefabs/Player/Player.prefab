@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154e31d9c4d69474083bdbe494fe09c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFollowController
-  moveSpeed: 7
+  moveSpeed: 5.8
   acceleration: 8
   stopDistance: 0.15
   cursorOffset: {x: 0, y: 0}
@@ -89,6 +89,7 @@ MonoBehaviour:
   tiltSmooth: 10
   floatAmplitude: 0.12
   floatDuration: 1.2
+  sprintWithLeftMouse: 1
   screenPadding: 0.2
 --- !u!114 &3149951918447176256
 MonoBehaviour:
@@ -102,16 +103,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a348109a2b540c409563d6dfbf1d499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpellCaster
-  detectionRadius: 3
+  detectionRadius: 2.6
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
   baseDamage: 1
-  attackCooldown: 0.5
+  attackCooldown: 0.65
   beamPrefab: {fileID: 4953916010348952069, guid: d295dec6a46ee304286ccf8095325617, type: 3}
   baseBeamCount: 1
   hitEffectPrefab: {fileID: 2244398166334010153, guid: 59a770e19a5b7c748847f94a2c93fc3f, type: 3}
   hitEffectLifetime: 1
+  hitSounds:
+  - {fileID: 8300000, guid: a74239c395ef1c54c89b6f0d66b13aea, type: 3}
+  - {fileID: 8300000, guid: eac3bd754969d8543b4a6a87718e77ac, type: 3}
+  - {fileID: 8300000, guid: 9f5b7d77879c4c04d9ecf83214ce666e, type: 3}
+  hitSoundVolume: 0.7
 --- !u!114 &6156052401624529302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,10 +131,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStabilitySystem
   maxStability: 100
-  currentStability: 50
-  decayPerSecond: 2
-  minSafe: 20
-  maxSafe: 80
+  currentStability: 45
+  decayPerSecond: 2.8
+  minSafe: 25
+  maxSafe: 75
 --- !u!114 &3263644279961087587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,8 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837060f506a2bc941a51faa833419c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerContactDamage
-  contactDamage: 10
-  shieldDuration: 1.5
+  contactDamage: 14
+  shieldDuration: 1.1
   blinkInterval: 0.1
   spriteRenderer: {fileID: 7345232134877630564}
 --- !u!58 &360305988568955451

@@ -144,8 +144,13 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
-  explosionEffectPrefab: {fileID: 0}
+  explosionEffectPrefab: {fileID: 2244398166334010153, guid: d77f5a5c6ab92174c96c3434e1b50c7a, type: 3}
   explosionEffectLifetime: 1.5
+  explosionSounds:
+  - {fileID: 8300000, guid: 0ea96281b1849574fb3890f6c053cc92, type: 3}
+  - {fileID: 8300000, guid: f18bcde7d76a3b24b9490e9a720690c4, type: 3}
+  - {fileID: 8300000, guid: 2c4d80caee3df2a46a0f61badb7807db, type: 3}
+  explosionSoundVolume: 0.8
   explosionRadius: 3
   damage: 5
   pulseScale: 1.15

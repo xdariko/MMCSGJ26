@@ -21,6 +21,7 @@ public class EnemyHealth : MonoBehaviour
     private EnemyDrop drop;
     private GameObject wavePrefab;
     private bool dead;
+    private bool removedFromWave;
 
     public bool IsBoss => isBoss;
     public bool IsDead => dead;
@@ -52,6 +53,7 @@ public class EnemyHealth : MonoBehaviour
     private void ResetHealthToMax()
     {
         dead = false;
+        removedFromWave = false;
 
         maxHealth = Mathf.Max(1f, maxHealth);
         currentHealth = maxHealth;
@@ -91,6 +93,18 @@ public class EnemyHealth : MonoBehaviour
             Die();
     }
 
+    public void DespawnWithoutReward()
+    {
+        if (dead)
+            return;
+
+        dead = true;
+
+        NotifyWaveDirectorRemoved();
+
+        Destroy(gameObject);
+    }
+
     private float GetHealthRatio()
     {
         return maxHealth > 0f ? currentHealth / maxHealth : 0f;
@@ -110,6 +124,7 @@ public class EnemyHealth : MonoBehaviour
         GameObject go = Instantiate(G.damagePopupPrefab, pos, Quaternion.identity);
 
         DamagePopup popup = go.GetComponent<DamagePopup>();
+
         if (popup != null)
             popup.Setup(damage, isCrit);
     }
@@ -134,8 +149,7 @@ public class EnemyHealth : MonoBehaviour
         if (drop != null)
             drop.DropLoot();
 
-        if (G.waveDirector != null)
-            G.waveDirector.NotifyDeath(wavePrefab != null ? wavePrefab : gameObject);
+        NotifyWaveDirectorRemoved();
 
         if (isBoss)
             BossProgress.NotifyBossKilled();
@@ -143,5 +157,38 @@ public class EnemyHealth : MonoBehaviour
             BossProgress.AddXP(xpReward);
 
         Destroy(gameObject);
+    }
+
+    private void NotifyWaveDirectorRemoved()
+    {
+        if (removedFromWave)
+            return;
+
+        removedFromWave = true;
+
+        if (G.waveDirector == null)
+            return;
+
+        GameObject prefab = wavePrefab != null ? wavePrefab : gameObject;
+
+        G.waveDirector.NotifyDeath(prefab);
+    }
+
+    private void OnDestroy()
+    {
+        if (removedFromWave)
+            return;
+
+        if (G.waveDirector == null)
+            return;
+
+        if (isBoss)
+            return;
+
+        GameObject prefab = wavePrefab != null ? wavePrefab : gameObject;
+
+        G.waveDirector.NotifyDeath(prefab);
+
+        removedFromWave = true;
     }
 }
