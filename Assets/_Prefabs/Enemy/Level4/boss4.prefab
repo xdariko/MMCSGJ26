@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d13babfa3e153b46973d87b0efb2400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 210
+  maxHealth: 160
   invulnerable: 0
   xpReward: 0
   isBoss: 0
@@ -309,22 +309,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFinalPatternShooter
   projectilePrefab: {fileID: 4381634397435925510, guid: 785072914f3965f4a949e87b45fdd39b, type: 3}
-  cooldown: 2
-  stopBeforeShootTime: 0.35
-  stopAfterShootTime: 0.2
-  redProjectilePrefab: {fileID: 4381634397435925510, guid: 4e48b7bba2f399b43992a803c0e5467a, type: 3}
-  blueProjectilePrefab: {fileID: 2263549109149115506, guid: 700310f2efdd76b4ca68c43644c596ec, type: 3}
+  cooldown: 6
+  stopBeforeShootTime: 0.8
+  stopAfterShootTime: 0.3
+  redProjectilePrefab: {fileID: 4381634397435925510, guid: 785072914f3965f4a949e87b45fdd39b, type: 3}
+  blueProjectilePrefab: {fileID: 2263549109149115506, guid: 46cb188ad51550b4494835a53847c1c1, type: 3}
   circlePairs: 3
-  circleProjectileCount: 18
+  circleProjectileCount: 10
   delayBetweenCircles: 0.45
-  circleAngleOffsetPerShot: 10
-  aimedProjectileCount: 12
+  circleAngleOffsetPerShot: 15
+  aimedProjectileCount: 10
   aimedSpreadAngle: 38
-  delayBetweenAimedShots: 0.06
+  delayBetweenAimedShots: 0.2
   aimedRandomAngle: 8
-  stopBeforePatternTime: 0.45
-  pauseBeforeAimedBurst: 0.85
-  pauseAfterFullPattern: 1.8
+  stopBeforePatternTime: 5
+  pauseBeforeAimedBurst: 4
+  pauseAfterFullPattern: 5
   projectileSpawnOffset: 0.3
 --- !u!114 &7378800030661169678
 MonoBehaviour:

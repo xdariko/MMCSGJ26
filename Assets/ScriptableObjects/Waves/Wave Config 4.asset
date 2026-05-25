@@ -20,30 +20,25 @@ MonoBehaviour:
   maxTotalAliveBeforeBoss: 25
   maxTotalAliveDuringBoss: 15
   enemies:
-  - prefab: {fileID: 902383136821581742, guid: 58b96461cdcf56b409e00c3ffb892128, type: 3}
+  - prefab: {fileID: 902383136821581742, guid: 45d273b5304a27448a0a872dec0788be, type: 3}
     spawnType: 1
     maxAlive: 15
     spawnWeight: 0.15
     xp: 1
-  - prefab: {fileID: 902383136821581742, guid: d1a823212a22c024bbb57e61dce10b22, type: 3}
+  - prefab: {fileID: 902383136821581742, guid: 8642e0ad72fb8994aa177a49fef15dc5, type: 3}
     spawnType: 1
     maxAlive: 10
     spawnWeight: 0.15
     xp: 2
-  - prefab: {fileID: 902383136821581742, guid: 957406a3b8a184149a84c00e23e4c79d, type: 3}
-    spawnType: 0
-    maxAlive: 3
-    spawnWeight: 0.2
-    xp: 5
-  - prefab: {fileID: 902383136821581742, guid: 35f2fc1b7d134ff409505f77cf323de7, type: 3}
-    spawnType: 0
-    maxAlive: 3
+  - prefab: {fileID: 902383136821581742, guid: 72d44462d143f8040b28c4f9ef735490, type: 3}
+    spawnType: 1
+    maxAlive: 2
     spawnWeight: 0.2
     xp: 6
-  - prefab: {fileID: 902383136821581742, guid: f5487b38096937a4587bbd7127045238, type: 3}
-    spawnType: 0
+  - prefab: {fileID: 902383136821581742, guid: 603a21f2f8097c24ba7f27b84e55cb17, type: 3}
+    spawnType: 1
     maxAlive: 2
     spawnWeight: 0.3
     xp: 8
-  bossPrefab: {fileID: 902383136821581742, guid: d6d2cd675c436cf48b80de82b94c7b4c, type: 3}
+  bossPrefab: {fileID: 902383136821581742, guid: 8267948b50a33d348949e6ad0ad24b5f, type: 3}
   xpToSpawnBoss: 95

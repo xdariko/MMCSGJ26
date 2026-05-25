@@ -91,13 +91,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 5
+    amount: 1
     requiresUnlockedCurrency: 1
   - prefab: {fileID: 7109306137672312565, guid: 84bf2c3b9adf148409c860cfdf73a0ba, type: 3}
-    amount: 2
+    amount: 1
     requiresUnlockedCurrency: 2
   - prefab: {fileID: 7109306137672312565, guid: 6e2e945c7b5305243bc793a1c8a2b502, type: 3}
-    amount: 1
+    amount: 5
     requiresUnlockedCurrency: 3
 --- !u!70 &692055446349596336
 CapsuleCollider2D:
@@ -1448,13 +1448,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 5
+    amount: 1
     requiresUnlockedCurrency: 1
   - prefab: {fileID: 7109306137672312565, guid: 84bf2c3b9adf148409c860cfdf73a0ba, type: 3}
-    amount: 2
+    amount: 1
     requiresUnlockedCurrency: 2
   - prefab: {fileID: 7109306137672312565, guid: 6e2e945c7b5305243bc793a1c8a2b502, type: 3}
-    amount: 1
+    amount: 5
     requiresUnlockedCurrency: 3
 --- !u!70 &5631685335472609545
 CapsuleCollider2D:
@@ -1766,13 +1766,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 5
+    amount: 1
     requiresUnlockedCurrency: 1
   - prefab: {fileID: 7109306137672312565, guid: 84bf2c3b9adf148409c860cfdf73a0ba, type: 3}
-    amount: 2
+    amount: 1
     requiresUnlockedCurrency: 2
   - prefab: {fileID: 7109306137672312565, guid: 6e2e945c7b5305243bc793a1c8a2b502, type: 3}
-    amount: 1
+    amount: 5
     requiresUnlockedCurrency: 3
 --- !u!70 &6778665433575375188
 CapsuleCollider2D:

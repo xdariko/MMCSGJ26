@@ -298,11 +298,11 @@ MonoBehaviour:
   blueProjectilePrefab: {fileID: 2263549109149115506, guid: 54f3afa08b42db2499238c0825c345bb, type: 3}
   blueAttackEvery: 4
   attackDuration: 3
-  waitAfterAttack: 1.5
-  delayBetweenPairs: 0.12
+  waitAfterAttack: 5
+  delayBetweenPairs: 0.2
   stopBeforeAttackTime: 0.35
   stopAfterAttackTime: 0.2
-  angleStep: 12
+  angleStep: 20
   clockwise: 1
   aimFirstPairAtPlayer: 1
   startAngle: 0

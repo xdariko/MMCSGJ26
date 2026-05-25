@@ -177,11 +177,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
-  - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 4
-    requiresUnlockedCurrency: 1
   - prefab: {fileID: 7109306137672312565, guid: 84bf2c3b9adf148409c860cfdf73a0ba, type: 3}
-    amount: 2
+    amount: 3
+    requiresUnlockedCurrency: 2
+  - prefab: {fileID: 7109306137672312565, guid: 6e2e945c7b5305243bc793a1c8a2b502, type: 3}
+    amount: 5
     requiresUnlockedCurrency: 2
 --- !u!50 &142099318655730342
 Rigidbody2D:

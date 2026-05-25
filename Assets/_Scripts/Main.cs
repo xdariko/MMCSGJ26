@@ -21,6 +21,9 @@ public class Main : MonoBehaviour
         G.IsPlayerDead = false;
         G.damagePopupPrefab = damagePopupPrefab;
         G.levelDatabase = levelDatabase;
+
+        LevelProgress.Load();
+        ClampSavedLevelProgressToDatabase();
     }
 
     private void Start()
@@ -73,6 +76,8 @@ public class Main : MonoBehaviour
         if (levelDatabase == null || G.waveDirector == null)
             return;
 
+        ClampSavedLevelProgressToDatabase();
+
         int idx = LevelProgress.SelectedLevel;
 
         if (idx < 0 || idx >= levelDatabase.levels.Length)
@@ -84,6 +89,14 @@ public class Main : MonoBehaviour
         G.waveDirector.LoadWave(levelDatabase.levels[idx].wave);
     }
 
+    private void ClampSavedLevelProgressToDatabase()
+    {
+        if (levelDatabase == null || levelDatabase.levels == null)
+            return;
+
+        LevelProgress.ClampToLevelCount(levelDatabase.levels.Length);
+    }
+
     private void OnLevelComplete()
     {
         if (G.waveDirector != null)
@@ -92,6 +105,7 @@ public class Main : MonoBehaviour
         LevelProgress.CompleteCurrentLevel();
 
         bool wasLastLevel = levelDatabase != null
+            && levelDatabase.levels != null
             && LevelProgress.SelectedLevel >= levelDatabase.levels.Length - 1;
 
         EndCurrentRunCleanup(false);
@@ -104,7 +118,7 @@ public class Main : MonoBehaviour
             return;
         }
 
-        LevelProgress.SelectedLevel = LevelProgress.UnlockedLevel;
+        LevelProgress.SelectLevel(LevelProgress.UnlockedLevel);
 
         if (G.ui != null)
             G.ui.ShowVictoryPanel();
@@ -288,6 +302,7 @@ public class Main : MonoBehaviour
         DestroyPlayer();
 
         PlayerStats.ResetBaseStats();
+        PlayerStats.ResetCurrencyDropRoundingCarry();
         CurrencyManager.ResetRunCollected();
 
         EnsurePlayerSpawnedAtScreenCenter();

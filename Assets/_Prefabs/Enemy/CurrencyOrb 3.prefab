@@ -142,7 +142,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OrbPickup
   data:
-    effects: []
+    effects:
+    - effectType: 1
+      value: 1
+      currencyType: 3
     attractSpeed: 8
     color: {r: 1, g: 1, b: 1, a: 1}
   collectDistance: 0.25

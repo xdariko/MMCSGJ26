@@ -22,26 +22,26 @@ MonoBehaviour:
   enemies:
   - prefab: {fileID: 902383136821581742, guid: 58b96461cdcf56b409e00c3ffb892128, type: 3}
     spawnType: 1
-    maxAlive: 20
+    maxAlive: 15
     spawnWeight: 0.25
     xp: 1
   - prefab: {fileID: 902383136821581742, guid: d1a823212a22c024bbb57e61dce10b22, type: 3}
     spawnType: 1
-    maxAlive: 10
+    maxAlive: 7
     spawnWeight: 0.2
     xp: 2
   - prefab: {fileID: 902383136821581742, guid: 957406a3b8a184149a84c00e23e4c79d, type: 3}
-    spawnType: 0
-    maxAlive: 2
+    spawnType: 1
+    maxAlive: 1
     spawnWeight: 0.18
     xp: 4
   - prefab: {fileID: 902383136821581742, guid: 35f2fc1b7d134ff409505f77cf323de7, type: 3}
-    spawnType: 0
+    spawnType: 1
     maxAlive: 2
     spawnWeight: 0.17
     xp: 5
   - prefab: {fileID: 902383136821581742, guid: f5487b38096937a4587bbd7127045238, type: 3}
-    spawnType: 0
+    spawnType: 1
     maxAlive: 2
     spawnWeight: 0.2
     xp: 7

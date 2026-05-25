@@ -178,11 +178,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 4
+    amount: 1
     requiresUnlockedCurrency: 1
   - prefab: {fileID: 7109306137672312565, guid: 84bf2c3b9adf148409c860cfdf73a0ba, type: 3}
     amount: 2
     requiresUnlockedCurrency: 2
+  - prefab: {fileID: 7109306137672312565, guid: 6e2e945c7b5305243bc793a1c8a2b502, type: 3}
+    amount: 1
+    requiresUnlockedCurrency: 3
 --- !u!50 &142099318655730342
 Rigidbody2D:
   serializedVersion: 5
@@ -295,16 +298,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArcWaveShooter
   projectilePrefab: {fileID: 4381634397435925510, guid: 4c422735bf13afd42afe64d4dd1f6de2, type: 3}
   cooldown: 4
-  stopBeforeShootTime: 0.35
-  stopAfterShootTime: 0.2
+  stopBeforeShootTime: 0.4
+  stopAfterShootTime: 0.5
   redProjectilePrefab: {fileID: 4381634397435925510, guid: 785072914f3965f4a949e87b45fdd39b, type: 3}
   blueProjectilePrefab: {fileID: 2263549109149115506, guid: 46cb188ad51550b4494835a53847c1c1, type: 3}
-  projectileCount: 7
+  projectileCount: 5
   arcAngle: 110
-  delayBetweenShots: 0.05
+  delayBetweenShots: 0.12
   useMixedProjectiles: 1
   swapColorsEveryWave: 1
-  invertDirection: 1
+  capturePlayerDirectionOnWaveStart: 1
 --- !u!114 &893833331962431280
 MonoBehaviour:
   m_ObjectHideFlags: 0

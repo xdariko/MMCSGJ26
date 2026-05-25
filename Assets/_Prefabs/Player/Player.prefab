@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a348109a2b540c409563d6dfbf1d499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpellCaster
-  detectionRadius: 2.6
+  detectionRadius: 3.3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64

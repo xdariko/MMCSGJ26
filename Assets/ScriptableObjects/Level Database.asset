@@ -17,3 +17,7 @@ MonoBehaviour:
     wave: {fileID: 11400000, guid: 3ba836921ee663c46bd4aab93f01d039, type: 2}
   - levelName: 2
     wave: {fileID: 11400000, guid: 555813c0e86d572428ec5bde1f9f9d80, type: 2}
+  - levelName: 3
+    wave: {fileID: 11400000, guid: a3b29a88d062aca468cb8e5de58c4fbd, type: 2}
+  - levelName: 4
+    wave: {fileID: 11400000, guid: 945e54bb70c4b584e94f5bd854cc1f93, type: 2}

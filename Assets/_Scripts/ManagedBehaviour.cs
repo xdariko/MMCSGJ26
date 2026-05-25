@@ -46,8 +46,30 @@ public static class G
 
 public static class LevelProgress
 {
+    private const string UnlockedLevelKey = "LevelProgress.UnlockedLevel";
+    private const string SelectedLevelKey = "LevelProgress.SelectedLevel";
+
     public static int UnlockedLevel;
     public static int SelectedLevel;
+
+    public static void Load()
+    {
+        UnlockedLevel = Mathf.Max(0, PlayerPrefs.GetInt(UnlockedLevelKey, 0));
+        SelectedLevel = Mathf.Max(0, PlayerPrefs.GetInt(SelectedLevelKey, 0));
+
+        if (SelectedLevel > UnlockedLevel)
+            SelectedLevel = UnlockedLevel;
+    }
+
+    public static void Save()
+    {
+        UnlockedLevel = Mathf.Max(0, UnlockedLevel);
+        SelectedLevel = Mathf.Clamp(SelectedLevel, 0, UnlockedLevel);
+
+        PlayerPrefs.SetInt(UnlockedLevelKey, UnlockedLevel);
+        PlayerPrefs.SetInt(SelectedLevelKey, SelectedLevel);
+        PlayerPrefs.Save();
+    }
 
     public static void Reset()
     {
@@ -55,10 +77,46 @@ public static class LevelProgress
         SelectedLevel = 0;
     }
 
+    public static void ResetSaved()
+    {
+        Reset();
+
+        PlayerPrefs.DeleteKey(UnlockedLevelKey);
+        PlayerPrefs.DeleteKey(SelectedLevelKey);
+        PlayerPrefs.Save();
+    }
+
     public static void CompleteCurrentLevel()
     {
         if (SelectedLevel >= UnlockedLevel)
             UnlockedLevel = SelectedLevel + 1;
+
+        SelectedLevel = Mathf.Clamp(SelectedLevel, 0, UnlockedLevel);
+
+        Save();
+    }
+
+    public static void SelectLevel(int levelIndex)
+    {
+        SelectedLevel = Mathf.Clamp(levelIndex, 0, UnlockedLevel);
+        Save();
+    }
+
+    public static void ClampToLevelCount(int levelCount)
+    {
+        if (levelCount <= 0)
+        {
+            Reset();
+            Save();
+            return;
+        }
+
+        int maxIndex = levelCount - 1;
+
+        UnlockedLevel = Mathf.Clamp(UnlockedLevel, 0, maxIndex);
+        SelectedLevel = Mathf.Clamp(SelectedLevel, 0, UnlockedLevel);
+
+        Save();
     }
 }
 
@@ -82,7 +140,6 @@ public static class PlayerStats
 
     private static readonly Dictionary<CurrencyType, float> CurrencyDropBonusPercent = new();
 
-    // Нужен, чтобы бонус +10%, +15%, +20% не терялся на орбах, которые дают по 1 ресурсу.
     private static readonly Dictionary<CurrencyType, float> CurrencyDropRoundingCarry = new();
 
     private static readonly Dictionary<CurrencyType, int> PassiveCurrencyAmounts = new();
@@ -145,8 +202,6 @@ public static class PlayerStats
 
         float exactAmount = baseAmount * multiplier + carry;
 
-        // Округляем накопленно, а не каждый орб отдельно.
-        // Так бонус +15% не теряется на ресурсах по 1 штуке.
         int finalAmount = Mathf.FloorToInt(exactAmount + 0.5f);
 
         finalAmount = Mathf.Max(1, finalAmount);
@@ -278,7 +333,7 @@ public static class GameResetUtility
     public static void ResetAllRuntimeState()
     {
         G.ResetRuntimeFlags();
-        LevelProgress.Reset();
+        LevelProgress.ResetSaved();
 
         PlayerStats.ResetBonuses();
         PlayerStats.ResetBaseStats();

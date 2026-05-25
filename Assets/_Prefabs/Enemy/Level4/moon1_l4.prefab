@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDrop
   drops:
   - prefab: {fileID: 7109306137672312565, guid: 72eb1fdcf65aeb2489320f9baaabe1fe, type: 3}
-    amount: 3
+    amount: 2
     requiresUnlockedCurrency: 1
 --- !u!50 &142099318655730342
 Rigidbody2D:

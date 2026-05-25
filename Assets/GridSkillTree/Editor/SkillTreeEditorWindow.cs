@@ -20,6 +20,10 @@ namespace GridSkillTree.Editor
         private const float CellSize = 80f;
         private const float NodeSize = 56f;
         private const int GridHalfSize = 12;
+        private const float InspectorWidth = 340f;
+        private const float InspectorInnerWidth = 305f;
+        private const float DescriptionMinHeight = 80f;
+        private const float DescriptionMaxHeight = 180f;
 
         private readonly Dictionary<Vector2Int, SkillNodeData> nodesByPosition = new();
 
@@ -345,7 +349,7 @@ namespace GridSkillTree.Editor
 
         private void DrawInspectorPanel()
         {
-            EditorGUILayout.BeginVertical(GUILayout.Width(340f), GUILayout.ExpandHeight(true));
+            EditorGUILayout.BeginVertical(GUILayout.Width(InspectorWidth), GUILayout.ExpandHeight(true));
 
             GUILayout.Label("Inspector", EditorStyles.boldLabel);
 
@@ -400,6 +404,29 @@ namespace GridSkillTree.Editor
             EditorGUILayout.LabelField("Nodes", treeData.nodes.Count.ToString());
         }
 
+        private string DrawWrappedDescriptionField(string value)
+        {
+            value ??= string.Empty;
+
+            GUIStyle wrappedTextAreaStyle = new GUIStyle(EditorStyles.textArea)
+            {
+                wordWrap = true,
+                stretchWidth = false
+            };
+
+            GUIContent content = new GUIContent(value);
+
+            float height = wrappedTextAreaStyle.CalcHeight(content, InspectorInnerWidth);
+            height = Mathf.Clamp(height + 8f, DescriptionMinHeight, DescriptionMaxHeight);
+
+            return EditorGUILayout.TextArea(
+                value,
+                wrappedTextAreaStyle,
+                GUILayout.Width(InspectorInnerWidth),
+                GUILayout.Height(height)
+            );
+        }
+
         private void DrawNodeInspector(SkillNodeData node)
         {
             EditorGUILayout.HelpBox($"Selected node: {node.id}", MessageType.Info);
@@ -410,7 +437,7 @@ namespace GridSkillTree.Editor
             string title = EditorGUILayout.TextField("Title", node.title);
 
             GUILayout.Label("Description");
-            string description = EditorGUILayout.TextArea(node.description, GUILayout.MinHeight(64f));
+            string description = DrawWrappedDescriptionField(node.description);
 
             Vector2Int gridPosition = EditorGUILayout.Vector2IntField("Grid Position", node.gridPosition);
 

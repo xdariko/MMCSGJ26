@@ -21,20 +21,10 @@ public class DeathPanelUI : MonoBehaviour
 
     [Header("Count Animation")]
     [SerializeField] private bool animateNumbers = true;
-
-    [Tooltip("Минимальная длительность нарастания числа.")]
     [SerializeField] private float minCountDuration = 0.35f;
-
-    [Tooltip("Максимальная длительность нарастания числа.")]
     [SerializeField] private float maxCountDuration = 1.1f;
-
-    [Tooltip("Чем больше значение, тем медленнее будут считаться большие числа.")]
     [SerializeField] private float amountDurationMultiplier = 0.015f;
-
-    [Tooltip("Задержка между стартом анимации разных валют.")]
     [SerializeField] private float entryStartDelay = 0.12f;
-
-    [Tooltip("Если true, анимация будет работать даже при Time.timeScale = 0.")]
     [SerializeField] private bool useUnscaledTime = true;
 
     [Header("Entry Pop Animation")]
@@ -47,14 +37,10 @@ public class DeathPanelUI : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip tickClip;
 
-    [Tooltip("Громкость тика.")]
     [Range(0f, 1f)]
     [SerializeField] private float tickVolume = 0.6f;
 
-    [Tooltip("Минимальная пауза между звуками, чтобы звук не превращался в кашу.")]
     [SerializeField] private float minTickInterval = 0.035f;
-
-    [Tooltip("Играть звук только если число изменилось хотя бы на это значение. Для маленьких чисел можно 1, для больших 2-5.")]
     [SerializeField] private int tickEveryAmount = 1;
 
     [Header("Final Sound")]
@@ -163,15 +149,27 @@ public class DeathPanelUI : MonoBehaviour
         bool anyCollected = false;
         int visibleEntryIndex = 0;
 
-        foreach (CurrencyData data in currencyDatabase)
-        {
-            if (data == null)
-                continue;
+        IReadOnlyDictionary<CurrencyType, int> collectedSnapshot =
+            CurrencyManager.GetRunCollectedSnapshot();
 
-            int collected = CurrencyManager.GetRunCollected(data.type);
+        foreach (var pair in collectedSnapshot)
+        {
+            CurrencyType type = pair.Key;
+            int collected = pair.Value;
+
+            if (type == CurrencyType.None)
+                continue;
 
             if (collected <= 0)
                 continue;
+
+            CurrencyData data = FindCurrencyData(type);
+
+            if (data == null)
+            {
+                Debug.LogWarning($"DeathPanelUI: CurrencyData не найден для валюты {type}. Добавь CurrencyData в Currency Database.");
+                continue;
+            }
 
             anyCollected = true;
 
@@ -188,6 +186,20 @@ public class DeathPanelUI : MonoBehaviour
             if (continueButton != null)
                 continueButton.interactable = true;
         }
+    }
+
+    private CurrencyData FindCurrencyData(CurrencyType type)
+    {
+        if (currencyDatabase == null)
+            return null;
+
+        foreach (CurrencyData data in currencyDatabase)
+        {
+            if (data != null && data.type == type)
+                return data;
+        }
+
+        return null;
     }
 
     private void SpawnEntry(CurrencyData data, int amount, int index)

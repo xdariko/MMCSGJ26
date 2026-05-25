@@ -86,9 +86,11 @@ public class ComicCutsceneUI : MonoBehaviour
     private bool waitingForInput;
     private bool canAcceptInput;
     private bool preparedFirstFrameOnAwake;
+    private bool keepingLastFramePaused;
 
     private bool previousPausedState;
     private float previousTimeScale = 1f;
+    private bool originalWaitInputAfterLastFrame;
 
     private Action currentOnComplete;
 
@@ -100,6 +102,8 @@ public class ComicCutsceneUI : MonoBehaviour
 
     private void Awake()
     {
+        originalWaitInputAfterLastFrame = waitInputAfterLastFrame;
+
         SetupPanel();
 
         if (showFirstFrameImmediatelyOnAwake)
@@ -126,6 +130,25 @@ public class ComicCutsceneUI : MonoBehaviour
             return;
 
         Continue();
+    }
+
+    public bool IsPanelVisible()
+    {
+        if (panel == null)
+            return false;
+
+        if (!panel.activeInHierarchy)
+            return false;
+
+        if (panelCanvasGroup == null)
+            return true;
+
+        return panelCanvasGroup.alpha > 0.01f;
+    }
+
+    public bool IsKeepingLastFramePaused()
+    {
+        return keepingLastFramePaused && IsPanelVisible();
     }
 
     private void SetupPanel()
@@ -167,6 +190,7 @@ public class ComicCutsceneUI : MonoBehaviour
             ShowFrameImmediate(firstFrame);
 
         preparedFirstFrameOnAwake = true;
+        keepingLastFramePaused = false;
 
         if (pauseImmediatelyOnAwake && pauseGameWhileShowing)
         {
@@ -189,6 +213,8 @@ public class ComicCutsceneUI : MonoBehaviour
             StopCutscene(false);
 
         currentOnComplete = onComplete;
+        waitInputAfterLastFrame = originalWaitInputAfterLastFrame;
+        keepingLastFramePaused = false;
 
         if (playMenuMusicOnShow && MusicManager.Instance != null)
             MusicManager.Instance.PlayMenuMusic();
@@ -210,6 +236,7 @@ public class ComicCutsceneUI : MonoBehaviour
         waitingForInput = false;
         canAcceptInput = false;
         preparedFirstFrameOnAwake = false;
+        keepingLastFramePaused = false;
 
         if (endBehaviour == EndBehaviour.HidePanelAndResumeGame)
         {
@@ -231,6 +258,7 @@ public class ComicCutsceneUI : MonoBehaviour
         isPlaying = true;
         waitingForInput = false;
         canAcceptInput = false;
+        keepingLastFramePaused = false;
 
         PauseGame();
 
@@ -565,6 +593,8 @@ public class ComicCutsceneUI : MonoBehaviour
     {
         KillTweens();
 
+        keepingLastFramePaused = true;
+
         if (panel != null)
             panel.SetActive(true);
 
@@ -630,6 +660,8 @@ public class ComicCutsceneUI : MonoBehaviour
 
     private void HideImmediate()
     {
+        keepingLastFramePaused = false;
+
         if (panelCanvasGroup != null)
         {
             panelCanvasGroup.alpha = 0f;

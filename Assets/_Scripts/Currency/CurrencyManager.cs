@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 public static class CurrencyManager
 {
-    // Persistent across runs (total wallet)
     private static readonly Dictionary<CurrencyType, int> totalBalance = new();
-
-    // Reset every run, used by death panel
     private static readonly Dictionary<CurrencyType, int> runCollected = new();
 
-    // Which currency types are unlocked (can be picked up / dropped)
-    private static readonly HashSet<CurrencyType> unlocked = new() { CurrencyType.Basic };
+    private static readonly HashSet<CurrencyType> unlocked = new()
+    {
+        CurrencyType.Basic
+    };
 
     public static event Action<CurrencyType, int> OnCurrencyChanged;
+    public static event Action<CurrencyType> OnCurrencyUnlocked;
 
     public static bool IsUnlocked(CurrencyType type)
     {
@@ -21,28 +21,50 @@ public static class CurrencyManager
 
     public static void Unlock(CurrencyType type)
     {
-        if (type == CurrencyType.None) return;
-        unlocked.Add(type);
+        if (type == CurrencyType.None)
+            return;
+
+        bool wasAdded = unlocked.Add(type);
+
+        if (!totalBalance.ContainsKey(type))
+            totalBalance[type] = 0;
+
+        if (wasAdded)
+            OnCurrencyUnlocked?.Invoke(type);
+
+        OnCurrencyChanged?.Invoke(type, GetTotal(type));
     }
 
     public static int GetTotal(CurrencyType type)
     {
-        return totalBalance.TryGetValue(type, out int v) ? v : 0;
+        return totalBalance.TryGetValue(type, out int value) ? value : 0;
     }
 
     public static int GetRunCollected(CurrencyType type)
     {
-        return runCollected.TryGetValue(type, out int v) ? v : 0;
+        return runCollected.TryGetValue(type, out int value) ? value : 0;
     }
 
-    public static IEnumerable<CurrencyType> AllUnlocked()
+    public static IReadOnlyCollection<CurrencyType> AllUnlocked()
     {
         return unlocked;
     }
 
+    public static IReadOnlyDictionary<CurrencyType, int> GetRunCollectedSnapshot()
+    {
+        return runCollected;
+    }
+
     public static void Add(CurrencyType type, int amount)
     {
-        if (!IsUnlocked(type) || amount <= 0) return;
+        if (type == CurrencyType.None)
+            return;
+
+        if (amount <= 0)
+            return;
+
+        if (!IsUnlocked(type))
+            return;
 
         totalBalance.TryGetValue(type, out int total);
         totalBalance[type] = total + amount;
@@ -55,16 +77,28 @@ public static class CurrencyManager
 
     public static bool Spend(CurrencyType type, int amount)
     {
-        if (GetTotal(type) < amount) return false;
+        if (type == CurrencyType.None)
+            return false;
+
+        if (amount <= 0)
+            return true;
+
+        if (GetTotal(type) < amount)
+            return false;
 
         totalBalance[type] -= amount;
+
         OnCurrencyChanged?.Invoke(type, totalBalance[type]);
+
         return true;
     }
 
     public static void ResetRunCollected()
     {
         runCollected.Clear();
+
+        foreach (CurrencyType type in unlocked)
+            OnCurrencyChanged?.Invoke(type, GetTotal(type));
     }
 
     public static void ResetAll()
@@ -82,5 +116,7 @@ public static class CurrencyManager
 
             OnCurrencyChanged?.Invoke(type, 0);
         }
+
+        OnCurrencyUnlocked?.Invoke(CurrencyType.Basic);
     }
 }
