@@ -49,7 +49,7 @@ public class PlayerSpellCaster : MonoBehaviour
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
-            detectionRadius,
+            PlayerStats.GetAttackRange(detectionRadius),
             enemyLayer
         );
 
@@ -232,7 +232,7 @@ public class PlayerSpellCaster : MonoBehaviour
 
         Gizmos.DrawWireSphere(
             transform.position,
-            detectionRadius
+            PlayerStats.GetAttackRange(detectionRadius)
         );
     }
 }

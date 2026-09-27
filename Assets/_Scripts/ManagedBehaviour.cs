@@ -137,6 +137,7 @@ public static class PlayerStats
     public static float BonusStabilityDecayReduction;
     public static float BonusCritChance;
     public static float BonusCritMultiplier;
+    public static float BonusAttackRangePercent;
 
     private static readonly Dictionary<CurrencyType, float> CurrencyDropBonusPercent = new();
 
@@ -240,6 +241,11 @@ public static class PlayerStats
         return PassiveCurrencyAmounts;
     }
 
+    public static float GetAttackRange(float baseRange)
+    {
+        return Mathf.Max(0f, baseRange * (1f + BonusAttackRangePercent));
+    }
+
     public static float GetInvincibilityDuration(float baseDuration)
     {
         return Mathf.Max(0f, baseDuration + BonusInvincibilityDuration);
@@ -304,6 +310,7 @@ public static class PlayerStats
         BonusStabilityDecayReduction = 0f;
         BonusCritChance = 0f;
         BonusCritMultiplier = 0f;
+        BonusAttackRangePercent = 0f;
         BonusInvincibilityDuration = 0f;
 
         PassiveCurrencyIntervalSeconds = 3f;

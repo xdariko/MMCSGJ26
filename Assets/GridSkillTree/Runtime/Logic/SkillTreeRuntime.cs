@@ -318,6 +318,10 @@ namespace GridSkillTree
                 case SkillEffectType.UnlockSprint:
                     PlayerStats.UnlockSprint();
                     break;
+
+                case SkillEffectType.AttackRangePercent:
+                    PlayerStats.BonusAttackRangePercent += value;
+                    break;
             }
         }
     }

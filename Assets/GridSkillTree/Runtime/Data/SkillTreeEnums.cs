@@ -18,7 +18,8 @@ namespace GridSkillTree
         BombExplosionRadius,
         BombDamage,
         BombSpawnIntervalReduction,
-        UnlockSprint
+        UnlockSprint,
+        AttackRangePercent
     }
 
     public enum CostFormulaType
